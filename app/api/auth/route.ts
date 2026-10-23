@@ -1,0 +1,4 @@
+import { NextRequest,NextResponse } from 'next/server';
+import { issueSession,safeMatch } from '@/lib/auth';
+export async function POST(req:NextRequest){const {email,password}=await req.json();if(!process.env.ADMIN_EMAIL||!process.env.ADMIN_PASSWORD||!process.env.SESSION_SECRET||process.env.SESSION_SECRET.length<32)return NextResponse.json({error:'Admin credentials not configured'},{status:503});if(!safeMatch(String(email||''),process.env.ADMIN_EMAIL)||!safeMatch(String(password||''),process.env.ADMIN_PASSWORD))return NextResponse.json({error:'Invalid credentials'},{status:401});const res=NextResponse.json({ok:true});res.cookies.set('admin_session',await issueSession(),{httpOnly:true,sameSite:'strict',secure:process.env.NODE_ENV==='production',path:'/',maxAge:43200});return res}
+export async function DELETE(){const res=NextResponse.json({ok:true});res.cookies.delete('admin_session');return res}
