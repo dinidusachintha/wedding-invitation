@@ -26,10 +26,10 @@ const mapUrl = 'https://maps.app.goo.gl/gwr9NAbTvqUno7ePA?g_st=iw';
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 28 }}
+      initial={{ opacity: 0, y: 32 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.15 }}
-      transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.85, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
     </motion.div>
@@ -250,16 +250,16 @@ export default function Wedding({ guest }: { guest?: Guest }) {
         {/* Ambient Subtle Petal Drift Background */}
         <BackgroundAnimation />
 
-        {/* Minimal Floating Navigation */}
+        {/* Header Navigation */}
         <motion.header
-          className="nav-minimal"
-          initial={{ opacity: 0, y: -20 }}
+          className="nav"
+          initial={{ opacity: 0, y: -25 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 1.0, delay: 0.3 }}
         >
           <a
             href="#home"
-            className="brand-monogram"
+            className="brand"
             onClick={(e) => handleSmoothScroll(e, 'home')}
           >
             C <span>♥</span> G
@@ -272,7 +272,7 @@ export default function Wedding({ guest }: { guest?: Guest }) {
               Countdown
             </a>
             <a href="#couple" onClick={(e) => handleSmoothScroll(e, 'couple')}>
-              Couple
+              Our Story
             </a>
             <a href="#details" onClick={(e) => handleSmoothScroll(e, 'details')}>
               Details
@@ -280,165 +280,245 @@ export default function Wedding({ guest }: { guest?: Guest }) {
             <a href="#rsvp" onClick={(e) => handleSmoothScroll(e, 'rsvp')}>
               RSVP
             </a>
-            <a href="#venue" onClick={(e) => handleSmoothScroll(e, 'venue')}>
-              Venue
+            <a href="#location" onClick={(e) => handleSmoothScroll(e, 'location')}>
+              Location
             </a>
           </nav>
           <button
-            className="nav-cover-btn"
+            className="nav-pill"
             onClick={() => setOpened(false)}
           >
-            Cover ♡
+            Cover Screen ♡
           </button>
         </motion.header>
 
-        {/* 1. HERO SECTION (EDITORIAL & CLEAN) */}
-        <section className="clean-hero" id="home">
-          <Reveal>
-            <div className="hero-eyebrow">TOGETHER WITH THEIR FAMILIES</div>
-            <h1 className="hero-names">
-              Chathura <em>&amp;</em> Gimasha
-            </h1>
-            <div className="hero-date-pill">
-              Thursday, December 03, 2026
-            </div>
-            <p className="hero-message">
-              With joyous hearts, we warmly invite you to celebrate our union as we exchange vows
-              and begin our new journey together.
-            </p>
-            <a
-              className="btn-minimal"
-              href="#countdown"
-              onClick={(e) => handleSmoothScroll(e, 'countdown')}
+        {/* 1. CINEMATIC VIDEO HERO SECTION */}
+        <section className="hero" id="home">
+          <video autoPlay muted loop playsInline poster="/hero-poster.jpg">
+            <source src="/hero.mp4" type="video/mp4" />
+          </video>
+          <div className="hero-shade" />
+
+          <div className="hero-content">
+            <motion.div
+              className="eyebrow light"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.4 }}
             >
-              Explore Invitation <ArrowDown size={15} />
-            </a>
-          </Reveal>
+              TOGETHER FOREVER
+            </motion.div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 30, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 1.1, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            >
+              Chathura <em>&amp;</em>
+              <br /> Gimasha
+            </motion.h1>
+
+            <motion.div
+              className="hero-rule"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.8 }}
+            >
+              ✦ &nbsp; ARE GETTING MARRIED &nbsp; ✦
+            </motion.div>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.95 }}
+            >
+              With the blessings of our families, we warmly invite you to be a part of our special day.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 1.1 }}
+            >
+              <a
+                className="btn light-btn"
+                href="#countdown"
+                onClick={(e) => handleSmoothScroll(e, 'countdown')}
+              >
+                View Invitation <ArrowDown size={17} />
+              </a>
+            </motion.div>
+          </div>
+
+          <motion.a
+            href="#countdown"
+            className="scroll-note"
+            onClick={(e) => handleSmoothScroll(e, 'countdown')}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.4, duration: 1.0 }}
+          >
+            SCROLL TO EXPLORE ↓
+          </motion.a>
         </section>
 
-        {/* 2. COUNTDOWN SECTION */}
-        <section className="clean-section" id="countdown">
+        {/* 2. COUNTDOWN SECTION (MATCHING HERO AESTHETIC) */}
+        <section className="section countdown-section" id="countdown">
           <Reveal>
-            <div className="section-eyebrow">SAVING THE DATE</div>
-            <h2 className="section-title">Counting Down to Forever</h2>
-            <div className="section-flourish">
-              <Heart size={16} fill="#c59b43" stroke="#c59b43" />
-            </div>
+            <div className="countdown-eyebrow">COUNTDOWN TO OUR WEDDING</div>
+            <h2>Counting Down to Forever</h2>
+            <div className="flourish">── ♥ ──</div>
 
-            <div className="countdown-grid">
+            <div className="count-grid">
               {['Days', 'Hours', 'Minutes', 'Seconds'].map((label, idx) => (
-                <div className="countdown-card" key={label}>
-                  <div className="countdown-number">
-                    {String(time[idx]).padStart(2, '0')}
-                  </div>
-                  <div className="countdown-label">{label}</div>
-                </div>
+                <motion.div
+                  className="count-box"
+                  key={label}
+                  initial={{ opacity: 0, y: 22 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: idx * 0.1 }}
+                  whileHover={{ y: -4 }}
+                >
+                  <strong>{String(time[idx]).padStart(2, '0')}</strong>
+                  <span>{label}</span>
+                </motion.div>
               ))}
             </div>
           </Reveal>
         </section>
 
         {/* 3. THE HAPPY COUPLE SECTION */}
-        <section className="clean-section" id="couple">
+        <section className="section couple" id="couple">
           <Reveal>
-            <div className="section-eyebrow">THE BRIDE &amp; GROOM</div>
-            <h2 className="section-title">Two Hearts, One Journey</h2>
-            <div className="section-flourish">
-              <Heart size={16} fill="#c59b43" stroke="#c59b43" />
-            </div>
+            <div className="eyebrow">THE HAPPY COUPLE</div>
+            <h2>Two Hearts, One Beautiful Journey</h2>
+            <div className="flourish">── ♥ ──</div>
 
-            <div className="couple-container">
-              {/* Groom */}
-              <div className="couple-person-card">
-                <div className="couple-avatar-wrap">
+            <div className="couple-grid">
+              {/* Groom: Chathura */}
+              <motion.div
+                className="person-card groom-card"
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <div className="portrait-container">
+                  <div className="golden-halo-pulse" aria-hidden="true" />
                   <img
                     src="/images/groom.png"
                     alt="Chathura - The Groom"
-                    className="couple-avatar-img"
+                    className="portrait-img"
                   />
                 </div>
-                <span className="couple-role-tag">THE GROOM</span>
-                <h3 className="couple-name">Chathura</h3>
-                <p className="couple-parents">
+                <div className="role-badge">THE GROOM</div>
+                <h3>Chathura</h3>
+                <p>
                   Son of<br />
                   Mr &amp; Mrs W.K.D. Rathnayake
                 </p>
-              </div>
+              </motion.div>
 
-              {/* Center Heart Emblem */}
-              <div className="couple-center-connector">
-                <div className="couple-center-heart">
-                  <Heart size={20} fill="#c59b43" stroke="#c59b43" />
+              {/* Interlocking Rings Centerpiece */}
+              <motion.div
+                className="rings-connector"
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+              >
+                <div className="interlocking-rings-wrap">
+                  <svg className="rings-svg" viewBox="0 0 130 80" fill="none">
+                    <circle cx="48" cy="40" r="26" stroke="#c59b43" strokeWidth="4" />
+                    <circle cx="82" cy="40" r="26" stroke="#faeccf" strokeWidth="4" />
+                  </svg>
+                  <div className="pulsing-heart-icon">
+                    <Heart size={22} fill="#c59b43" stroke="#c59b43" />
+                  </div>
                 </div>
-                <span className="couple-forever-text">Forever &amp; Always</span>
-              </div>
+                <span className="forever-text">FOREVER &amp; ALWAYS</span>
+              </motion.div>
 
-              {/* Bride */}
-              <div className="couple-person-card">
-                <div className="couple-avatar-wrap">
+              {/* Bride: Gimasha */}
+              <motion.div
+                className="person-card bride-card"
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <div className="portrait-container">
+                  <div className="golden-halo-pulse" aria-hidden="true" />
                   <img
                     src="/images/bride.png"
                     alt="Gimasha - The Bride"
-                    className="couple-avatar-img"
+                    className="portrait-img"
                   />
                 </div>
-                <span className="couple-role-tag">THE BRIDE</span>
-                <h3 className="couple-name">Gimasha</h3>
-                <p className="couple-parents">
+                <div className="role-badge">THE BRIDE</div>
+                <h3>Gimasha</h3>
+                <p>
                   Daughter of<br />
                   Mr &amp; Mrs W.M.E. Warnasooriya
                 </p>
-              </div>
+              </motion.div>
             </div>
           </Reveal>
         </section>
 
         {/* 4. WEDDING DETAILS & ITINERARY */}
-        <section className="clean-section" id="details">
+        <section className="section details" id="details">
           <Reveal>
-            <div className="section-eyebrow">EVENT SCHEDULE</div>
-            <h2 className="section-title">Wedding Itinerary</h2>
-            <div className="section-flourish">
-              <Heart size={16} fill="#c59b43" stroke="#c59b43" />
-            </div>
-            <p className="section-subtext">
-              We kindly ask our honored guests to join us for our auspicious ceremonies and celebratory reception.
+            <div className="eyebrow">WEDDING DETAILS</div>
+            <h2>A Celebration of Love</h2>
+            <div className="flourish">── ♥ ──</div>
+            <p className="section-sub">
+              We kindly invite you to join us for our ceremonies, celebration and joyous memories.
             </p>
 
-            <div className="details-grid">
-              {/* Poruwa */}
-              <div className="event-card">
-                <div className="event-icon-circle">
+            <div className="detail-grid">
+              <div className="detail-card">
+                <div className="detail-icon-bubble">
                   <Flower2 size={24} />
                 </div>
-                <h3 className="event-title">Poruwa Ceremony</h3>
-                <div className="event-time">07:30 AM</div>
-                <p className="event-desc">
-                  Traditional Sri Lankan wedding customs, blessing chants, and rings exchange.
+                <h3>Poruwa Ceremony</h3>
+                <p>
+                  <strong style={{ color: 'var(--emerald)' }}>07:30 AM</strong><br />
+                  Traditional customs &amp; blessings
                 </p>
               </div>
 
-              {/* Celebration / Reception */}
-              <div className="event-card">
-                <div className="event-icon-circle">
+              <div className="detail-card">
+                <div className="detail-icon-bubble">
                   <Clock3 size={24} />
                 </div>
-                <h3 className="event-title">Wedding Reception</h3>
-                <div className="event-time">10:00 AM – 04:00 PM</div>
-                <p className="event-desc">
-                  Celebration banquet, traditional lunch, champagne toast, and festive dancing.
+                <h3>Celebration &amp; Lunch</h3>
+                <p>
+                  <strong style={{ color: 'var(--emerald)' }}>10:00 AM – 04:00 PM</strong><br />
+                  Banquet, music &amp; festivities
                 </p>
               </div>
 
-              {/* Venue */}
-              <div className="event-card">
-                <div className="event-icon-circle">
+              <div className="detail-card">
+                <div className="detail-icon-bubble">
+                  <CalendarDays size={24} />
+                </div>
+                <h3>The Date</h3>
+                <p>
+                  <strong style={{ color: 'var(--emerald)' }}>Thursday</strong><br />
+                  December 03, 2026
+                </p>
+              </div>
+
+              <div className="detail-card">
+                <div className="detail-icon-bubble">
                   <MapPin size={24} />
                 </div>
-                <h3 className="event-title">The Deer Park Hotel</h3>
-                <div className="event-time">Girithale, Sri Lanka</div>
-                <p className="event-desc">
-                  A serene lakeside retreat surrounded by nature and timeless history.
+                <h3>The Venue</h3>
+                <p>
+                  <strong style={{ color: 'var(--emerald)' }}>The Deer Park Hotel</strong><br />
+                  Girithale, Sri Lanka
                 </p>
               </div>
             </div>
@@ -446,139 +526,184 @@ export default function Wedding({ guest }: { guest?: Guest }) {
         </section>
 
         {/* 5. RSVP SECTION */}
-        <section className="clean-section" id="rsvp">
+        <section className="section rsvp" id="rsvp">
           <Reveal>
-            <div className="section-eyebrow">KINDLY RESPOND</div>
-            <h2 className="section-title">Will You Join Us?</h2>
-            <div className="section-flourish">
-              <Heart size={16} fill="#c59b43" stroke="#c59b43" />
-            </div>
+            <div className="eyebrow">YOUR PRESENCE MATTERS</div>
+            <h2>Dear {guest?.name || 'Honored Guest'},</h2>
+            <div className="flourish">── ♥ ──</div>
+            <p className="section-sub">
+              We would be truly honored to have you with us on our special day. Please let us know if you will be
+              attending.
+            </p>
 
-            <div className="rsvp-wrapper">
-              <h3 className="guest-greeting">Dear {guest?.name || 'Honored Guest'},</h3>
-              <p className="guest-limit-note">
-                {guest
-                  ? `Your invitation is reserved for up to ${guest.seats} ${guest.seats === 1 ? 'seat' : 'seats'}.`
-                  : 'Please open your personal invitation link to confirm your attendance.'}
-              </p>
-
+            <div className="rsvp-card-wrapper">
               {guest ? (
                 <>
-                  <div className="rsvp-selector-row">
-                    <label>Number of Guests Attending:</label>
-                    <select
-                      value={count}
-                      onChange={(e) => setCount(Number(e.target.value))}
-                    >
-                      {Array.from({ length: guest.seats }, (_, i) => (
-                        <option key={i + 1} value={i + 1}>
-                          {i + 1} {i === 0 ? 'Person' : 'People'}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div className="rsvp-buttons-row">
+                  <p className="guest-note">
+                    Your invitation is reserved for up to {guest.seats} {guest.seats === 1 ? 'person' : 'people'}.
+                  </p>
+                  <div className="rsvp-actions">
+                    <div className="rsvp-choice">
+                      <label>Number attending</label>
+                      <select value={count} onChange={(e) => setCount(Number(e.target.value))}>
+                        {Array.from({ length: guest.seats }, (_, i) => (
+                          <option key={i + 1} value={i + 1}>
+                            {i + 1} {i === 0 ? 'Person' : 'People'}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                     <button
                       disabled={busy}
-                      className={`btn-rsvp btn-rsvp-accept ${status === 'accepted' ? 'selected' : ''}`}
+                      className={`btn rsvp-accept ${status === 'accepted' ? 'selected' : ''}`}
                       onClick={() => respond('accepted')}
                     >
-                      <Check size={16} /> Attending
+                      <Check size={16} /> I'll Be There
                     </button>
                     <button
                       disabled={busy}
-                      className={`btn-rsvp btn-rsvp-decline ${status === 'declined' ? 'selected' : ''}`}
+                      className={`btn outline rsvp-decline ${status === 'declined' ? 'selected' : ''}`}
                       onClick={() => respond('declined')}
                     >
-                      <X size={16} /> Regretfully Decline
+                      <X size={16} /> Unable to Attend
                     </button>
                   </div>
-
-                  <p className="rsvp-status-note">
-                    Your current status: <b>{status}</b>
+                  <p className="response-note">
+                    Current response: <b>{status}</b>
                   </p>
                 </>
-              ) : null}
-
-              {/* Wishes Guestbook */}
-              <div style={{ marginTop: '28px', borderTop: '1px solid var(--gold-border)', paddingTop: '24px' }}>
-                <textarea
-                  className="wishes-textarea"
-                  placeholder={
-                    guest
-                      ? 'Leave your warm wishes and blessings for the couple...'
-                      : 'Open your personalized invitation link to send wishes.'
-                  }
-                  disabled={!guest || busy}
-                  maxLength={1000}
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                />
-                <button
-                  className="btn-minimal"
-                  style={{ width: '100%', justifyContent: 'center' }}
-                  onClick={send}
-                  disabled={!guest || busy || !message.trim()}
-                >
-                  <Send size={15} /> Send Warm Wishes
-                </button>
-              </div>
-
-              {feedback && (
-                <p style={{ marginTop: '16px', fontSize: '14px', color: '#1e5631', fontWeight: 500 }}>
-                  {feedback}
-                </p>
+              ) : (
+                <div className="guest-note">
+                  Please open your personalized invitation link to respond to the RSVP.
+                </div>
               )}
             </div>
           </Reveal>
         </section>
 
-        {/* 6. VENUE LOCATION */}
-        <section className="clean-section" id="venue">
+        {/* 6. WISHES GUESTBOOK */}
+        <section className="section wishes" id="wishes">
           <Reveal>
-            <div className="section-eyebrow">THE LOCATION</div>
-            <h2 className="section-title">Getting There</h2>
-            <div className="section-flourish">
-              <Heart size={16} fill="#c59b43" stroke="#c59b43" />
+            <div className="eyebrow">SEND US YOUR WISHES</div>
+            <h2>Leave a Message for the Couple</h2>
+            <div className="flourish">── ♥ ──</div>
+            <div className="message-card">
+              <textarea
+                placeholder={
+                  guest ? 'Write your lovely message here...' : 'Open your personalized invitation link to send wishes.'
+                }
+                disabled={!guest || busy}
+                maxLength={1000}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+              />
+              <button
+                className="btn"
+                onClick={send}
+                disabled={!guest || busy || !message.trim()}
+                style={{ width: '100%' }}
+              >
+                <Send size={16} /> Send Warm Wishes
+              </button>
+            </div>
+            {feedback && (
+              <p role="status" className="feedback">
+                {feedback}
+              </p>
+            )}
+          </Reveal>
+        </section>
+
+        {/* 7. LOCATION & MAP SECTION */}
+        <section className="section location" id="location">
+          <div className="location-container">
+            <div className="location-info-side">
+              <Reveal>
+                <div className="location-eyebrow">WEDDING LOCATION</div>
+                <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '32px', color: 'var(--emerald-deep)', marginBottom: '8px' }}>
+                  The Deer Park Hotel
+                </h3>
+                <p className="location-subtitle">Girithale, Polonnaruwa, Sri Lanka</p>
+
+                <div className="location-pill-card">
+                  <a
+                    className="location-pill-btn"
+                    href={mapUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Navigation size={15} />
+                    <span>Get Directions</span>
+                  </a>
+                </div>
+              </Reveal>
             </div>
 
-            <div className="venue-card-wrapper">
-              <div className="venue-info-side">
-                <span className="section-eyebrow">VENUE</span>
-                <h3 className="venue-name">The Deer Park Hotel</h3>
-                <p className="venue-address">
-                  Girithale, Polonnaruwa<br />
-                  Sri Lanka
-                </p>
-                <a
-                  href={mapUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="venue-directions-btn"
-                >
-                  <Navigation size={15} /> Get Directions
-                </a>
-              </div>
+            <div className="location-map-side">
+              <iframe
+                title="The Deer Park Hotel Location Map"
+                src="https://maps.google.com/maps?q=The+Deer+Park+Hotel+Girithale+Sri+Lanka&t=&z=13&ie=UTF8&iwloc=&output=embed"
+                className="map-iframe"
+                loading="lazy"
+                allowFullScreen
+              />
+              <a
+                href={mapUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="map-floating-pin"
+                title="Open in Google Maps"
+              >
+                <MapPin size={16} color="#e53935" />
+                <div className="map-badge-text">
+                  <strong>The Deer Park Hotel</strong>
+                  <span>Girithale</span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </section>
 
-              <div className="venue-map-side">
-                <iframe
-                  title="The Deer Park Hotel Location Map"
-                  src="https://maps.google.com/maps?q=The+Deer+Park+Hotel+Girithale+Sri+Lanka&t=&z=13&ie=UTF8&iwloc=&output=embed"
-                  className="venue-map-iframe"
-                  loading="lazy"
-                  allowFullScreen
-                />
-              </div>
+        {/* 8. CONTACT SECTION */}
+        <section className="section contact" id="contact">
+          <Reveal>
+            <div className="eyebrow">FOR ANY INQUIRIES</div>
+            <h2>Contact Us</h2>
+            <div className="flourish">── ♥ ──</div>
+            <div className="contact-grid">
+              <a href="tel:0773163928">
+                <div className="contact-icon-bubble">
+                  <Phone size={18} />
+                </div>
+                <span>
+                  Warnasooriya<br />
+                  <b>077 316 3928</b>
+                </span>
+              </a>
+              <a href="tel:+94717215710">
+                <div className="contact-icon-bubble">
+                  <Phone size={18} />
+                </div>
+                <span>
+                  Harshani<br />
+                  <b>+94 71 721 5710</b>
+                </span>
+              </a>
             </div>
           </Reveal>
         </section>
 
-        {/* 7. CLEAN MINIMALIST FOOTER */}
-        <footer className="clean-footer">
-          <div className="footer-names">Chathura &amp; Gimasha</div>
-          <div className="footer-date">December 03, 2026 • Girithale, Sri Lanka</div>
-          <div className="footer-sub">Thank you for sharing in our happiness and love.</div>
+        {/* 9. FOOTER */}
+        <footer className="wedding-footer">
+          <div className="footer-content">
+            <h2 className="footer-couple-names">Chathura &amp; Gimasha</h2>
+            <div className="footer-flourish">
+              <span className="footer-flourish-line" />
+              <Heart size={14} fill="#c59b43" stroke="#c59b43" />
+              <span className="footer-flourish-line" />
+            </div>
+            <div className="footer-date">DECEMBER 03, 2026 • GIRITHALE</div>
+          </div>
         </footer>
       </main>
     </>
