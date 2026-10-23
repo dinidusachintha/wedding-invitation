@@ -1,44 +1,51 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=Great+Vibes&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Great+Vibes&display=swap');
 
 :root {
-  /* Rich Multi-Hued Nature Palette */
-  --green: #143e26;
-  --forest-deep: #11331e;
-  --forest-emerald: #185031;
-  --forest-leaf: #276941;
+  /* Clean Minimalist Luxury Palette */
+  --bg-primary: #fcf9f5;
+  --bg-secondary: #f6efe6;
+  --bg-card: rgba(255, 255, 255, 0.88);
+  --bg-card-hover: #ffffff;
   
   --gold: #c59b43;
-  --gold-warm: #d4af37;
-  --gold-light: #f7eedb;
-  --gold-glow: rgba(197, 155, 67, 0.45);
-
-  --terracotta: #c46954;
-  --rose-blush: #f7ebe6;
-  --terracotta-dark: #8e3f2e;
-
-  --cream: #fffdf9;
-  --sand: #faf4e8;
-  --linen: #f4ecdf;
+  --gold-light: #dfc282;
+  --gold-dark: #9e7828;
+  --gold-subtle: rgba(197, 155, 67, 0.18);
+  --gold-border: rgba(197, 155, 67, 0.32);
   
-  --text-dark: #221e1a;
-  --text-bark: #483d34;
-  --text-sand: #6f5d4e;
+  --wine: #782937;
+  --rose-blush: #f4e3dc;
+  
+  --text-primary: #2d241e;
+  --text-secondary: #6e5f53;
+  --text-muted: #9c8e82;
+  
+  --shadow-sm: 0 4px 14px rgba(70, 45, 25, 0.05);
+  --shadow-md: 0 10px 28px rgba(70, 45, 25, 0.08);
+  --shadow-lg: 0 18px 45px rgba(70, 45, 25, 0.12);
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 32px;
+  --radius-full: 9999px;
 }
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html {
   scroll-behavior: smooth;
+  font-size: 16px;
 }
 
 body {
-  margin: 0;
-  background: var(--cream);
-  color: var(--text-dark);
+  background: var(--bg-primary);
+  color: var(--text-primary);
   font-family: 'DM Sans', sans-serif;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
 a {
@@ -46,24 +53,14 @@ a {
   text-decoration: none;
 }
 
-button,
-input,
-select,
-textarea {
+button, input, select, textarea {
   font: inherit;
 }
 
 button {
   cursor: pointer;
-}
-
-/* Smooth Scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-.section {
-  scroll-margin-top: 76px;
+  border: none;
+  background: none;
 }
 
 /* Golden Scroll Progress Bar */
@@ -72,15 +69,25 @@ html {
   top: 0;
   left: 0;
   right: 0;
-  height: 3.5px;
-  background: linear-gradient(90deg, #9b7a3d, #c9aa70 50%, #faeccf 100%);
+  height: 3px;
+  background: linear-gradient(90deg, #c59b43, #e5cf9d, #c59b43);
   transform-origin: 0%;
   z-index: 9999;
-  box-shadow: 0 0 12px rgba(201, 170, 112, 0.6);
+}
+
+/* Background canvas */
+.wedding-bg-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
 }
 
 /* ========================================================
-   INVITEMINT-STYLE INTERACTIVE INVITATION COVER / REVEAL
+   1. INVITEMINT-STYLE INTERACTIVE COVER SCREEN
    ======================================================== */
 .invitation-cover-screen {
   position: fixed;
@@ -91,12 +98,11 @@ html {
   align-items: center;
   justify-content: space-between;
   background: radial-gradient(ellipse at 50% 30%, #fffefc 0%, #fbf5ef 50%, #f4e8dc 100%);
-  padding: 0 20px 32px;
+  padding: 0 20px 36px;
   overflow: hidden;
   user-select: none;
 }
 
-/* Floral Arch at Top */
 .cover-floral-arch-wrap {
   position: absolute;
   top: 0;
@@ -118,7 +124,6 @@ html {
   filter: drop-shadow(0 4px 14px rgba(180, 140, 110, 0.15));
 }
 
-/* Cover Header Text */
 .cover-header {
   position: relative;
   z-index: 3;
@@ -131,24 +136,23 @@ html {
   font-weight: 600;
   letter-spacing: 0.35em;
   text-transform: uppercase;
-  color: #a4814e;
+  color: var(--gold-dark);
   margin-bottom: 8px;
 }
 
 .cover-title {
   font-family: 'Great Vibes', cursive;
   font-size: clamp(38px, 8vw, 56px);
-  color: #2b221a;
+  color: var(--text-primary);
   margin: 0;
   font-weight: 400;
   line-height: 1.1;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .cover-title span {
   font-family: 'Cormorant Garamond', serif;
   font-style: italic;
-  color: #c59b43;
+  color: var(--gold);
   margin: 0 4px;
 }
 
@@ -160,7 +164,7 @@ html {
   font-size: 11px;
   letter-spacing: 0.28em;
   font-weight: 600;
-  color: #7d6b5c;
+  color: var(--text-secondary);
   text-transform: uppercase;
 }
 
@@ -170,11 +174,10 @@ html {
   display: inline-block;
   width: 24px;
   height: 1px;
-  background: #c59b43;
+  background: var(--gold);
   opacity: 0.6;
 }
 
-/* Center Cartoon Couple Illustration */
 .cover-couple-center {
   position: relative;
   z-index: 3;
@@ -220,15 +223,11 @@ html {
   50% { transform: translateY(-7px); }
 }
 
-/* Bottom Action Area: InviteMint Signature "OPEN INVITATION" Card */
 .cover-action-wrap {
   position: relative;
   z-index: 4;
   width: 100%;
   max-width: 330px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .cover-open-btn {
@@ -236,62 +235,31 @@ html {
   background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1.5px solid rgba(197, 155, 67, 0.5);
-  border-radius: 50px;
+  border: 1.5px solid var(--gold);
+  border-radius: var(--radius-full);
   padding: 16px 24px 14px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 5px;
-  box-shadow: 
-    0 12px 32px rgba(80, 50, 30, 0.12),
-    0 2px 8px rgba(197, 155, 67, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
-  cursor: pointer;
-  transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: var(--shadow-md), 0 0 16px rgba(197, 155, 67, 0.2);
+  transition: all 0.35s ease;
   position: relative;
   overflow: hidden;
 }
 
 .cover-open-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 
-    0 16px 36px rgba(80, 50, 30, 0.16),
-    0 0 24px rgba(197, 155, 67, 0.4);
-  border-color: rgba(197, 155, 67, 0.85);
-}
-
-.cover-open-btn::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    60deg,
-    transparent 30%,
-    rgba(255, 255, 255, 0.65) 50%,
-    transparent 70%
-  );
-  transform: rotate(25deg) translateY(-100%);
-  animation: btnShimmer 3.8s ease-in-out infinite;
-  pointer-events: none;
-}
-
-@keyframes btnShimmer {
-  0% { transform: rotate(25deg) translateY(-100%); }
-  45%, 100% { transform: rotate(25deg) translateY(100%); }
+  box-shadow: var(--shadow-lg), 0 0 24px rgba(197, 155, 67, 0.35);
 }
 
 .cover-open-title {
-  font-family: 'DM Sans', sans-serif;
   font-size: 13.5px;
   font-weight: 700;
   letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: #782937;
+  color: var(--wine);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -300,26 +268,16 @@ html {
 .cover-open-divider {
   width: 36px;
   height: 1.5px;
-  background: linear-gradient(90deg, transparent, #c59b43, transparent);
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
   border-radius: 2px;
 }
 
 .cover-open-subtitle {
-  font-family: 'DM Sans', sans-serif;
   font-size: 9.5px;
   font-weight: 600;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: #9c8471;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  animation: tapPulse 1.8s ease-in-out infinite;
-}
-
-@keyframes tapPulse {
-  0%, 100% { opacity: 0.65; transform: scale(0.98); }
-  50% { opacity: 1; transform: scale(1.02); }
+  color: var(--text-muted);
 }
 
 /* Floating Audio Player Button */
@@ -331,23 +289,21 @@ html {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1.5px solid rgba(197, 155, 67, 0.5);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  border: 1.5px solid var(--gold-border);
+  box-shadow: var(--shadow-sm);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #c59b43;
+  color: var(--gold-dark);
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .floating-music-btn:hover {
   transform: scale(1.08);
-  border-color: #c59b43;
-  box-shadow: 0 6px 20px rgba(197, 155, 67, 0.35);
+  border-color: var(--gold);
 }
 
 .floating-music-btn.playing {
@@ -359,1916 +315,688 @@ html {
   100% { transform: rotate(360deg); }
 }
 
-/* Background floating petals & sparkles canvas */
-.wedding-bg-canvas {
+/* ========================================================
+   2. MAIN INVITATION PAGE LAYOUT & MINIMAL NAV
+   ======================================================== */
+.wedding-main-page {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+}
+
+/* Minimalist Nav Bar */
+.nav-minimal {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  z-index: 10;
-}
-
-/* Header & Nav */
-.nav {
-  height: 76px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 20;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 max(5vw, 25px);
-  color: #fff;
-  border-bottom: 1px solid #ffffff30;
-}
-
-.brand {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 31px;
-  font-weight: 700;
-  letter-spacing: 4px;
-}
-
-.brand span {
-  color: #e5d8b7;
-}
-
-.nav nav {
-  display: flex;
-  gap: 34px;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.nav nav a {
-  transition: color 0.25s;
-}
-
-.nav nav a:hover {
-  color: #e9d3a3;
-}
-
-.nav-pill {
-  background: #f9f5e8;
-  color: var(--green);
-  border-radius: 30px;
-  padding: 12px 24px;
-  font-size: 12px;
-  font-weight: 700;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
-  transition: transform 0.25s, box-shadow 0.25s;
-}
-
-.nav-pill:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
-}
-
-/* Hero */
-.hero {
-  height: 760px;
-  min-height: 90vh;
-  position: relative;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  color: white;
-}
-
-.hero video {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  inset: 0;
-}
-
-.hero-shade {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, rgba(8, 33, 22, 0.84), rgba(10, 34, 23, 0.54) 43%, rgba(8, 25, 16, 0.1)),
-    linear-gradient(0deg, #0d2a1a60, transparent 45%);
-}
-
-.hero-content {
-  position: relative;
-  z-index: 1;
-  max-width: 660px;
-  margin-left: 10%;
-  padding-top: 65px;
-}
-
-.eyebrow {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 3.5px;
-  color: #8c713b;
-  text-align: center;
-}
-
-.eyebrow.light {
-  color: #e4dfca;
-  text-align: left;
-}
-
-.hero h1 {
-  font-family: 'Great Vibes', cursive;
-  font-size: clamp(75px, 10vw, 145px);
-  font-weight: 400;
-  line-height: 0.95;
-  margin: 35px 0 20px;
-  text-shadow: 0 5px 30px #0005;
-}
-
-.hero h1 em {
-  font-size: 0.6em;
-  font-weight: 400;
-}
-
-.hero-rule {
-  letter-spacing: 3px;
-  font-size: 13px;
-}
-
-.hero-content p {
-  max-width: 410px;
-  line-height: 1.9;
-  margin: 30px 0;
-}
-
-.btn {
-  border: 0;
-  border-radius: 11px;
-  background: linear-gradient(135deg, #225a38, #133c24);
-  color: white;
-  padding: 15px 24px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  font-size: 13px;
-  font-weight: 700;
-  box-shadow: 0 9px 25px rgba(19, 60, 36, 0.25);
-  transition: transform 0.25s, box-shadow 0.25s;
-}
-
-.btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 28px rgba(19, 60, 36, 0.4);
-}
-
-.btn:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
-.light-btn {
-  background: #fffdf8;
-  color: #143e26;
-  border: 1px solid rgba(197, 155, 67, 0.35);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-}
-
-.scroll-note {
-  position: absolute;
-  bottom: 30px;
+  top: 16px;
   left: 50%;
   transform: translateX(-50%);
-  letter-spacing: 3px;
-  font-size: 10px;
-  z-index: 1;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 10px 24px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--gold-border);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
 }
 
-/* Sections General */
-.section {
-  padding: 95px 7%;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.section h2 {
+.nav-minimal .brand-monogram {
   font-family: 'Cormorant Garamond', serif;
-  font-weight: 600;
-  font-size: clamp(38px, 5vw, 58px);
-  margin: 10px 0 12px;
-}
-
-.flourish {
-  color: #c9aa70;
-  margin: 12px 0 30px;
-  letter-spacing: 4px;
-}
-
-/* Countdown Section - Ultra Low Fade, Crisp & Vivid Scenery */
-.countdown-section {
-  position: relative;
-  background-color: #fffdf8;
-  background-image: 
-    linear-gradient(180deg, rgba(255, 253, 248, 0.12) 0%, rgba(255, 253, 248, 0.0) 25%, rgba(255, 253, 248, 0.0) 75%, rgba(255, 253, 248, 0.14) 100%),
-    url('/images/countdown-bg.jpg');
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  padding: 85px 6% 90px;
-  overflow: hidden;
-}
-
-.countdown-eyebrow {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(14px, 2.2vw, 19px);
+  font-size: 19px;
   font-weight: 700;
-  letter-spacing: 5px;
-  color: #143e26;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-  text-align: center;
-  text-shadow: 0 1px 4px rgba(255, 255, 255, 0.7);
+  color: var(--text-primary);
+  letter-spacing: 0.1em;
 }
 
-.countdown-flourish {
+.nav-minimal .brand-monogram span {
+  color: var(--gold);
+}
+
+.nav-minimal nav {
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin: 10px 0 38px;
+  gap: 20px;
 }
 
-.flourish-svg {
-  width: 120px;
-  height: 22px;
-  filter: drop-shadow(0 2px 4px rgba(20, 60, 36, 0.15));
+.nav-minimal nav a {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
 }
 
-.count-grid {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 22px;
-  max-width: 800px;
+.nav-minimal nav a:hover {
+  color: var(--gold-dark);
+}
+
+.nav-cover-btn {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--wine);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  background: rgba(120, 41, 55, 0.08);
+  transition: all 0.2s ease;
+}
+
+.nav-cover-btn:hover {
+  background: rgba(120, 41, 55, 0.15);
+}
+
+@media (max-width: 768px) {
+  .nav-minimal {
+    top: 12px;
+    padding: 8px 16px;
+    gap: 12px;
+  }
+  .nav-minimal nav {
+    display: none;
+  }
+}
+
+/* General Section Typography & Accents */
+.clean-section {
+  padding: clamp(70px, 12vh, 120px) 24px;
+  max-width: 1100px;
   margin: 0 auto;
+  position: relative;
+  text-align: center;
 }
 
-.count-box {
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.95);
-  box-shadow: 0 14px 38px rgba(18, 52, 32, 0.1), 0 2px 8px rgba(197, 155, 67, 0.12);
-  border-radius: 20px;
-  width: 145px;
-  padding: 24px 16px;
+.section-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(32px, 5.5vw, 48px);
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.2;
+  margin-bottom: 14px;
+}
+
+.section-flourish {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 0 auto 32px;
+  color: var(--gold);
+}
+
+.section-flourish::before,
+.section-flourish::after {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: var(--gold-border);
+}
+
+.section-subtext {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  max-width: 580px;
+  margin: 0 auto 40px;
+}
+
+/* ========================================================
+   3. HERO SECTION (EDITORIAL & CLEAN)
+   ======================================================== */
+.clean-hero {
+  min-height: 90vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
-  user-select: none;
+  padding: 130px 24px 60px;
+  text-align: center;
+  position: relative;
 }
 
-.count-box:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 18px 45px rgba(18, 52, 32, 0.15), 0 4px 14px rgba(197, 155, 67, 0.2);
+.hero-floral-frame {
+  max-width: 500px;
+  width: 90%;
+  margin-bottom: 24px;
+  opacity: 0.95;
+  filter: drop-shadow(0 6px 18px rgba(180, 140, 110, 0.12));
 }
 
-.count-box strong {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(38px, 4.5vw, 56px);
+.hero-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
   font-weight: 600;
-  color: #154528;
+  color: var(--gold-dark);
+  margin-bottom: 16px;
+}
+
+.hero-names {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(44px, 8.5vw, 84px);
+  font-weight: 500;
+  line-height: 1.05;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+}
+
+.hero-names em {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(48px, 9vw, 92px);
+  color: var(--gold);
+  font-weight: 400;
+  margin: 0 8px;
+  vertical-align: middle;
+}
+
+.hero-date-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 22px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--gold-border);
+  box-shadow: var(--shadow-sm);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+}
+
+.hero-message {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  max-width: 520px;
+  margin: 0 auto 36px;
+}
+
+.btn-minimal {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  border-radius: var(--radius-full);
+  background: var(--text-primary);
+  color: #ffffff;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+}
+
+.btn-minimal:hover {
+  background: var(--gold-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ========================================================
+   4. COUNTDOWN SECTION (MINIMALIST CARDS)
+   ======================================================== */
+.countdown-grid {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.countdown-card {
+  flex: 1;
+  min-width: 75px;
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--gold-border);
+  border-radius: var(--radius-md);
+  padding: 24px 12px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s ease;
+}
+
+.countdown-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.countdown-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(32px, 5.5vw, 44px);
+  font-weight: 600;
+  color: var(--text-primary);
   line-height: 1;
-  display: block;
   margin-bottom: 6px;
 }
 
-.count-box span {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(14px, 1.5vw, 17px);
+.countdown-label {
+  font-size: 10px;
   font-weight: 600;
-  color: #72583e; /* warm golden earth / bark tone - replaced low green #4a6750 */
-  display: block;
-  letter-spacing: 0.5px;
-}
-
-/* THE HAPPY COUPLE Section - Nature Palette (Lush Emerald, Sunlit Gold, Botanical Rose & Warm Sand) */
-.couple {
-  background: radial-gradient(ellipse at 50% 20%, #fffdfa 0%, #faf3e6 42%, #f8ebe3 72%, #eedfcb 100%);
-  position: relative;
-  overflow: hidden;
-  padding: 105px 6%;
-}
-
-/* Atmospheric Ambient Glowing Orbs */
-.couple-glow {
-  position: absolute;
-  width: 520px;
-  height: 520px;
-  border-radius: 50%;
-  pointer-events: none;
-  filter: blur(90px);
-  opacity: 0.55;
-  z-index: 0;
-}
-
-.couple-glow-left {
-  top: 15%;
-  left: 5%;
-  background: radial-gradient(circle, rgba(225, 175, 80, 0.38) 0%, rgba(245, 215, 155, 0.18) 50%, transparent 75%);
-  animation: glowFloatLeft 12s ease-in-out infinite alternate;
-}
-
-.couple-glow-right {
-  top: 20%;
-  right: 5%;
-  background: radial-gradient(circle, rgba(32, 115, 65, 0.32) 0%, rgba(110, 185, 140, 0.16) 50%, transparent 75%);
-  animation: glowFloatRight 13s ease-in-out infinite alternate;
-}
-
-.couple-glow-center {
-  top: 35%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 600px;
-  height: 380px;
-  background: radial-gradient(ellipse, rgba(215, 125, 105, 0.22) 0%, rgba(230, 180, 160, 0.12) 50%, transparent 75%);
-  animation: glowFloatCenter 10s ease-in-out infinite alternate;
-}
-
-@keyframes glowFloatCenter {
-  0% {
-    transform: translate(-50%, 0) scale(0.95);
-  }
-  100% {
-    transform: translate(-50%, 25px) scale(1.1);
-  }
-}
-
-@keyframes glowFloatLeft {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-  100% {
-    transform: translate(35px, 45px) scale(1.15);
-  }
-}
-
-@keyframes glowFloatRight {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-  100% {
-    transform: translate(-35px, 40px) scale(1.12);
-  }
-}
-
-.couple-grid {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 50px;
-  margin-top: 45px;
-  position: relative;
-  z-index: 2;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* Person Card */
-.person-card {
-  flex: 1;
-  max-width: 380px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  position: relative;
-}
-
-/* Portrait Container */
-.portrait-container {
-  position: relative;
-  width: min(330px, 86vw);
-  height: min(330px, 86vw);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-}
-
-/* Floating Animations for Groom & Bride (gentle rhythmic breathing) */
-.float-groom {
-  animation: floatGroom 5.5s ease-in-out infinite;
-}
-
-.float-bride {
-  animation: floatBride 6s ease-in-out infinite 0.8s;
-}
-
-@keyframes floatGroom {
-  0%,
-  100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-11px) rotate(0.8deg);
-  }
-}
-
-@keyframes floatBride {
-  0%,
-  100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-12px) rotate(-0.8deg);
-  }
-}
-
-/* Golden Halo Glow effect behind portrait wreath */
-.golden-halo-pulse {
-  position: absolute;
-  inset: 10px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(201, 170, 112, 0.35) 0%, rgba(201, 170, 112, 0.1) 60%, transparent 75%);
-  filter: blur(16px);
-  animation: haloBreath 4.5s ease-in-out infinite alternate;
-  pointer-events: none;
-}
-
-.golden-halo-inner {
-  position: absolute;
-  inset: 24px;
-  border-radius: 50%;
-  border: 1.5px dashed rgba(201, 170, 112, 0.45);
-  animation: rotateDashed 45s linear infinite;
-  pointer-events: none;
-}
-
-@keyframes haloBreath {
-  0% {
-    transform: scale(0.92);
-    opacity: 0.55;
-  }
-  100% {
-    transform: scale(1.09);
-    opacity: 0.95;
-  }
-}
-
-@keyframes rotateDashed {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-/* Portrait Hover & Shimmer */
-.portrait-hover-wrap {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.portrait-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  filter: drop-shadow(0 18px 32px rgba(20, 58, 38, 0.18)) drop-shadow(0 6px 14px rgba(201, 170, 112, 0.25));
-  transition: filter 0.4s ease, transform 0.4s ease;
-  user-select: none;
-  -webkit-user-drag: none;
-}
-
-.portrait-hover-wrap:hover .portrait-img {
-  filter: drop-shadow(0 24px 42px rgba(20, 58, 38, 0.25)) drop-shadow(0 8px 22px rgba(201, 170, 112, 0.45));
-}
-
-.portrait-shimmer {
-  position: absolute;
-  top: 0;
-  left: -120%;
-  width: 75%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.28) 50%, transparent 100%);
-  transform: skewX(-25deg);
-  pointer-events: none;
-  animation: shimmerSweep 7s infinite ease-in-out;
-}
-
-@keyframes shimmerSweep {
-  0%,
-  65% {
-    left: -120%;
-  }
-  100% {
-    left: 170%;
-  }
-}
-
-/* Floating Sparkle Accents */
-.floating-sparkle {
-  position: absolute;
-  font-size: 15px;
-  color: #d4af37;
-  pointer-events: none;
-  filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.7));
-}
-
-.sp-1 {
-  top: 6%;
-  left: 6%;
-  animation: twinkleFloat 4s ease-in-out infinite;
-}
-
-.sp-2 {
-  bottom: 12%;
-  right: 5%;
-  animation: twinkleFloat 4.8s ease-in-out infinite 1.2s;
-  font-size: 17px;
-}
-
-.sp-3 {
-  top: 8%;
-  right: 6%;
-  animation: twinkleFloat 4.2s ease-in-out infinite 0.6s;
-}
-
-.sp-4 {
-  bottom: 11%;
-  left: 5%;
-  animation: twinkleFloat 5s ease-in-out infinite 1.8s;
-  font-size: 17px;
-}
-
-@keyframes twinkleFloat {
-  0%,
-  100% {
-    transform: translateY(0) scale(0.9);
-    opacity: 0.45;
-  }
-  50% {
-    transform: translateY(-8px) scale(1.25);
-    opacity: 1;
-  }
-}
-
-/* Role Badges */
-.role-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  background: linear-gradient(135deg, #fffdfa, #f7efe1);
-  border: 1px solid #dcbe85;
-  color: #7b5928;
-  padding: 6px 18px;
-  border-radius: 24px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 2.5px;
-  margin-top: 20px;
-  box-shadow: 0 4px 15px rgba(197, 155, 67, 0.2);
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.role-badge:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(197, 155, 67, 0.32);
-}
-
-.badge-sparkle {
-  color: #c59b43;
-}
-
-.person-card h3 {
-  font: 52px 'Great Vibes', cursive;
-  margin: 14px 0 6px;
-  color: #143e26;
-  text-shadow: 0 2px 10px rgba(20, 62, 38, 0.1);
-}
-
-.person-card p {
-  font: 18px / 1.6 'Cormorant Garamond', serif;
-  color: #483d34; /* warm natural bark/earth tone - replaced low dull green #4a5c4d */
-  margin: 0;
-}
-
-/* Center Interlocking Golden Rings */
-.rings-connector {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 0 10px;
-  min-width: 140px;
-  position: relative;
-  z-index: 2;
-}
-
-.interlocking-rings-wrap {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.rings-svg {
-  width: 125px;
-  height: 80px;
-  filter: drop-shadow(0 6px 15px rgba(182, 161, 107, 0.35));
-  transition: transform 0.3s ease;
-}
-
-.rings-connector:hover .rings-svg {
-  transform: scale(1.07);
-}
-
-.pulsing-heart-icon {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  animation: heartPulse 2.4s ease-in-out infinite;
-  filter: drop-shadow(0 2px 10px rgba(201, 170, 112, 0.5));
-}
-
-@keyframes heartPulse {
-  0%,
-  100% {
-    transform: translate(-50%, -50%) scale(0.92);
-    opacity: 0.85;
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.22);
-    opacity: 1;
-  }
-}
-
-.forever-text {
-  font: 700 11px / 1 'DM Sans', sans-serif;
-  letter-spacing: 3.5px;
-  color: #9c8350;
-  margin-top: 14px;
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
-}
-
-/* Details Section with Low Fade Vivid Garden Background */
-.details {
-  position: relative;
-  background-color: #f9f6ed;
-  background-image:
-    linear-gradient(180deg, rgba(249, 246, 237, 0.14) 0%, rgba(249, 246, 237, 0.0) 25%, rgba(249, 246, 237, 0.0) 75%, rgba(249, 246, 237, 0.16) 100%),
-    url('/images/details-bg.jpg');
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  padding: 100px 7%;
-}
-
-.section-sub {
-  max-width: 630px;
-  margin: 0 auto 35px;
-  font: 19px / 1.6 'Cormorant Garamond', serif;
-  color: #3e3328;
-}
-
-.detail-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  max-width: 1100px;
-  margin: 35px auto;
-}
-
-.detail-card {
-  background: rgba(255, 253, 248, 0.94);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.96);
-  border-radius: 20px;
-  padding: 30px 14px 28px;
-  box-shadow: 0 14px 35px rgba(18, 48, 28, 0.1), 0 2px 8px rgba(197, 155, 67, 0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
-}
-
-.detail-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 18px 42px rgba(18, 48, 28, 0.16), 0 4px 14px rgba(197, 155, 67, 0.22);
-}
-
-.detail-icon-bubble {
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 12px;
-  transition: transform 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.detail-card:hover .detail-icon-bubble {
-  transform: scale(1.1);
-}
-
-/* Distinct Nature Palette Jewel Tones for each detail card */
-.card-date .detail-icon-bubble {
-  background: linear-gradient(135deg, #fef4dc, #f7e0b0);
-  border: 1px solid #e5c482;
-  color: #b88a32;
-}
-
-.card-celebration .detail-icon-bubble {
-  background: linear-gradient(135deg, #e8f4ed, #cfebd7);
-  border: 1px solid #9fcfad;
-  color: #175e33;
-}
-
-.card-ceremony .detail-icon-bubble {
-  background: linear-gradient(135deg, #fcefe9, #f7dcd3);
-  border: 1px solid #e7ad9e;
-  color: #c4644f;
-}
-
-.card-venue .detail-icon-bubble {
-  background: linear-gradient(135deg, #faf0e1, #f4ddbd);
-  border: 1px solid #dfb987;
-  color: #a86b2d;
-}
-
-.detail-card svg {
-  width: 26px;
-  height: 26px;
-}
-
-.detail-card h3 {
-  font: 600 25px 'Cormorant Garamond', serif;
-  color: #143e26;
-  margin: 6px 0 8px;
-}
-
-.detail-card p {
-  font: 17px / 1.5 'Cormorant Garamond', serif;
-  color: #4a3e34; /* warm bark tone - replaced low dull green */
-  margin: 0;
-}
-
-/* RSVP Section - Rich Nature Theme (Cream Sand, Sunlit Gold, Lush Emerald, Floral Terracotta) */
-.rsvp {
-  background: radial-gradient(ellipse at 50% 15%, #ffffff 0%, #fbf5ea 40%, #f6ebda 70%, #ede0cb 100%);
-  position: relative;
-  overflow: hidden;
-  padding: 105px 6%;
-}
-
-/* RSVP Ambient Nature Glow Orbs */
-.rsvp-glow {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  filter: blur(85px);
-  z-index: 0;
-}
-
-.rsvp-glow-gold {
-  top: 10%;
-  left: 8%;
-  width: 440px;
-  height: 440px;
-  background: radial-gradient(circle, rgba(225, 175, 80, 0.32) 0%, transparent 70%);
-  animation: glowFloatLeft 14s ease-in-out infinite alternate;
-}
-
-.rsvp-glow-emerald {
-  bottom: 10%;
-  right: 8%;
-  width: 480px;
-  height: 480px;
-  background: radial-gradient(circle, rgba(32, 115, 65, 0.26) 0%, transparent 70%);
-  animation: glowFloatRight 15s ease-in-out infinite alternate;
-}
-
-.rsvp-glow-blush {
-  top: 30%;
-  right: 18%;
-  width: 360px;
-  height: 360px;
-  background: radial-gradient(circle, rgba(215, 125, 105, 0.2) 0%, transparent 70%);
-  animation: glowFloatLeft 12s ease-in-out infinite alternate;
-}
-
-.rsvp-card-wrapper {
-  max-width: 680px;
-  margin: 32px auto 0;
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(218, 190, 142, 0.7);
-  border-radius: 22px;
-  padding: 38px 34px;
-  box-shadow: 0 16px 45px rgba(20, 56, 34, 0.08), 0 0 25px rgba(197, 155, 67, 0.12);
-  position: relative;
-  z-index: 1;
-}
-
-.rsvp h2 {
-  font-family: 'Great Vibes', cursive;
-  font-weight: 400;
-  font-size: clamp(48px, 6vw, 68px);
-  color: #154228;
-  margin: 10px 0;
-}
-
-.guest-note {
-  font-size: 16px;
-  color: #483d34; /* warm bark tone - replaced low dull green #4b664d */
-  font-family: 'Cormorant Garamond', serif;
-}
-
-.rsvp-actions {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  gap: 14px;
-  flex-wrap: wrap;
-  margin-top: 26px;
-}
-
-.rsvp-choice {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-  gap: 7px;
-  font-size: 12px;
-  font-weight: 700;
-  color: #3b3127; /* warm earth tone - replaced low dull green #435b46 */
-}
-
-.rsvp-choice select {
-  padding: 13px 18px;
-  border: 1px solid #d5c3a3;
-  border-radius: 11px;
-  background: #fffdf9;
-  color: #173c2a;
-  outline: none;
-  transition: border-color 0.25s, box-shadow 0.25s;
-}
-
-.rsvp-choice select:focus {
-  border-color: #c59b43;
-  box-shadow: 0 0 0 3px rgba(197, 155, 67, 0.2);
-}
-
-/* Beautiful Multi-Colored Nature Buttons */
-.rsvp-accept {
-  background: linear-gradient(135deg, #225a38, #143e26);
-  color: #ffffff;
-  border: 1px solid #367d51;
-  box-shadow: 0 8px 24px rgba(20, 62, 38, 0.25);
-}
-
-.rsvp-accept:hover {
-  background: linear-gradient(135deg, #2a6f45, #17482d);
-  box-shadow: 0 12px 28px rgba(20, 62, 38, 0.35);
-}
-
-.rsvp-decline {
-  background: rgba(196, 105, 84, 0.08);
-  border: 1.5px solid #c46954;
-  color: #8e3f2e;
-  box-shadow: none;
-}
-
-.rsvp-decline:hover {
-  background: rgba(196, 105, 84, 0.16);
-  border-color: #ad523e;
-  color: #793222;
-}
-
-.rsvp-accept.selected {
-  outline: 3px solid #c59b43;
-  box-shadow: 0 0 20px rgba(197, 155, 67, 0.55);
-}
-
-.rsvp-decline.selected {
-  outline: 3px solid #c46954;
-  box-shadow: 0 0 20px rgba(196, 105, 84, 0.5);
-}
-
-.response-note {
-  text-transform: capitalize;
-  font-size: 14px;
-  color: #3d3227; /* warm earth tone - replaced low dull green #3b543e */
-  margin-top: 18px;
-}
-
-/* Wishes Section with Low Fade Romantic Stationery Background */
-.wishes {
-  position: relative;
-  background-color: #f9f7f0;
-  background-image:
-    linear-gradient(180deg, rgba(249, 247, 240, 0.14) 0%, rgba(249, 247, 240, 0.0) 25%, rgba(249, 247, 240, 0.0) 75%, rgba(249, 247, 240, 0.16) 100%),
-    url('/images/wishes-bg.jpg');
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  padding: 100px 7%;
-}
-
-.message-card {
-  max-width: 820px;
-  margin: 0 auto;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  padding: 24px 28px;
-  border-radius: 20px;
-  display: flex;
-  align-items: flex-end;
-  gap: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.95);
-  box-shadow: 0 16px 40px rgba(20, 58, 38, 0.1), 0 4px 14px rgba(197, 155, 67, 0.16);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.message-card:focus-within {
-  box-shadow: 0 20px 48px rgba(20, 58, 38, 0.15), 0 6px 20px rgba(197, 155, 67, 0.28);
-  transform: translateY(-2px);
-}
-
-.message-card textarea {
-  resize: vertical;
-  min-height: 110px;
-  flex: 1;
-  border: 1px solid #ded3bf; /* warm linen/gold border - replaced low green #e2ebd9 */
-  border-radius: 12px;
-  outline: none;
-  padding: 16px;
-  background: rgba(255, 255, 255, 0.98);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  line-height: 1.6;
-  color: #241e19;
-  transition: border-color 0.25s, box-shadow 0.25s;
-}
-
-.message-card textarea:focus {
-  border-color: #c59b43;
-  box-shadow: 0 0 0 3px rgba(197, 155, 67, 0.22);
-}
-
-.feedback {
-  color: #175e33; /* rich forest emerald - replaced low dull green #426c48 */
-  font-weight: 600;
-}
-
-/* Wedding Location Section - Warm Earth & Nature Palette */
-.location {
-  background: radial-gradient(ellipse at 35% 30%, #fefcf9 0%, #faf3e5 48%, #eee1cb 100%);
-  position: relative;
-  overflow: hidden;
-  padding: 85px 6%;
-}
-
-/* Location Ambient Nature Glow Orbs */
-.loc-glow {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  filter: blur(85px);
-  z-index: 0;
-}
-
-.loc-glow-amber {
-  top: 15%;
-  left: 8%;
-  width: 460px;
-  height: 460px;
-  background: radial-gradient(circle, rgba(225, 175, 80, 0.32) 0%, transparent 70%);
-  animation: glowFloatLeft 13s ease-in-out infinite alternate;
-}
-
-.loc-glow-emerald {
-  bottom: 10%;
-  right: 5%;
-  width: 480px;
-  height: 480px;
-  background: radial-gradient(circle, rgba(32, 115, 65, 0.25) 0%, transparent 70%);
-  animation: glowFloatRight 15s ease-in-out infinite alternate;
-}
-
-.location-container {
-  display: grid;
-  grid-template-columns: 1fr 1.05fr;
-  gap: 36px;
-  align-items: center;
-  max-width: 1160px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
-}
-
-.location-info-side {
-  text-align: left;
-}
-
-.location-eyebrow {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 4px;
-  color: #143e26;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ========================================================
+   5. THE HAPPY COUPLE SECTION
+   ======================================================== */
+.couple-container {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 36px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.couple-person-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--gold-border);
+  border-radius: var(--radius-lg);
+  padding: 40px 24px 32px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s ease;
+}
+
+.couple-person-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.couple-avatar-wrap {
+  position: relative;
+  width: 170px;
+  height: 170px;
+  margin: 0 auto 24px;
+}
+
+.couple-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--gold-light);
+  box-shadow: 0 8px 24px rgba(197, 155, 67, 0.2);
+}
+
+.couple-role-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold-dark);
   margin-bottom: 8px;
 }
 
-.location-subtitle {
+.couple-name {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 19px;
-  color: #5c4a3b; /* warm bark earth - replaced low dull green #49664f */
-  margin: 0 0 28px;
-  font-style: italic;
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 10px;
 }
 
-.location-pill-card {
-  background: #ffffff;
-  border-radius: 26px;
-  padding: 16px 20px 16px 22px;
-  box-shadow: 0 14px 38px rgba(18, 52, 32, 0.08), 0 0 25px rgba(197, 155, 67, 0.14);
-  border: 1px solid rgba(220, 195, 150, 0.7);
+.couple-parents {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.couple-center-connector {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+  gap: 12px;
 }
 
-.location-pill-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 18px 45px rgba(18, 52, 32, 0.14), 0 0 30px rgba(197, 155, 67, 0.22);
-}
-
-.location-pill-details {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.location-icon-bubble {
+.couple-center-heart {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #fef2da, #f4d8a5); /* sunlit gold bubble - replaced pale green #eef5eb */
-  border: 1px solid #dfbe80;
+  background: #ffffff;
+  border: 1px solid var(--gold-border);
+  box-shadow: var(--shadow-sm);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #143e26; /* deep emerald pin */
-  flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(197, 155, 67, 0.25);
+  color: var(--gold);
 }
 
-.location-names strong {
-  display: block;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 19px;
-  font-weight: 700;
-  color: #143e26;
-  line-height: 1.25;
-}
-
-.location-names span {
-  display: block;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 12px;
-  color: #6e5948; /* warm earth tone - replaced low dull green #607964 */
-  margin-top: 3px;
-}
-
-.location-pill-btn {
-  background: linear-gradient(135deg, #225a38, #133c24);
-  color: #ffffff;
-  border-radius: 30px;
-  padding: 11px 22px;
-  font-size: 12px;
-  font-weight: 700;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+.couple-forever-text {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text-muted);
   white-space: nowrap;
-  box-shadow: 0 6px 20px rgba(18, 52, 32, 0.25);
-  border: 1px solid #367d51;
-  transition: transform 0.25s, box-shadow 0.25s;
 }
 
-.location-pill-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 26px rgba(18, 52, 32, 0.38);
+@media (max-width: 768px) {
+  .couple-container {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
 }
 
-.btn-arrow {
-  font-size: 14px;
-  color: #faeccf; /* glowing gold arrow */
-  transition: transform 0.25s;
-}
-
-.location-pill-btn:hover .btn-arrow {
-  transform: translateX(3px);
-}
-
-/* Map Card */
-.location-map-card {
-  position: relative;
-  width: 100%;
-  height: 230px;
-  border-radius: 24px;
-  overflow: hidden;
-  box-shadow: 0 18px 48px rgba(18, 52, 32, 0.12), 0 0 25px rgba(197, 155, 67, 0.1);
-  border: 4px solid #ffffff;
-  background: #fbf6ec;
-}
-
-.map-iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
-  filter: contrast(1.02) saturate(1.1);
-}
-
-.map-floating-pin {
-  position: absolute;
-  top: 20px;
-  right: 22px;
-  background: rgba(255, 255, 255, 0.98);
-  backdrop-filter: blur(8px);
-  padding: 8px 14px 8px 10px;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  z-index: 5;
-  text-decoration: none;
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  transition: transform 0.25s, box-shadow 0.25s;
-}
-
-.map-floating-pin:hover {
-  transform: scale(1.04);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
-}
-
-.map-pin-red {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.map-badge-text strong {
-  display: block;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  color: #143e26;
-  line-height: 1.2;
-}
-
-.map-badge-text span {
-  display: block;
-  font-size: 11px;
-  color: #735c4b; /* warm bark earth - replaced low dull green #6a7c6e */
-}
-
-/* Contact Section with Low Fade Floral Background */
-.contact {
-  position: relative;
-  background-color: #f9f7f0;
-  background-image:
-    linear-gradient(180deg, rgba(249, 247, 240, 0.14) 0%, rgba(249, 247, 240, 0.0) 25%, rgba(249, 247, 240, 0.0) 75%, rgba(249, 247, 240, 0.16) 100%),
-    url('/images/contact-bg.jpg');
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  padding: 100px 7%;
-  overflow: hidden;
-}
-
-.contact-grid {
-  display: flex;
-  gap: 24px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-top: 35px;
-}
-
-.contact-grid a {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  text-align: left;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.95);
-  padding: 20px 32px;
-  border-radius: 20px;
-  box-shadow: 0 14px 35px rgba(18, 52, 32, 0.08), 0 2px 8px rgba(197, 155, 67, 0.12);
-  font: 18px / 1.5 'Cormorant Garamond', serif;
-  color: #143e26;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
-}
-
-.contact-grid a:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 18px 45px rgba(18, 52, 32, 0.16), 0 4px 16px rgba(197, 155, 67, 0.25);
-}
-
-.contact-icon-bubble {
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #fef2da, #f4d8a5);
-  border: 1px solid #dfbe80;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #143e26;
-  flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(197, 155, 67, 0.25);
-  transition: transform 0.3s ease;
-}
-
-.contact-grid a:hover .contact-icon-bubble {
-  transform: scale(1.1);
-}
-
-.contact-grid a b {
-  color: #9c6e26; /* warm gold accent on telephone digits */
-}
-
-/* Footer - Matching User Reference */
-.wedding-footer {
-  background-color: #123724;
-  background-image: url('/images/footer-bg.jpg');
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  padding: 65px 6% 60px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-  z-index: 2;
-}
-
-.footer-content {
-  position: relative;
-  z-index: 1;
-  max-width: 600px;
+/* ========================================================
+   6. WEDDING DETAILS & ITINERARY
+   ======================================================== */
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
-.footer-couple-names {
-  font-family: 'Great Vibes', cursive;
-  font-size: clamp(40px, 5.5vw, 62px);
-  font-weight: 400;
-  color: #ffffff;
-  margin: 0 0 10px;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+.event-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--gold-border);
+  border-radius: var(--radius-md);
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
 }
 
-.footer-flourish {
+.event-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.event-icon-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--gold-subtle);
+  color: var(--gold-dark);
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0 auto 18px;
+}
+
+.event-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.event-time {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--wine);
+  margin-bottom: 12px;
+}
+
+.event-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* ========================================================
+   7. RSVP & WISHES (CLEAN LUXURY FORMS)
+   ======================================================== */
+.rsvp-wrapper {
+  max-width: 580px;
+  margin: 0 auto;
+  background: var(--bg-card);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--gold-border);
+  border-radius: var(--radius-lg);
+  padding: clamp(32px, 6vw, 48px) clamp(20px, 5vw, 36px);
+  box-shadow: var(--shadow-md);
+}
+
+.guest-greeting {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.guest-limit-note {
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  margin-bottom: 28px;
+}
+
+.rsvp-selector-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--gold-border);
+  border-radius: var(--radius-sm);
+  margin-bottom: 24px;
+}
+
+.rsvp-selector-row label {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.rsvp-selector-row select {
+  border: 1px solid var(--gold-border);
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  outline: none;
+}
+
+.rsvp-buttons-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 14px;
-  margin: 0 auto 16px;
-  max-width: 240px;
+  margin-bottom: 20px;
 }
 
-.footer-flourish-line {
-  flex: 1;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.45);
+.btn-rsvp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 18px;
+  border-radius: var(--radius-full);
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  transition: all 0.25s ease;
 }
 
-.footer-flourish-heart {
+.btn-rsvp-accept {
+  background: var(--text-primary);
   color: #ffffff;
-  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.5));
+}
+
+.btn-rsvp-accept.selected {
+  background: #1e5631;
+  box-shadow: 0 4px 14px rgba(30, 86, 49, 0.3);
+}
+
+.btn-rsvp-decline {
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  color: var(--text-secondary);
+}
+
+.btn-rsvp-decline.selected {
+  background: #8b3a3a;
+  color: #ffffff;
+  border-color: #8b3a3a;
+}
+
+.wishes-textarea {
+  width: 100%;
+  height: 110px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--gold-border);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  font-size: 14px;
+  color: var(--text-primary);
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s ease;
+  margin-bottom: 14px;
+}
+
+.wishes-textarea:focus {
+  border-color: var(--gold);
+}
+
+.rsvp-status-note {
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  margin-top: 16px;
+}
+
+.rsvp-status-note b {
+  text-transform: capitalize;
+  color: var(--gold-dark);
+}
+
+/* ========================================================
+   8. VENUE & LOCATION SECTION
+   ======================================================== */
+.venue-card-wrapper {
+  max-width: 860px;
+  margin: 0 auto;
+  background: var(--bg-card);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--gold-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+}
+
+.venue-info-side {
+  padding: clamp(32px, 5vw, 44px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+
+.venue-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.venue-address {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+.venue-directions-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  border-radius: var(--radius-full);
+  background: var(--gold-dark);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  width: fit-content;
+  transition: all 0.25s ease;
+}
+
+.venue-directions-btn:hover {
+  background: var(--text-primary);
+  transform: translateY(-2px);
+}
+
+.venue-map-side {
+  height: 100%;
+  min-height: 300px;
+}
+
+.venue-map-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+@media (max-width: 768px) {
+  .venue-card-wrapper {
+    grid-template-columns: 1fr;
+  }
+  .venue-info-side {
+    text-align: center;
+    align-items: center;
+  }
+}
+
+/* ========================================================
+   9. FOOTER
+   ======================================================== */
+.clean-footer {
+  padding: 70px 24px 50px;
+  text-align: center;
+  border-top: 1px solid var(--gold-border);
+  margin-top: 40px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.footer-names {
+  font-family: 'Great Vibes', cursive;
+  font-size: 44px;
+  color: var(--text-primary);
+  font-weight: 400;
+  margin-bottom: 12px;
 }
 
 .footer-date {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 4px;
-  color: #e2d6b5;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
-}
-
-/* Admin Dashboard styles */
-.dashboard {
-  display: flex;
-  min-height: 100vh;
-  background: #f4f6f1;
-}
-
-.admin-side {
-  width: 235px;
-  background: #153a29;
-  color: #fff;
-  padding: 34px 22px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  flex-shrink: 0;
-}
-
-.admin-side h2 {
-  font: 28px 'Cormorant Garamond', serif;
-  margin: 15px 0 0;
-}
-
-.admin-side p {
-  opacity: 0.7;
-  font-size: 12px;
-}
-
-.admin-side a:not(.brand) {
-  font-size: 13px;
-  margin-top: 25px;
-}
-
-.admin-side button {
-  background: none;
-  border: 1px solid #ffffff50;
-  color: white;
-  padding: 12px;
-  border-radius: 9px;
-  display: flex;
-  gap: 10px;
-  margin-top: auto;
-}
-
-.admin-main {
-  padding: 45px;
-  flex: 1;
-  min-width: 0;
-}
-
-.admin-head,
-.panel-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-}
-
-.admin-head .eyebrow {
-  text-align: left;
-}
-
-.admin-head h1 {
-  font: 52px 'Cormorant Garamond', serif;
-  margin: 8px 0;
-}
-
-.admin-head p {
-  color: #768478;
-}
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 14px;
-  margin: 32px 0;
-}
-
-.stat,
-.admin-panel {
-  background: #fff;
-  border: 1px solid #e2e8dc;
-  border-radius: 17px;
-  box-shadow: 0 8px 22px #183a2910;
-}
-
-.stat {
-  padding: 23px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.stat svg {
-  color: #60876a;
-}
-
-.stat strong {
-  font: 42px 'Cormorant Garamond', serif;
-}
-
-.stat span {
-  font-size: 12px;
-  color: #6a776b;
-}
-
-.admin-panel {
-  padding: 27px;
-  margin-bottom: 22px;
-}
-
-.admin-panel h2 {
-  font: 30px 'Cormorant Garamond', serif;
-  margin: 0 0 20px;
-}
-
-.add-guest {
-  display: flex;
-  gap: 12px;
-}
-
-.add-guest input,
-.login-card input,
-.panel-heading select {
-  border: 1px solid #d7e0d2;
-  padding: 13px 15px;
-  border-radius: 9px;
-  background: white;
-}
-
-.add-guest input:first-child {
-  flex: 1;
-}
-
-.add-guest input[type='number'] {
-  width: 100px;
-}
-
-.panel-heading > div {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
-.table-wrap {
-  overflow-x: auto;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-  font-size: 13px;
-}
-
-th {
-  background: #f4f7f2;
-  color: #5b7060;
-}
-
-th,
-td {
-  padding: 15px 12px;
-  border-bottom: 1px solid #edf0ea;
-}
-
-.status {
-  padding: 6px 10px;
-  border-radius: 20px;
-  text-transform: capitalize;
   font-size: 11px;
-  background: #eee;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  color: var(--gold-dark);
+  text-transform: uppercase;
+  margin-bottom: 18px;
 }
 
-.status.accepted {
-  background: #e2f3e4;
-  color: #287442;
-}
-
-.status.declined {
-  background: #fce7e4;
-  color: #a44335;
-}
-
-.status.pending {
-  background: #f7efdc;
-  color: #9b7534;
-}
-
-.actions {
-  display: flex;
-  gap: 8px;
-}
-
-.actions button {
-  border: 0;
-  background: #eff4ed;
-  color: #365d3e;
-  padding: 9px;
-  border-radius: 7px;
-}
-
-.empty {
-  padding: 20px;
-  color: #819083;
-}
-
-.wish-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-}
-
-.wish {
-  border: 1px solid #e8eee5;
-  border-radius: 13px;
-  padding: 20px;
-  background: #fafcf8;
-}
-
-.wish svg {
-  color: #9fbb95;
-}
-
-.wish p {
-  line-height: 1.6;
-  overflow-wrap: anywhere;
-}
-
-.wish strong,
-.wish small {
-  display: block;
-  margin-top: 10px;
-}
-
-.wish small {
-  color: #859084;
-}
-
-.admin-login {
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
-  background: radial-gradient(circle at top, #e8efdd, #b9cfb5);
-}
-
-.login-card {
-  background: white;
-  padding: 45px;
-  border-radius: 22px;
-  box-shadow: 0 20px 60px #173c2a30;
-  width: min(430px, 92vw);
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.login-card h1 {
-  font: 48px 'Cormorant Garamond', serif;
-  margin: 0;
-}
-
-.login-card p {
-  margin: 0 0 15px;
-}
-
-.login-card .btn {
-  width: 100%;
-}
-
-/* Media Queries */
-@media (max-width: 950px) {
-  .nav nav {
-    display: none;
-  }
-  .hero {
-    min-height: 740px;
-  }
-  .hero-content {
-    margin: 0 7%;
-  }
-  .count-grid {
-    gap: 14px;
-    max-width: 660px;
-  }
-  .count-box {
-    width: 120px;
-    padding: 20px 10px;
-    border-radius: 16px;
-  }
-  .count-box strong {
-    font-size: 42px;
-  }
-  .couple-grid {
-    gap: 25px;
-  }
-  .portrait-container {
-    width: min(270px, 42vw);
-    height: min(270px, 42vw);
-  }
-  .person-card h3 {
-    font-size: 44px;
-  }
-  .rings-svg {
-    width: 100px;
-    height: 65px;
-  }
-  .detail-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .stats {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  .admin-side {
-    width: 170px;
-  }
-  .admin-main {
-    padding: 22px;
-  }
-  .wish-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 680px) {
-  .nav {
-    padding: 0 16px;
-    height: 64px;
-  }
-  .brand {
-    font-size: 24px;
-    letter-spacing: 2px;
-  }
-  .nav-pill {
-    padding: 8px 16px;
-    font-size: 11px;
-  }
-  .hero {
-    height: 680px;
-    min-height: 680px;
-  }
-  .hero-content {
-    padding-top: 40px;
-    margin: 0 5%;
-  }
-  .hero h1 {
-    font-size: clamp(54px, 14vw, 76px);
-    margin: 20px 0 14px;
-  }
-  .hero-rule {
-    font-size: 11px;
-    letter-spacing: 2px;
-  }
-  .hero-content p {
-    font-size: 14px;
-    line-height: 1.7;
-    margin: 18px 0 24px;
-  }
-  .hero-shade {
-    background: linear-gradient(90deg, #092516c4, #09251670);
-  }
-  .section {
-    padding: 65px 4%;
-  }
-  .section h2 {
-    font-size: clamp(32px, 8vw, 42px);
-  }
-  /* Countdown mobile responsive matching reference */
-  .countdown-section {
-    padding: 60px 4% 65px;
-  }
-  .countdown-eyebrow {
-    font-size: 13px;
-    letter-spacing: 3px;
-    margin-bottom: 8px;
-  }
-  .countdown-flourish {
-    margin: 6px 0 24px;
-  }
-  .flourish-svg {
-    width: 95px;
-    height: 18px;
-  }
-  .count-grid {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
-    max-width: 420px;
-    margin: 0 auto;
-  }
-  .count-box {
-    flex: 1;
-    min-width: 0;
-    width: auto;
-    padding: 15px 4px;
-    border-radius: 14px;
-    box-shadow: 0 8px 24px rgba(23, 60, 42, 0.08);
-  }
-  .count-box strong {
-    font-size: clamp(26px, 7.5vw, 34px);
-    margin-bottom: 2px;
-  }
-  .count-box span {
-    font-size: clamp(11px, 3.2vw, 13px);
-  }
-  /* Couple section mobile responsive */
-  .couple {
-    padding: 65px 4%;
-  }
-  .couple-grid {
-    flex-direction: column;
-    gap: 30px;
-  }
-  .person-card {
-    max-width: 100%;
-    width: 100%;
-  }
-  .portrait-container {
-    width: min(280px, 76vw);
-    height: min(280px, 76vw);
-  }
-  .role-badge {
-    font-size: 10px;
-    padding: 5px 14px;
-    letter-spacing: 2px;
-    margin-top: 14px;
-  }
-  .person-card h3 {
-    font-size: 44px;
-    margin: 10px 0 4px;
-  }
-  .person-card p {
-    font-size: 16px;
-    line-height: 1.5;
-  }
-  .rings-connector {
-    margin: 10px 0;
-  }
-  .rings-svg {
-    width: 90px;
-    height: 55px;
-  }
-  .forever-text {
-    font-size: 10px;
-    letter-spacing: 2.5px;
-    margin-top: 8px;
-  }
-  /* Details & other sections */
-  .detail-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
-    max-width: 400px;
-  }
-  .detail-card {
-    padding: 22px 16px;
-  }
-  .rsvp h2 {
-    font-size: 46px;
-  }
-  .rsvp-actions {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-    max-width: 360px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .rsvp-choice {
-    width: 100%;
-  }
-  .rsvp-actions .btn {
-    width: 100%;
-  }
-  .message-card {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 16px;
-  }
-  .message-card textarea {
-    width: 100%;
-    min-height: 80px;
-  }
-  .contact-grid {
-    flex-direction: column;
-    align-items: stretch;
-    max-width: 360px;
-    margin: 0 auto;
-  }
-  .contact-grid a {
-    justify-content: center;
-    padding: 16px 20px;
-  }
-  /* Location mobile responsive */
-  .location-container {
-    grid-template-columns: 1fr;
-    gap: 26px;
-  }
-  .location-info-side {
-    text-align: center;
-  }
-  .location-pill-card {
-    flex-direction: column;
-    align-items: stretch;
-    text-align: center;
-    padding: 22px 18px;
-    gap: 16px;
-  }
-  .location-pill-details {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-  .location-pill-btn {
-    justify-content: center;
-    width: 100%;
-  }
-  .location-map-card {
-    height: 200px;
-  }
-  .map-floating-pin {
-    top: 14px;
-    right: 14px;
-    padding: 6px 12px;
-  }
-  /* Footer mobile responsive */
-  .wedding-footer {
-    padding: 55px 5% 50px;
-    background-position: center;
-  }
-  .footer-couple-names {
-    font-size: 42px;
-  }
-  .dashboard {
-    display: block;
-  }
-  .admin-side {
-    width: 100%;
-    padding: 18px;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .admin-side h2,
-  .admin-side p,
-  .admin-side a:not(.brand) {
-    display: none;
-  }
-  .admin-side button {
-    margin: 0;
-  }
-  .admin-head h1 {
-    font-size: 38px;
-  }
-  .stats {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .add-guest,
-  .panel-heading,
-  .panel-heading > div {
-    flex-wrap: wrap;
-  }
-  .add-guest input:first-child {
-    flex-basis: 100%;
-  }
-  .wish-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 380px) {
-  .count-grid {
-    gap: 5px;
-  }
-  .count-box {
-    padding: 12px 2px;
-    border-radius: 11px;
-  }
-  .count-box strong {
-    font-size: 23px;
-  }
-  .count-box span {
-    font-size: 10px;
-  }
-  .portrait-container {
-    width: 230px;
-    height: 230px;
-  }
-  .person-card h3 {
-    font-size: 38px;
-  }
+.footer-sub {
+  font-size: 13px;
+  color: var(--text-muted);
 }
