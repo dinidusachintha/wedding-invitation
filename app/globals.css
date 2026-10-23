@@ -79,148 +79,284 @@ html {
   box-shadow: 0 0 12px rgba(201, 170, 112, 0.6);
 }
 
-/* Wedding Preloader / Landing Intro */
-.wedding-preloader {
+/* ========================================================
+   INVITEMINT-STYLE INTERACTIVE INVITATION COVER / REVEAL
+   ======================================================== */
+.invitation-cover-screen {
   position: fixed;
   inset: 0;
   z-index: 99999;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  background: radial-gradient(ellipse at 50% 30%, #fffefc 0%, #fbf5ef 50%, #f4e8dc 100%);
+  padding: 0 20px 32px;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* Floral Arch at Top */
+.cover-floral-arch-wrap {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 680px;
+  pointer-events: none;
+  z-index: 2;
+  line-height: 0;
+}
+
+.cover-floral-arch-img {
+  width: 100%;
+  height: auto;
+  max-height: 190px;
+  object-fit: cover;
+  object-position: top center;
+  filter: drop-shadow(0 4px 14px rgba(180, 140, 110, 0.15));
+}
+
+/* Cover Header Text */
+.cover-header {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  margin-top: clamp(65px, 12vh, 105px);
+}
+
+.cover-eyebrow {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #a4814e;
+  margin-bottom: 8px;
+}
+
+.cover-title {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(38px, 8vw, 56px);
+  color: #2b221a;
+  margin: 0;
+  font-weight: 400;
+  line-height: 1.1;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.cover-title span {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: #c59b43;
+  margin: 0 4px;
+}
+
+.cover-date-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  font-weight: 600;
+  color: #7d6b5c;
+  text-transform: uppercase;
+}
+
+.cover-date-badge::before,
+.cover-date-badge::after {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  background: #c59b43;
+  opacity: 0.6;
+}
+
+/* Center Cartoon Couple Illustration */
+.cover-couple-center {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at center, #18442d 0%, #0d281a 60%, #05180e 100%);
-  color: #fff;
-  text-align: center;
-  padding: 20px;
+  margin: auto 0;
+  width: 100%;
+  max-width: 440px;
 }
 
-.preloader-backdrop-glow {
+.cover-couple-halo {
   position: absolute;
-  width: 500px;
-  height: 500px;
+  width: clamp(260px, 60vw, 360px);
+  height: clamp(260px, 60vw, 360px);
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(201, 170, 112, 0.28) 0%, transparent 70%);
-  filter: blur(80px);
-  pointer-events: none;
+  background: radial-gradient(circle, rgba(255, 238, 218, 0.8) 0%, rgba(247, 235, 222, 0.4) 60%, transparent 75%);
+  filter: blur(12px);
+  z-index: 1;
+  animation: coupleHaloPulse 4s ease-in-out infinite;
 }
 
-.preloader-content {
+@keyframes coupleHaloPulse {
+  0%, 100% { transform: scale(0.96); opacity: 0.6; }
+  50% { transform: scale(1.05); opacity: 1; }
+}
+
+.cover-couple-img {
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  max-height: clamp(230px, 34vh, 320px);
+  object-fit: contain;
+  filter: drop-shadow(0 14px 28px rgba(110, 80, 50, 0.16));
+  animation: coupleFloat 3.6s ease-in-out infinite;
+}
+
+@keyframes coupleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+
+/* Bottom Action Area: InviteMint Signature "OPEN INVITATION" Card */
+.cover-action-wrap {
+  position: relative;
+  z-index: 4;
+  width: 100%;
+  max-width: 330px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.preloader-crest {
+.cover-open-btn {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(197, 155, 67, 0.5);
+  border-radius: 50px;
+  padding: 16px 24px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  box-shadow: 
+    0 12px 32px rgba(80, 50, 30, 0.12),
+    0 2px 8px rgba(197, 155, 67, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
   position: relative;
-  width: 130px;
-  height: 130px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 24px;
-}
-
-.crest-ring-pulse {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(201, 170, 112, 0.35) 0%, transparent 70%);
-  animation: crestPulse 2.5s ease-in-out infinite;
-}
-
-.crest-ring-dashed {
-  position: absolute;
-  inset: 6px;
-  border-radius: 50%;
-  border: 1.5px dashed rgba(201, 170, 112, 0.6);
-  animation: crestRotate 20s linear infinite;
-}
-
-@keyframes crestPulse {
-  0%, 100% {
-    transform: scale(0.9);
-    opacity: 0.5;
-  }
-  50% {
-    transform: scale(1.15);
-    opacity: 0.95;
-  }
-}
-
-@keyframes crestRotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.crest-monogram {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 34px;
-  font-weight: 700;
-  color: #faeccf;
-  text-shadow: 0 0 15px rgba(201, 170, 112, 0.6);
-}
-
-.crest-heart {
-  color: #d4af37;
-  font-size: 24px;
-  animation: crestHeart 1.6s ease-in-out infinite;
-}
-
-@keyframes crestHeart {
-  0%, 100% {
-    transform: scale(0.9);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-}
-
-.preloader-eyebrow {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 4px;
-  color: #c9aa70;
-  margin-bottom: 10px;
-}
-
-.preloader-title {
-  font-family: 'Great Vibes', cursive;
-  font-size: clamp(38px, 7vw, 56px);
-  color: #ffffff;
-  margin: 0 0 24px;
-  font-weight: 400;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-}
-
-.preloader-progress-track {
-  width: 170px;
-  height: 3px;
-  background: rgba(255, 255, 255, 0.15);
-  border-radius: 3px;
   overflow: hidden;
-  margin-bottom: 18px;
 }
 
-.preloader-progress-bar {
-  height: 100%;
-  background: linear-gradient(90deg, #c9aa70, #faeccf, #d4af37);
-  box-shadow: 0 0 10px rgba(201, 170, 112, 0.8);
+.cover-open-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 16px 36px rgba(80, 50, 30, 0.16),
+    0 0 24px rgba(197, 155, 67, 0.4);
+  border-color: rgba(197, 155, 67, 0.85);
 }
 
-.preloader-date {
-  font-size: 11px;
-  letter-spacing: 4px;
-  color: #d8c49e;
+.cover-open-btn::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.65) 50%,
+    transparent 70%
+  );
+  transform: rotate(25deg) translateY(-100%);
+  animation: btnShimmer 3.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes btnShimmer {
+  0% { transform: rotate(25deg) translateY(-100%); }
+  45%, 100% { transform: rotate(25deg) translateY(100%); }
+}
+
+.cover-open-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: #782937;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cover-open-divider {
+  width: 36px;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, #c59b43, transparent);
+  border-radius: 2px;
+}
+
+.cover-open-subtitle {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 9.5px;
   font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #9c8471;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  animation: tapPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes tapPulse {
+  0%, 100% { opacity: 0.65; transform: scale(0.98); }
+  50% { opacity: 1; transform: scale(1.02); }
+}
+
+/* Floating Audio Player Button */
+.floating-music-btn {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 9999;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1.5px solid rgba(197, 155, 67, 0.5);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c59b43;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.floating-music-btn:hover {
+  transform: scale(1.08);
+  border-color: #c59b43;
+  box-shadow: 0 6px 20px rgba(197, 155, 67, 0.35);
+}
+
+.floating-music-btn.playing {
+  animation: musicSpin 8s linear infinite;
+}
+
+@keyframes musicSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* Background floating petals & sparkles canvas */

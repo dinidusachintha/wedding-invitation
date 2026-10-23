@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import {
   CalendarDays,
@@ -14,6 +14,8 @@ import {
   Flower2,
   Navigation,
   Sparkles,
+  Volume2,
+  VolumeX,
 } from 'lucide-react';
 import BackgroundAnimation from './BackgroundAnimation';
 
@@ -34,13 +36,39 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
 }
 
 export default function Wedding({ guest }: { guest?: Guest }) {
-  const [loading, setLoading] = useState(true);
+  const [opened, setOpened] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
   const [time, setTime] = useState([0, 0, 0, 0]);
   const [status, setStatus] = useState(guest?.status || 'pending');
   const [count, setCount] = useState(guest?.attending_count || 1);
   const [message, setMessage] = useState('');
   const [feedback, setFeedback] = useState('');
   const [busy, setBusy] = useState(false);
+
+  const handleOpenInvitation = () => {
+    setOpened(true);
+    if (audioRef.current) {
+      audioRef.current.play().then(() => {
+        setIsPlaying(true);
+      }).catch((err) => {
+        console.log('Audio autoplay prevented:', err);
+      });
+    }
+  };
+
+  const toggleMusic = () => {
+    if (!audioRef.current) return;
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      audioRef.current.play().then(() => {
+        setIsPlaying(true);
+      }).catch(() => {});
+    }
+  };
 
   // Smooth scroll progress
   const { scrollYProgress } = useScroll();
@@ -49,14 +77,6 @@ export default function Wedding({ guest }: { guest?: Guest }) {
     damping: 30,
     restDelta: 0.001,
   });
-
-  // Preloader timer
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, []);
 
   // Countdown timer
   useEffect(() => {
@@ -128,51 +148,96 @@ export default function Wedding({ guest }: { guest?: Guest }) {
 
   return (
     <>
-      {/* Animated Loading Screen (Preloader) */}
+      {/* Hidden Wedding Melody Audio */}
+      <audio
+        ref={audioRef}
+        src="/audio/wedding-melody.mp3"
+        loop
+        preload="auto"
+      />
+
+      {/* Floating Background Music Controller (Visible when invitation is open) */}
+      {opened && (
+        <motion.button
+          className={`floating-music-btn ${isPlaying ? 'playing' : ''}`}
+          onClick={toggleMusic}
+          initial={{ opacity: 0, scale: 0.6 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+          aria-label={isPlaying ? 'Pause music' : 'Play music'}
+          title={isPlaying ? 'Pause background music' : 'Play background music'}
+        >
+          {isPlaying ? <Volume2 size={20} /> : <VolumeX size={20} />}
+        </motion.button>
+      )}
+
+      {/* InviteMint-Style Interactive Luxury Cover / Envelope Screen */}
       <AnimatePresence mode="wait">
-        {loading && (
+        {!opened && (
           <motion.div
-            key="preloader"
-            className="wedding-preloader"
+            key="invitation-cover"
+            className="invitation-cover-screen"
             initial={{ opacity: 1 }}
             exit={{
               opacity: 0,
+              y: -80,
               scale: 1.04,
               filter: 'blur(10px)',
-              transition: { duration: 0.9, ease: [0.77, 0, 0.175, 1] },
+              transition: { duration: 0.85, ease: [0.77, 0, 0.175, 1] },
             }}
           >
-            <div className="preloader-backdrop-glow" />
-            <motion.div
-              className="preloader-content"
-              initial={{ opacity: 0, scale: 0.9, y: 15 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: 'easeOut' }}
-            >
-              <div className="preloader-crest">
-                <div className="crest-ring-pulse" />
-                <div className="crest-ring-dashed" />
-                <div className="crest-monogram">
-                  <span className="crest-letter">C</span>
-                  <span className="crest-heart">♥</span>
-                  <span className="crest-letter">G</span>
-                </div>
+            {/* Top Watercolor Floral Arch */}
+            <div className="cover-floral-arch-wrap" aria-hidden="true">
+              <img
+                src="/images/floral-arch.png"
+                alt="Watercolor floral arch"
+                className="cover-floral-arch-img"
+              />
+            </div>
+
+            {/* Ambient Falling Petals Canvas */}
+            <BackgroundAnimation />
+
+            {/* Cover Header */}
+            <div className="cover-header">
+              <div className="cover-eyebrow">A CELEBRATION OF LOVE</div>
+              <h1 className="cover-title">
+                Chathura <span>&amp;</span> Gimasha
+              </h1>
+              <div className="cover-date-badge">
+                DECEMBER 03, 2026
               </div>
+            </div>
 
-              <div className="preloader-eyebrow">A CELEBRATION OF LOVE</div>
-              <h1 className="preloader-title">Chathura &amp; Gimasha</h1>
+            {/* Center Traditional Sri Lankan Couple Illustration */}
+            <div className="cover-couple-center">
+              <div className="cover-couple-halo" aria-hidden="true" />
+              <img
+                src="/images/kandyan-couple.png"
+                alt="Chathura and Gimasha"
+                className="cover-couple-img"
+              />
+            </div>
 
-              <div className="preloader-progress-track">
-                <motion.div
-                  className="preloader-progress-bar"
-                  initial={{ width: '0%' }}
-                  animate={{ width: '100%' }}
-                  transition={{ duration: 1.8, ease: 'easeInOut' }}
-                />
-              </div>
-
-              <div className="preloader-date">DECEMBER 03, 2026</div>
-            </motion.div>
+            {/* Bottom Signature "OPEN INVITATION" Card */}
+            <div className="cover-action-wrap">
+              <motion.button
+                className="cover-open-btn"
+                onClick={handleOpenInvitation}
+                whileHover={{ scale: 1.03, y: -2 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                <span className="cover-open-title">
+                  <Heart size={14} fill="#782937" stroke="#782937" />
+                  OPEN INVITATION
+                  <Heart size={14} fill="#782937" stroke="#782937" />
+                </span>
+                <span className="cover-open-divider" />
+                <span className="cover-open-subtitle">
+                  TAP TO REVEAL
+                </span>
+              </motion.button>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -218,13 +283,13 @@ export default function Wedding({ guest }: { guest?: Guest }) {
               Location
             </a>
           </nav>
-          <a
+          <button
             className="nav-pill"
-            href="#rsvp"
-            onClick={(e) => handleSmoothScroll(e, 'rsvp')}
+            onClick={() => setOpened(false)}
+            style={{ background: 'rgba(255, 255, 255, 0.15)', border: '1px solid rgba(255, 255, 255, 0.3)', cursor: 'pointer' }}
           >
-            You’re Invited ♡
-          </a>
+            Cover Screen ♡
+          </button>
         </motion.header>
 
         {/* Hero Section with Smooth Landing Animation */}
