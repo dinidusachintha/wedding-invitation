@@ -29,7 +29,7 @@ import BackgroundAnimation from './BackgroundAnimation';
 type Guest = { name: string; token: string; seats: number; status: string; attending_count: number };
 const mapUrl = 'https://maps.app.goo.gl/gwr9NAbTvqUno7ePA?g_st=iw';
 
-// Luxury Matching Cursor Effect (Champagne-Gold Gem Dot, 3D Crystal Ring & Subtle Gold Stardust Trail)
+// Botanical 3D Glass & 24K Gold Matching Cursor Effect (Desktop Pointer Devices)
 function LuxuryCursor() {
   const dotRef = useRef<HTMLDivElement | null>(null);
   const ringRef = useRef<HTMLDivElement | null>(null);
@@ -49,35 +49,43 @@ function LuxuryCursor() {
     let isHovering = false;
     let isPressed = false;
     let lastTrailTime = 0;
+    let sparkleIndex = 0;
     let rafId = 0;
 
     const spawnSparkle = (x: number, y: number) => {
       const container = trailContainerRef.current;
       if (!container) return;
+      sparkleIndex += 1;
       const mote = document.createElement('span');
-      mote.className = 'luxury-cursor-sparkle';
-      const offsetX = (Math.random() - 0.5) * 14;
-      const offsetY = (Math.random() - 0.5) * 14;
+      const isSage = sparkleIndex % 3 === 0;
+      mote.className = `luxury-cursor-sparkle ${isSage ? 'sparkle-sage' : 'sparkle-gold'}`;
+      const offsetX = (Math.random() - 0.5) * 16;
+      const offsetY = (Math.random() - 0.5) * 16;
+      const size = 4 + Math.random() * 3.5;
+      mote.style.width = `${size}px`;
+      mote.style.height = `${size}px`;
       mote.style.left = `${x + offsetX}px`;
       mote.style.top = `${y + offsetY}px`;
       container.appendChild(mote);
       window.setTimeout(() => {
         mote.remove();
-      }, 650);
+      }, 680);
     };
 
     const onMouseMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      if (dotRef.current) {
-        dotRef.current.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%) scale(${isPressed ? 0.75 : isHovering ? 1.35 : 1})`;
-      }
       const target = e.target as HTMLElement | null;
       isHovering = Boolean(
         target?.closest('a, button, [role="button"], select, textarea, input')
       );
+      if (dotRef.current) {
+        const dotScale = isPressed ? 0.78 : isHovering ? 1.28 : 1;
+        dotRef.current.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) scale(${dotScale})`;
+        dotRef.current.classList.toggle('is-hovering', isHovering);
+      }
       const now = performance.now();
-      if (now - lastTrailTime > 48) {
+      if (now - lastTrailTime > 42) {
         lastTrailTime = now;
         spawnSparkle(mouseX, mouseY);
       }
@@ -85,18 +93,20 @@ function LuxuryCursor() {
 
     const onMouseDown = () => {
       isPressed = true;
+      if (ringRef.current) ringRef.current.classList.add('is-clicking');
     };
 
     const onMouseUp = () => {
       isPressed = false;
+      if (ringRef.current) ringRef.current.classList.remove('is-clicking');
     };
 
     const animateRing = () => {
-      ringX += (mouseX - ringX) * 0.18;
-      ringY += (mouseY - ringY) * 0.18;
+      ringX += (mouseX - ringX) * 0.19;
+      ringY += (mouseY - ringY) * 0.19;
       if (ringRef.current) {
-        const scale = isPressed ? 0.86 : isHovering ? 1.42 : 1;
-        ringRef.current.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%) scale(${scale})`;
+        const scale = isPressed ? 0.85 : isHovering ? 1.32 : 1;
+        ringRef.current.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) scale(${scale})`;
         ringRef.current.classList.toggle('is-hovering', isHovering);
       }
       rafId = requestAnimationFrame(animateRing);
@@ -120,8 +130,45 @@ function LuxuryCursor() {
   return (
     <div className="luxury-cursor-layer" aria-hidden="true">
       <div ref={trailContainerRef} className="luxury-cursor-trail" />
-      <div ref={ringRef} className="luxury-cursor-ring" />
-      <div ref={dotRef} className="luxury-cursor-dot" />
+      <div ref={ringRef} className="luxury-cursor-ring">
+        <svg viewBox="0 0 44 44" fill="none" className="cursor-ring-svg">
+          <circle
+            cx="22"
+            cy="22"
+            r="18"
+            stroke="rgba(212, 175, 55, 0.55)"
+            strokeWidth="1"
+            strokeDasharray="3 3"
+          />
+          <path
+            d="M22 2L23.6 5.4L22 7.2L20.4 5.4Z"
+            fill="#d4af37"
+          />
+          <path
+            d="M22 42L23.6 38.6L22 36.8L20.4 38.6Z"
+            fill="#d4af37"
+          />
+          <path
+            d="M2 22L5.4 20.4L7.2 22L5.4 23.6Z"
+            fill="#557a66"
+          />
+          <path
+            d="M42 22L38.6 20.4L36.8 22L38.6 23.6Z"
+            fill="#557a66"
+          />
+        </svg>
+      </div>
+      <div ref={dotRef} className="luxury-cursor-dot">
+        <svg viewBox="0 0 20 20" fill="none" className="cursor-dot-svg">
+          <path
+            d="M10 1L12.3 7.7L19 10L12.3 12.3L10 19L7.7 12.3L1 10L7.7 7.7Z"
+            fill="#d4af37"
+            stroke="#fffdf7"
+            strokeWidth="0.9"
+          />
+          <circle cx="10" cy="10" r="2.2" fill="#fffdf9" />
+        </svg>
+      </div>
     </div>
   );
 }
@@ -673,6 +720,145 @@ function BannerFloralCorners() {
   );
 }
 
+// 12B. Normal Matching Botanical & Champagne-Gold GC Monogram Logo
+function WeddingMatchingLogo({
+  className = 'footer-crest-svg',
+  idPrefix = 'gc',
+}: {
+  className?: string;
+  idPrefix?: string;
+}) {
+  const goldGradId = `${idPrefix}GoldGrad`;
+  const medallionBgId = `${idPrefix}MedallionBg`;
+
+  return (
+    <svg viewBox="0 0 120 96" fill="none" className={className} aria-hidden="true">
+      <defs>
+        <linearGradient id={goldGradId} x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#9e7828" />
+          <stop offset="30%" stopColor="#d4ab4c" />
+          <stop offset="52%" stopColor="#f3db96" />
+          <stop offset="75%" stopColor="#c59b43" />
+          <stop offset="100%" stopColor="#8d681f" />
+        </linearGradient>
+        <radialGradient id={medallionBgId} cx="50%" cy="45%" r="52%">
+          <stop offset="0%" stopColor="#fffdf9" />
+          <stop offset="68%" stopColor="#faf3e3" />
+          <stop offset="100%" stopColor="#efe2c6" />
+        </radialGradient>
+      </defs>
+
+      {/* Left Botanical Sage Leaves & Gold Berry Sprigs */}
+      <path
+        d="M27 68C17 58 14 44 19 30C23 40 26 52 29 64Z"
+        fill="#557a66"
+        opacity="0.88"
+      />
+      <path
+        d="M24 56C12 52 8 42 10 34C17 39 22 47 25 55Z"
+        fill="#6b8f7b"
+        opacity="0.85"
+      />
+      <path
+        d="M31 74C19 72 12 65 11 56C19 59 26 65 31 73Z"
+        fill="#476956"
+        opacity="0.9"
+      />
+      <circle cx="15" cy="27" r="2.1" fill={`url(#${goldGradId})`} />
+      <circle cx="22" cy="22" r="1.8" fill={`url(#${goldGradId})`} />
+      <circle cx="11" cy="46" r="1.9" fill={`url(#${goldGradId})`} />
+      {/* Left Ivory Blossom */}
+      <circle cx="23" cy="48" r="5.2" fill="#fffdf8" stroke="#d4ab4c" strokeWidth="0.9" />
+      <circle cx="23" cy="48" r="1.8" fill="#c59b43" />
+
+      {/* Right Botanical Sage Leaves & Gold Berry Sprigs */}
+      <path
+        d="M93 68C103 58 106 44 101 30C97 40 94 52 91 64Z"
+        fill="#557a66"
+        opacity="0.88"
+      />
+      <path
+        d="M96 56C108 52 112 42 110 34C103 39 98 47 95 55Z"
+        fill="#6b8f7b"
+        opacity="0.85"
+      />
+      <path
+        d="M89 74C101 72 108 65 109 56C101 59 94 65 89 73Z"
+        fill="#476956"
+        opacity="0.9"
+      />
+      <circle cx="105" cy="27" r="2.1" fill={`url(#${goldGradId})`} />
+      <circle cx="98" cy="22" r="1.8" fill={`url(#${goldGradId})`} />
+      <circle cx="109" cy="46" r="1.9" fill={`url(#${goldGradId})`} />
+      {/* Right Ivory Blossom */}
+      <circle cx="97" cy="48" r="5.2" fill="#fffdf8" stroke="#d4ab4c" strokeWidth="0.9" />
+      <circle cx="97" cy="48" r="1.8" fill="#c59b43" />
+
+      {/* Center Pearl-Cream & Double Gold Ring Medallion */}
+      <circle
+        cx="60"
+        cy="50"
+        r="35"
+        fill={`url(#${medallionBgId})`}
+        stroke={`url(#${goldGradId})`}
+        strokeWidth="1.8"
+      />
+      <circle
+        cx="60"
+        cy="50"
+        r="31"
+        fill="none"
+        stroke={`url(#${goldGradId})`}
+        strokeWidth="0.9"
+        strokeDasharray="2 1.5"
+        opacity="0.85"
+      />
+
+      {/* Top 4-Point Gold Star */}
+      <path
+        d="M60 7L62.2 12.5L67.5 14.5L62.2 16.5L60 22L57.8 16.5L52.5 14.5L57.8 12.5Z"
+        fill={`url(#${goldGradId})`}
+      />
+
+      {/* Interlocked Gold Monogram: G (Bride 1st) & C (Groom 2nd) */}
+      <text
+        x="47"
+        y="56"
+        textAnchor="middle"
+        fill={`url(#${goldGradId})`}
+        fontFamily="'Cormorant Garamond', 'Cinzel', Georgia, serif"
+        fontSize="36"
+        fontWeight="700"
+        style={{ filter: 'drop-shadow(0 1.5px 2px rgba(26, 40, 54, 0.18))' }}
+      >
+        G
+      </text>
+      <text
+        x="71"
+        y="66"
+        textAnchor="middle"
+        fill="#1a2836"
+        fontFamily="'Cormorant Garamond', 'Cinzel', Georgia, serif"
+        fontSize="35"
+        fontWeight="700"
+      >
+        C
+      </text>
+      <text
+        x="70.2"
+        y="65.2"
+        textAnchor="middle"
+        fill={`url(#${goldGradId})`}
+        fontFamily="'Cormorant Garamond', 'Cinzel', Georgia, serif"
+        fontSize="35"
+        fontWeight="700"
+      >
+        C
+      </text>
+    </svg>
+  );
+}
+
 type RevealVariant =
   | 'flip3d'
   | 'curtain'
@@ -799,12 +985,13 @@ export default function Wedding({ guest }: { guest?: Guest }) {
     };
   }, []);
 
-  // Safety fallback timer to transition into invitation after envelope video completes (~8.2s)
+  // Safety fallback timer to transition into invitation after envelope video completes (~10.0s)
   useEffect(() => {
     if (!isEnvelopePlaying || opened) return;
     const fallbackTimer = setTimeout(() => {
+      setIsEnvelopePlaying(false);
       setOpened(true);
-    }, 8300);
+    }, 10500);
     return () => clearTimeout(fallbackTimer);
   }, [isEnvelopePlaying, opened]);
 
@@ -812,7 +999,8 @@ export default function Wedding({ guest }: { guest?: Guest }) {
   const [status, setStatus] = useState(guest?.status || 'pending');
   const [count, setCount] = useState(guest?.attending_count || 1);
   const [message, setMessage] = useState('');
-  const [feedback, setFeedback] = useState('');
+  const [rsvpFeedback, setRsvpFeedback] = useState('');
+  const [wishesFeedback, setWishesFeedback] = useState('');
   const [busy, setBusy] = useState(false);
 
   const handleOpenInvitation = () => {
@@ -915,7 +1103,7 @@ export default function Wedding({ guest }: { guest?: Guest }) {
     if (!guest) {
       setTimeout(() => {
         setStatus(next);
-        setFeedback(
+        setRsvpFeedback(
           next === 'accepted'
             ? 'Thank you! We look forward to celebrating with you.'
             : 'Thank you for letting us know. You will be dearly missed.'
@@ -933,13 +1121,13 @@ export default function Wedding({ guest }: { guest?: Guest }) {
       const data = await res.json();
       if (!res.ok) throw Error(data.error);
       setStatus(next);
-      setFeedback(
+      setRsvpFeedback(
         next === 'accepted'
           ? 'Thank you! We look forward to celebrating with you.'
           : 'Thank you for letting us know. You will be missed.'
       );
     } catch (e) {
-      setFeedback((e as Error).message);
+      setRsvpFeedback((e as Error).message);
     } finally {
       setBusy(false);
     }
@@ -951,7 +1139,7 @@ export default function Wedding({ guest }: { guest?: Guest }) {
     if (!guest) {
       setTimeout(() => {
         setMessage('');
-        setFeedback('Your lovely message has been sent. Thank you!');
+        setWishesFeedback('Your lovely message has been sent. Thank you!');
         setBusy(false);
       }, 300);
       return;
@@ -965,9 +1153,9 @@ export default function Wedding({ guest }: { guest?: Guest }) {
       const data = await res.json();
       if (!res.ok) throw Error(data.error);
       setMessage('');
-      setFeedback('Your lovely message has been sent. Thank you!');
+      setWishesFeedback('Your lovely message has been sent. Thank you!');
     } catch (e) {
-      setFeedback((e as Error).message);
+      setWishesFeedback((e as Error).message);
     } finally {
       setBusy(false);
     }
@@ -999,47 +1187,38 @@ export default function Wedding({ guest }: { guest?: Guest }) {
       )}
 
       {/* Decent Luxury Matching Cursor Effect (Desktop Pointer Devices) */}
-      <LuxuryCursor />
+      {opened && <LuxuryCursor />}
 
-      {/* Full-Screen Preloaded Envelope Entry Video (Plays onClick) */}
-      <AnimatePresence mode="wait">
-        {!opened && (
-          <motion.div
-            key="invitation-cover"
-            className={`invitation-cover-screen ${isEnvelopePlaying ? 'is-playing' : ''}`}
-            onClick={handleOpenInvitation}
-            role="button"
-            tabIndex={0}
-            aria-label="Tap to play and open wedding invitation"
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                handleOpenInvitation();
-              }
+      {/* Full-Screen Preloaded Envelope Entry Video (Placed Normally, No Fade) */}
+      {!opened && (
+        <div
+          className={`invitation-cover-screen ${isEnvelopePlaying ? 'is-playing' : ''}`}
+          onClick={handleOpenInvitation}
+          role="button"
+          tabIndex={0}
+          aria-label="Tap to play and open wedding invitation"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              handleOpenInvitation();
+            }
+          }}
+        >
+          <video
+            ref={envelopeVideoRef}
+            className="envelope-fullscreen-video"
+            src="/envelope-intro.mp4"
+            poster="/images/envelope-poster.jpg"
+            preload="auto"
+            playsInline
+            muted
+            onEnded={() => {
+              setIsEnvelopePlaying(false);
+              setOpened(true);
             }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            exit={{
-              opacity: 0,
-              scale: 1.03,
-              filter: 'blur(8px)',
-              transition: { duration: 0.8, ease: [0.77, 0, 0.175, 1] },
-            }}
-          >
-            <video
-              ref={envelopeVideoRef}
-              className="envelope-fullscreen-video"
-              src="/envelope-intro.mp4"
-              poster="/images/envelope-poster.jpg"
-              preload="auto"
-              playsInline
-              muted
-              onEnded={() => setOpened(true)}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
+          />
+        </div>
+      )}
 
       <main className="wedding-main-page">
         {/* Golden Scroll Progress Bar */}
@@ -1060,12 +1239,7 @@ export default function Wedding({ guest }: { guest?: Guest }) {
             className="brand"
             onClick={(e) => handleSmoothScroll(e, 'home')}
           >
-            <img
-              src="/images/logo-crest-sm.png"
-              alt="Logo"
-              className="nav-brand-logo"
-              decoding="async"
-            />
+            <WeddingMatchingLogo className="nav-brand-logo" idPrefix="topNav" />
             <span>G <span>♥</span> C</span>
           </a>
           <nav>
@@ -1090,7 +1264,10 @@ export default function Wedding({ guest }: { guest?: Guest }) {
           </nav>
           <button
             className="nav-pill"
-            onClick={() => setOpened(false)}
+            onClick={() => {
+              setIsEnvelopePlaying(false);
+              setOpened(false);
+            }}
           >
             Cover Screen ♡
           </button>
@@ -1540,14 +1717,14 @@ export default function Wedding({ guest }: { guest?: Guest }) {
                       </button>
                     )}
 
-                    {feedback && (
+                    {rsvpFeedback && (
                       <motion.div
                         initial={{ opacity: 0, y: 8 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="glass-feedback-message"
                         style={{ marginTop: '10px' }}
                       >
-                        {feedback}
+                        {rsvpFeedback}
                       </motion.div>
                     )}
                   </div>
@@ -1613,9 +1790,9 @@ export default function Wedding({ guest }: { guest?: Guest }) {
                 <Send size={16} /> Send Warm Wishes
               </button>
             </motion.div>
-            {feedback && (
+            {wishesFeedback && (
               <p role="status" className="feedback">
-                {feedback}
+                {wishesFeedback}
               </p>
             )}
           </Reveal>
@@ -1950,7 +2127,7 @@ export default function Wedding({ guest }: { guest?: Guest }) {
               </div>
             </div>
 
-            {/* Center 3D Medallion Logo Crest & Names (Bride Gimasha 1st, Groom Chathura 2nd) */}
+            {/* Center Matching Medallion Logo Crest & Names (Bride Gimasha 1st, Groom Chathura 2nd) */}
             <a
               href="#home"
               className="footer-nav-center-crest"
@@ -1958,13 +2135,7 @@ export default function Wedding({ guest }: { guest?: Guest }) {
               aria-label="Gimasha and Chathura Home"
             >
               <div className="footer-crest-emblem-wrap" aria-hidden="true">
-                <span className="footer-crest-3d-halo" />
-                <img
-                  src="/images/logo-crest-sm.png"
-                  alt="Gimasha & Chathura Crest"
-                  className="footer-crest-img"
-                  decoding="async"
-                />
+                <WeddingMatchingLogo className="footer-crest-svg" idPrefix="bottomNav" />
               </div>
               <div className="footer-crest-names">
                 Gimasha <span>&amp;</span> Chathura

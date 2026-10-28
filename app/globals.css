@@ -130,106 +130,132 @@ button {
   position: fixed;
   top: 0;
   left: 0;
-  width: 34px;
-  height: 34px;
-  margin-left: -17px;
-  margin-top: -17px;
+  width: 38px;
+  height: 38px;
+  margin-left: -19px;
+  margin-top: -19px;
   border-radius: 50%;
-  border: 1.25px solid rgba(197, 155, 67, 0.72);
+  border: 1.25px solid rgba(212, 175, 55, 0.78);
   background: radial-gradient(
     circle,
-    rgba(255, 253, 246, 0.18) 0%,
-    rgba(212, 175, 55, 0.10) 65%,
-    transparent 100%
+    rgba(255, 254, 248, 0.28) 0%,
+    rgba(212, 175, 55, 0.14) 58%,
+    rgba(85, 122, 102, 0.10) 100%
   );
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(3px) saturate(160%);
+  -webkit-backdrop-filter: blur(3px) saturate(160%);
   box-shadow:
-    0 0 14px rgba(197, 155, 67, 0.28),
-    inset 0 0 6px rgba(255, 255, 255, 0.55);
+    0 4px 16px rgba(20, 38, 28, 0.16),
+    0 0 14px rgba(212, 175, 55, 0.34),
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.85),
+    inset 0 -1.5px 2px rgba(184, 137, 45, 0.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition:
     width 0.25s cubic-bezier(0.22, 1, 0.36, 1),
     height 0.25s cubic-bezier(0.22, 1, 0.36, 1),
     margin 0.25s cubic-bezier(0.22, 1, 0.36, 1),
     border-color 0.25s ease,
     background 0.25s ease,
-    box-shadow 0.25s ease,
-    opacity 0.25s ease;
+    box-shadow 0.25s ease;
   pointer-events: none;
 }
 
+.cursor-ring-svg {
+  width: 100%;
+  height: 100%;
+  animation: cursorCompassSpin 12s linear infinite;
+}
+
+@keyframes cursorCompassSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 .luxury-cursor-ring.is-hovering {
-  width: 50px;
-  height: 50px;
-  margin-left: -25px;
-  margin-top: -25px;
-  border-color: rgba(218, 178, 72, 0.95);
+  width: 52px;
+  height: 52px;
+  margin-left: -26px;
+  margin-top: -26px;
+  border-color: rgba(235, 198, 86, 0.96);
   background: radial-gradient(
     circle,
-    rgba(255, 253, 245, 0.32) 0%,
-    rgba(212, 175, 55, 0.18) 60%,
-    rgba(92, 132, 111, 0.08) 100%
+    rgba(255, 254, 248, 0.42) 0%,
+    rgba(218, 180, 68, 0.22) 55%,
+    rgba(85, 122, 102, 0.16) 100%
   );
   box-shadow:
-    0 0 22px rgba(212, 175, 55, 0.45),
-    inset 0 0 10px rgba(255, 255, 255, 0.75);
+    0 8px 24px rgba(20, 38, 28, 0.22),
+    0 0 22px rgba(218, 180, 68, 0.52),
+    inset 0 2px 1.5px rgba(255, 255, 255, 0.95);
 }
 
 .luxury-cursor-ring.is-clicking {
-  width: 28px;
-  height: 28px;
-  margin-left: -14px;
-  margin-top: -14px;
-  border-color: rgba(235, 198, 86, 1);
+  width: 30px;
+  height: 30px;
+  margin-left: -15px;
+  margin-top: -15px;
+  border-color: #ffd875;
 }
 
 .luxury-cursor-dot {
   position: fixed;
   top: 0;
   left: 0;
-  width: 12px;
-  height: 12px;
-  margin-left: -6px;
-  margin-top: -6px;
+  width: 16px;
+  height: 16px;
+  margin-left: -8px;
+  margin-top: -8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #c59b43;
-  font-size: 10px;
-  line-height: 1;
-  filter: drop-shadow(0 0 6px rgba(197, 155, 67, 0.8));
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  filter: drop-shadow(0 2px 6px rgba(184, 137, 45, 0.75));
+  transition: filter 0.2s ease;
   pointer-events: none;
 }
 
+.cursor-dot-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
 .luxury-cursor-dot.is-hovering {
-  color: #e3b94f;
-  filter: drop-shadow(0 0 9px rgba(218, 180, 68, 0.95));
+  filter: drop-shadow(0 0 10px rgba(235, 198, 86, 0.98));
 }
 
 .luxury-cursor-sparkle {
   position: fixed;
   top: 0;
   left: 0;
-  color: #d4af37;
-  line-height: 1;
+  border-radius: 50%;
   pointer-events: none;
-  filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.65));
-  animation: cursorSparkleFade 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: cursorSparkleFade 0.68s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.luxury-cursor-sparkle.sparkle-gold {
+  background: radial-gradient(circle, #fffdf7 0%, #f3d27a 45%, #c59b43 100%);
+  box-shadow: 0 0 8px rgba(218, 180, 68, 0.85);
+}
+
+.luxury-cursor-sparkle.sparkle-sage {
+  background: radial-gradient(circle, #f4faf6 0%, #7da890 50%, #3d634e 100%);
+  box-shadow: 0 0 8px rgba(92, 132, 111, 0.75);
 }
 
 @keyframes cursorSparkleFade {
   0% {
-    opacity: 0.9;
-    transform: translate(-50%, -50%) scale(0.6) rotate(0deg);
+    opacity: 0.95;
+    transform: translate(-50%, -50%) scale(0.5);
   }
-  50% {
-    opacity: 0.75;
-    transform: translate(-50%, -65%) scale(1.05) rotate(45deg);
+  45% {
+    opacity: 0.85;
+    transform: translate(-50%, -80%) scale(1.15);
   }
   100% {
     opacity: 0;
-    transform: translate(-50%, -95%) scale(0.2) rotate(90deg);
+    transform: translate(-50%, -140%) scale(0.15);
   }
 }
 
@@ -251,7 +277,7 @@ button {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background: #e6dac2 url('/images/envelope-poster.jpg') center center / cover no-repeat;
+  background: #182a1e url('/images/envelope-poster.jpg') center center / cover no-repeat;
   cursor: pointer;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
@@ -269,7 +295,7 @@ button {
   transform: translateZ(0);
 }
 
-/* Mobile Portrait Framing: Full-page video fit showing 100% of "You're cordially invited" */
+/* Mobile Portrait Framing: Full-page responsive fit showing the rising card & full "You're cordially invited" sentence */
 @media (max-width: 768px) and (orientation: portrait) {
   .envelope-fullscreen-video {
     inset: auto;
@@ -284,31 +310,46 @@ button {
 }
 
 /* ========================================================
-   2. FLOATING MUSIC CONTROLLER
+   2. 3D CRYSTAL-GLASS FLOATING MUSIC CONTROLLER
    ======================================================== */
 .floating-music-btn {
   position: fixed;
   bottom: 122px;
   right: 18px;
   z-index: 998;
-  width: 46px;
-  height: 46px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #fffdf9 0%, #f5ebd6 100%);
-  border: 1.5px solid var(--gold-border-solid);
-  box-shadow: 0 8px 24px rgba(26, 40, 54, 0.16), 0 0 14px rgba(197, 155, 67, 0.32);
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.92) 0%,
+    rgba(250, 242, 224, 0.78) 52%,
+    rgba(236, 219, 184, 0.88) 100%
+  );
+  backdrop-filter: blur(18px) saturate(190%);
+  -webkit-backdrop-filter: blur(18px) saturate(190%);
+  border: 1.5px solid rgba(218, 180, 68, 0.92);
+  box-shadow:
+    0 12px 26px -4px rgba(18, 36, 26, 0.24),
+    0 0 16px rgba(212, 175, 55, 0.36),
+    inset 0 2.5px 1.5px rgba(255, 255, 255, 1),
+    inset 0 -2.5px 3px rgba(184, 137, 45, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--navy-deep);
+  color: #142b1f;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.32s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .floating-music-btn:hover {
-  transform: scale(1.08);
-  box-shadow: 0 12px 28px rgba(26, 40, 54, 0.22), 0 0 20px rgba(197, 155, 67, 0.45);
-  background: #ffffff;
+  transform: translateY(-3px) scale(1.08);
+  border-color: #ffd875;
+  box-shadow:
+    0 16px 32px -4px rgba(18, 36, 26, 0.32),
+    0 0 24px rgba(235, 198, 86, 0.55),
+    inset 0 2.5px 2px rgba(255, 255, 255, 1),
+    inset 0 -2.5px 3px rgba(184, 137, 45, 0.42);
 }
 
 .floating-music-btn.playing {
@@ -384,22 +425,53 @@ button {
   color: var(--gold-dark);
 }
 
+/* 3D Crystal-Glass Header Pill Button ("Cover Screen ♡") */
 .nav-pill {
-  padding: 7px 16px;
-  border-radius: var(--radius-full);
-  background: rgba(92, 132, 111, 0.1);
-  border: 1px solid var(--gold-border);
-  color: var(--navy-deep);
-  font-size: 12px;
+  position: relative;
+  overflow: hidden;
+  padding: 9px 20px;
+  border-radius: 9999px;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.90) 0%,
+    rgba(249, 240, 220, 0.72) 52%,
+    rgba(238, 223, 192, 0.85) 100%
+  );
+  backdrop-filter: blur(16px) saturate(190%);
+  -webkit-backdrop-filter: blur(16px) saturate(190%);
+  border: 1.4px solid rgba(212, 175, 55, 0.85);
+  color: #142b1f;
+  font-family: 'Cinzel', serif;
+  font-size: 11.5px;
   font-weight: 700;
-  letter-spacing: 0.1em;
-  transition: all 0.25s ease;
+  letter-spacing: 0.12em;
+  box-shadow:
+    0 8px 20px -4px rgba(20, 38, 28, 0.16),
+    0 2px 8px rgba(197, 155, 67, 0.24),
+    inset 0 2px 1.5px rgba(255, 255, 255, 1),
+    inset 0 -2px 3px rgba(184, 137, 45, 0.28);
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .nav-pill:hover {
-  background: var(--navy-deep);
-  color: #ffffff;
-  transform: translateY(-1px);
+  background: linear-gradient(
+    145deg,
+    #1d422e 0%,
+    #132c1f 55%,
+    #0d2016 100%
+  );
+  color: #fffdf8;
+  border-color: #ffd875;
+  transform: translateY(-2.5px) scale(1.02);
+  box-shadow:
+    0 12px 26px -4px rgba(16, 34, 24, 0.35),
+    0 0 18px rgba(218, 180, 68, 0.42),
+    inset 0 2px 1.5px rgba(255, 255, 255, 0.35),
+    inset 0 -2px 3px rgba(0, 0, 0, 0.4);
+}
+
+.nav-pill:active {
+  transform: translateY(1px) scale(0.98);
 }
 
 @media (max-width: 860px) {
@@ -496,54 +568,136 @@ button {
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
 }
 
+/* 3D Crystal-Glass & Shining Gold Universal Button System (.btn, .glass-btn) */
 .btn {
-  border: 0;
-  border-radius: var(--radius-full);
-  background: linear-gradient(135deg, var(--navy-deep), #122131);
-  color: #ffffff;
-  padding: 14px 28px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 9999px;
+  background: linear-gradient(
+    145deg,
+    rgba(30, 68, 47, 0.92) 0%,
+    rgba(19, 44, 30, 0.95) 54%,
+    rgba(12, 30, 20, 0.98) 100%
+  );
+  backdrop-filter: blur(18px) saturate(190%);
+  -webkit-backdrop-filter: blur(18px) saturate(190%);
+  color: #fffdf8;
+  padding: 15px 30px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  font-size: 13.5px;
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  box-shadow: 0 8px 24px rgba(26, 40, 54, 0.3);
-  border: 1px solid var(--gold-border);
-  transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
+  border: 1.5px solid rgba(218, 180, 68, 0.9);
+  box-shadow:
+    0 14px 30px -6px rgba(14, 32, 22, 0.42),
+    0 0 18px rgba(212, 175, 55, 0.26),
+    inset 0 2px 1.5px rgba(255, 255, 255, 0.38),
+    inset 0 -3px 4px rgba(6, 16, 11, 0.55);
+  transition: all 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 65%;
+  height: 100%;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.38) 50%,
+    transparent 100%
+  );
+  transform: skewX(-20deg);
+  transition: left 0.65s ease;
+  pointer-events: none;
+}
+
+.btn:hover::before {
+  left: 145%;
 }
 
 .btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(26, 40, 54, 0.45);
-  background: linear-gradient(135deg, #243952, var(--navy-deep));
+  transform: translateY(-3px) scale(1.015);
+  border-color: #ffe082;
+  background: linear-gradient(
+    145deg,
+    rgba(38, 84, 58, 0.95) 0%,
+    rgba(24, 54, 37, 0.97) 54%,
+    rgba(15, 36, 24, 1) 100%
+  );
+  box-shadow:
+    0 18px 36px -6px rgba(14, 32, 22, 0.52),
+    0 0 26px rgba(235, 198, 86, 0.45),
+    inset 0 2.5px 2px rgba(255, 255, 255, 0.48),
+    inset 0 -3px 4px rgba(6, 16, 11, 0.6);
+}
+
+.btn:active {
+  transform: translateY(1px) scale(0.99);
 }
 
 .btn.light-btn {
-  background: rgba(255, 255, 255, 0.95);
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.94) 0%,
+    rgba(249, 240, 221, 0.84) 100%
+  );
   color: var(--navy-deep);
   border: 1.5px solid var(--gold);
 }
 
 .btn:disabled {
-  opacity: 0.55;
+  opacity: 0.58;
   cursor: not-allowed;
+  transform: none;
 }
 
+/* 3D Crystal-Glass Hero Scroll Pill ("SCROLL TO EXPLORE ↓") */
 .scroll-note {
   position: absolute;
-  bottom: 52px;
+  bottom: 46px;
   left: 50%;
   transform: translateX(-50%);
-  letter-spacing: 3px;
-  font-size: 10.5px;
+  padding: 9px 22px;
+  border-radius: 9999px;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.78) 0%,
+    rgba(250, 242, 224, 0.62) 55%,
+    rgba(241, 228, 200, 0.75) 100%
+  );
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  border: 1.3px solid rgba(212, 175, 55, 0.82);
+  box-shadow:
+    0 10px 24px -4px rgba(18, 36, 26, 0.22),
+    0 0 14px rgba(212, 175, 55, 0.28),
+    inset 0 2px 1px rgba(255, 255, 255, 0.95),
+    inset 0 -2px 2.5px rgba(184, 137, 45, 0.26);
+  letter-spacing: 2.8px;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
   font-weight: 700;
-  color: var(--navy-deep);
-  text-shadow: 0 1px 8px rgba(255, 255, 255, 0.9);
+  color: #142b1f;
   z-index: 5;
   white-space: nowrap;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.scroll-note:hover {
+  transform: translateX(-50%) translateY(-3px) scale(1.03);
+  border-color: #ffd875;
+  box-shadow:
+    0 14px 28px -4px rgba(18, 36, 26, 0.3),
+    0 0 22px rgba(235, 198, 86, 0.48),
+    inset 0 2px 1.5px rgba(255, 255, 255, 1);
 }
 
 /* ========================================================
@@ -2182,34 +2336,73 @@ button {
   margin: 0 auto 28px;
 }
 
-/* Masterpiece Pill Button: "I WILL ATTEND →" */
+/* 3D Crystal-Glass Masterpiece Pill Button: "I WILL ATTEND →" */
 .rsvp-primary-attend-btn {
+  position: relative;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
   gap: 18px;
-  background: linear-gradient(135deg, #163b27 0%, #0d2519 100%);
-  border: 1.5px solid rgba(212, 175, 55, 0.9);
+  background: linear-gradient(
+    145deg,
+    rgba(30, 72, 49, 0.92) 0%,
+    rgba(18, 44, 30, 0.95) 52%,
+    rgba(11, 28, 19, 0.98) 100%
+  );
+  backdrop-filter: blur(18px) saturate(195%);
+  -webkit-backdrop-filter: blur(18px) saturate(195%);
+  border: 1.5px solid rgba(226, 188, 76, 0.95);
   border-radius: 9999px;
-  padding: 8px 10px 8px 24px;
-  box-shadow: 
-    0 10px 25px rgba(13, 37, 25, 0.35),
-    0 0 14px rgba(212, 175, 55, 0.2),
-    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  padding: 9px 11px 9px 26px;
+  box-shadow:
+    0 14px 30px -4px rgba(13, 34, 23, 0.42),
+    0 0 18px rgba(212, 175, 55, 0.28),
+    inset 0 2.5px 1.5px rgba(255, 255, 255, 0.42),
+    inset 0 -3px 4px rgba(5, 14, 9, 0.6);
   color: #fffdf8;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: all 0.32s cubic-bezier(0.22, 1, 0.36, 1);
   text-decoration: none;
   margin-top: 6px;
 }
 
+.rsvp-primary-attend-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 65%;
+  height: 100%;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.38) 50%,
+    transparent 100%
+  );
+  transform: skewX(-20deg);
+  transition: left 0.65s ease;
+  pointer-events: none;
+}
+
+.rsvp-primary-attend-btn:hover::before {
+  left: 145%;
+}
+
 .rsvp-primary-attend-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 
-    0 14px 32px rgba(13, 37, 25, 0.45),
-    0 0 22px rgba(212, 175, 55, 0.35),
-    inset 0 1px 1px rgba(255, 255, 255, 0.3);
-  border-color: #ffd875;
+  transform: translateY(-3px) scale(1.02);
+  background: linear-gradient(
+    145deg,
+    rgba(38, 86, 59, 0.95) 0%,
+    rgba(23, 55, 38, 0.97) 52%,
+    rgba(14, 35, 24, 1) 100%
+  );
+  box-shadow:
+    0 18px 36px -4px rgba(13, 34, 23, 0.52),
+    0 0 26px rgba(235, 198, 86, 0.48),
+    inset 0 2.5px 2px rgba(255, 255, 255, 0.5),
+    inset 0 -3px 4px rgba(5, 14, 9, 0.65);
+  border-color: #ffe082;
 }
 
 .btn-gold-laurel {
@@ -2229,21 +2422,35 @@ button {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1.5px solid rgba(212, 175, 55, 0.85);
+  border: 1.5px solid rgba(226, 188, 76, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.05);
-  transition: transform 0.3s ease, background 0.3s ease;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(212, 175, 55, 0.14) 100%
+  );
+  box-shadow:
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.45),
+    0 3px 8px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .rsvp-primary-attend-btn:hover .rsvp-btn-arrow-circle {
-  transform: translateX(3px);
-  background: rgba(212, 175, 55, 0.15);
-  border-color: #ffd875;
+  transform: translateX(3px) scale(1.05);
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.32) 0%,
+    rgba(218, 180, 68, 0.28) 100%
+  );
+  border-color: #ffe082;
+  box-shadow:
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.6),
+    0 0 12px rgba(235, 198, 86, 0.45);
 }
 
-/* Secondary controls (seat count & decline option) */
+/* Secondary controls (seat count & 3D glass decline pill button) */
 .rsvp-extra-controls {
   margin-top: 20px;
   display: flex;
@@ -2258,10 +2465,14 @@ button {
   gap: 8px;
   font-size: 13px;
   color: #4a5b50;
-  background: rgba(255, 255, 255, 0.7);
-  padding: 4px 14px;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(12px);
+  padding: 5px 16px;
   border-radius: 9999px;
-  border: 1px solid rgba(197, 155, 67, 0.3);
+  border: 1px solid rgba(197, 155, 67, 0.45);
+  box-shadow:
+    0 4px 12px rgba(20, 36, 28, 0.06),
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.95);
 }
 
 .rsvp-seats-dropdown {
@@ -2274,20 +2485,39 @@ button {
 }
 
 .rsvp-decline-link {
-  background: none;
-  border: none;
-  color: #7a5050;
-  font-size: 12.5px;
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 18px;
+  border-radius: 9999px;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.85) 0%,
+    rgba(249, 240, 224, 0.68) 100%
+  );
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(197, 155, 67, 0.55);
+  box-shadow:
+    0 5px 14px -3px rgba(26, 40, 32, 0.10),
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.98),
+    inset 0 -1.5px 2px rgba(184, 137, 45, 0.18);
+  color: #6b4242;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
   cursor: pointer;
-  opacity: 0.85;
-  transition: opacity 0.2s;
+  transition: all 0.28s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .rsvp-decline-link:hover {
-  opacity: 1;
-  color: #8c3232;
+  transform: translateY(-2px);
+  border-color: rgba(197, 155, 67, 0.88);
+  box-shadow:
+    0 8px 18px -3px rgba(26, 40, 32, 0.15),
+    0 0 12px rgba(212, 175, 55, 0.25),
+    inset 0 1.5px 1px rgba(255, 255, 255, 1);
+  color: #842c2c;
 }
 
 .rsvp-status-badge {
@@ -2838,31 +3068,75 @@ button {
 }
 
 .location-directions-btn {
+  position: relative;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 12px 28px;
+  padding: 13px 30px;
   border-radius: 9999px;
-  border: 1px solid rgba(197, 155, 67, 0.4);
-  background: linear-gradient(135deg, #1b3d2c 0%, #12281d 100%);
-  color: #ffffff;
-  font-family: 'DM Sans', sans-serif;
+  border: 1.5px solid rgba(226, 188, 76, 0.9);
+  background: linear-gradient(
+    145deg,
+    rgba(30, 70, 48, 0.92) 0%,
+    rgba(19, 44, 30, 0.96) 52%,
+    rgba(12, 29, 20, 0.99) 100%
+  );
+  backdrop-filter: blur(18px) saturate(190%);
+  -webkit-backdrop-filter: blur(18px) saturate(190%);
+  color: #fffdf8;
+  font-family: 'Cinzel', 'DM Sans', sans-serif;
   font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   text-decoration: none;
-  box-shadow: 0 6px 18px rgba(20, 45, 30, 0.32);
-  transition: all 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow:
+    0 12px 26px -4px rgba(15, 36, 24, 0.38),
+    0 0 16px rgba(212, 175, 55, 0.24),
+    inset 0 2px 1.5px rgba(255, 255, 255, 0.38),
+    inset 0 -3px 4px rgba(5, 14, 9, 0.58);
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   cursor: pointer;
 }
 
+.location-directions-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 65%;
+  height: 100%;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.36) 50%,
+    transparent 100%
+  );
+  transform: skewX(-20deg);
+  transition: left 0.65s ease;
+  pointer-events: none;
+}
+
+.location-directions-btn:hover::before {
+  left: 145%;
+}
+
 .location-directions-btn:hover {
-  background: linear-gradient(135deg, #244f39 0%, #183325 100%);
-  border-color: rgba(218, 175, 75, 0.8);
-  box-shadow: 0 10px 26px rgba(20, 45, 30, 0.42);
-  transform: translateY(-2px);
+  background: linear-gradient(
+    145deg,
+    rgba(38, 86, 59, 0.95) 0%,
+    rgba(24, 54, 37, 0.98) 52%,
+    rgba(15, 35, 24, 1) 100%
+  );
+  border-color: #ffe082;
+  box-shadow:
+    0 16px 32px -4px rgba(15, 36, 24, 0.48),
+    0 0 24px rgba(235, 198, 86, 0.44),
+    inset 0 2.5px 2px rgba(255, 255, 255, 0.48),
+    inset 0 -3px 4px rgba(5, 14, 9, 0.65);
+  transform: translateY(-3px) scale(1.02);
   color: #fffdf9;
 }
 
@@ -3311,30 +3585,73 @@ button {
 
 .contact-call-cta {
   position: relative;
+  overflow: hidden;
   z-index: 2;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 9px 22px;
+  padding: 10px 24px;
   border-radius: 9999px;
-  background: linear-gradient(135deg, #1b3d2c 0%, #12281d 100%);
-  border: 1px solid rgba(218, 180, 68, 0.8);
+  background: linear-gradient(
+    145deg,
+    rgba(30, 70, 48, 0.92) 0%,
+    rgba(19, 44, 30, 0.96) 52%,
+    rgba(12, 29, 20, 0.99) 100%
+  );
+  backdrop-filter: blur(16px) saturate(190%);
+  -webkit-backdrop-filter: blur(16px) saturate(190%);
+  border: 1.4px solid rgba(226, 188, 76, 0.9);
   color: #fffdf9;
   font-family: 'Cinzel', serif;
   font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  box-shadow: 0 6px 18px rgba(18, 40, 29, 0.26);
-  transition: all 0.28s ease;
+  box-shadow:
+    0 10px 22px -4px rgba(15, 36, 24, 0.36),
+    0 0 14px rgba(212, 175, 55, 0.22),
+    inset 0 2px 1.5px rgba(255, 255, 255, 0.38),
+    inset 0 -2.5px 3px rgba(5, 14, 9, 0.55);
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.contact-call-cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 65%;
+  height: 100%;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.36) 50%,
+    transparent 100%
+  );
+  transform: skewX(-20deg);
+  transition: left 0.65s ease;
+  pointer-events: none;
+}
+
+.contact-luxury-card:hover .contact-call-cta::before {
+  left: 145%;
 }
 
 .contact-luxury-card:hover .contact-call-cta {
-  background: linear-gradient(135deg, #25523b 0%, #173425 100%);
+  background: linear-gradient(
+    145deg,
+    rgba(38, 86, 59, 0.96) 0%,
+    rgba(24, 54, 37, 0.98) 52%,
+    rgba(15, 35, 24, 1) 100%
+  );
   border-color: #ffe082;
-  box-shadow: 0 8px 22px rgba(18, 40, 29, 0.36), 0 0 16px rgba(218, 180, 68, 0.4);
-  transform: translateY(-2px);
+  box-shadow:
+    0 14px 28px -4px rgba(15, 36, 24, 0.45),
+    0 0 20px rgba(235, 198, 86, 0.44),
+    inset 0 2.5px 2px rgba(255, 255, 255, 0.48),
+    inset 0 -2.5px 3px rgba(5, 14, 9, 0.62);
+  transform: translateY(-2.5px) scale(1.03);
 }
 
 @media (max-width: 860px) {
@@ -3714,62 +4031,38 @@ button {
   box-shadow: 0 0 8px rgba(212, 175, 55, 0.65);
 }
 
-/* Center 3D Medallion GC Monogram Crest & Couple Names */
+/* Center Medallion GC Monogram Crest & Couple Names */
 .footer-nav-center-crest {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0 16px;
+  padding: 0 14px;
   text-decoration: none;
-  margin-top: -16px;
+  margin-top: -10px;
   z-index: 6;
   transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .footer-nav-center-crest:hover {
-  transform: translateY(-4px) scale(1.04);
+  transform: translateY(-3px) scale(1.03);
 }
 
 .footer-crest-emblem-wrap {
   position: relative;
-  width: 78px;
-  height: 72px;
+  width: 82px;
+  height: 68px;
   display: flex;
   align-items: center;
   justify-content: center;
+  filter: drop-shadow(0 5px 12px rgba(26, 40, 54, 0.16));
 }
 
-/* 3D Elevated Crystal-Gold Pedestal Disc behind the Botanical Crest */
-.footer-crest-3d-halo {
-  position: absolute;
-  width: 68px;
-  height: 68px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle at 35% 30%,
-    rgba(255, 255, 255, 0.96) 0%,
-    rgba(252, 245, 229, 0.88) 58%,
-    rgba(238, 221, 186, 0.94) 100%
-  );
-  border: 1.5px solid rgba(218, 180, 68, 0.88);
-  box-shadow:
-    0 10px 24px -4px rgba(18, 36, 26, 0.24),
-    0 0 18px rgba(212, 175, 55, 0.36),
-    inset 0 2.5px 2px rgba(255, 255, 255, 1),
-    inset 0 -2.5px 3px rgba(184, 137, 45, 0.35);
-  z-index: 1;
-}
-
-.footer-crest-img {
-  position: relative;
-  z-index: 2;
+.footer-crest-svg {
   width: 100%;
   height: 100%;
-  object-fit: contain;
   display: block;
-  filter: drop-shadow(0 5px 10px rgba(16, 32, 24, 0.24));
 }
 
 .footer-crest-names {
