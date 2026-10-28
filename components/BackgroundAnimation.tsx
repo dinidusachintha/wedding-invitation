@@ -14,7 +14,7 @@ interface Particle {
   swayOffset: number;
   opacity: number;
   color: string;
-  type: 'petal' | 'sparkle' | 'leaf';
+  type: 'green-leaf' | 'gold-stardust' | 'gold-petal' | 'dusty-petal';
 }
 
 export default function BackgroundAnimation() {
@@ -37,53 +37,80 @@ export default function BackgroundAnimation() {
     };
     window.addEventListener('resize', handleResize);
 
-    // Premium Creamy + Gold + Green Palette
-    const creamyColors = [
-      'rgba(255, 250, 242, ', // pure floral cream
-      'rgba(252, 243, 230, ', // warm ivory
-      'rgba(247, 235, 218, ', // champagne cream
+    // Green Eucalyptus & Sage Leaves (minimalist nature)
+    const greenLeafColors = [
+      'rgba(78, 114, 91, ',   // eucalyptus deep
+      'rgba(102, 138, 113, ', // sage green
+      'rgba(128, 160, 137, ', // pale silvery olive
+      'rgba(90, 122, 101, ',  // muted botanical green
     ];
 
+    // Champagne Gold & Gold Foil Sparkles
     const goldColors = [
-      'rgba(218, 175, 75, ',  // royal gold
-      'rgba(242, 206, 115, ', // warm luminous gold
-      'rgba(255, 228, 160, ', // gold sparkle
+      'rgba(197, 155, 67, ',  // classic royal gold
+      'rgba(218, 175, 75, ',  // warm champagne gold
+      'rgba(235, 204, 125, ', // luminous gold highlight
+      'rgba(250, 235, 195, ', // stardust shimmer
     ];
 
-    const greenColors = [
-      'rgba(34, 92, 58, ',    // deep royal emerald
-      'rgba(52, 115, 78, ',   // rich leaf green
-      'rgba(78, 138, 98, ',   // soft sage green
+    // Delicate Dusty Blue & Hydrangea accents (matching the floral garland)
+    const dustyPetalColors = [
+      'rgba(132, 162, 190, ', // dusty blue
+      'rgba(168, 193, 215, ', // soft hydrangea
     ];
 
-    const count = width < 768 ? 22 : 40;
+    const count = width < 768 ? 22 : 38;
     const particles: Particle[] = [];
 
     for (let i = 0; i < count; i++) {
-      // 50% Creamy petals, 30% Gold sparkles, 20% Subtle green leaves
       const rand = Math.random();
-      let type: 'petal' | 'sparkle' | 'leaf' = 'petal';
-      let color = creamyColors[Math.floor(Math.random() * creamyColors.length)];
+      let type: 'green-leaf' | 'gold-stardust' | 'gold-petal' | 'dusty-petal' = 'green-leaf';
+      let color = greenLeafColors[Math.floor(Math.random() * greenLeafColors.length)];
 
-      if (rand < 0.3) {
-        type = 'sparkle';
+      if (rand < 0.35) {
+        // Shimmering Champagne Gold Stardust
+        type = 'gold-stardust';
         color = goldColors[Math.floor(Math.random() * goldColors.length)];
-      } else if (rand < 0.5) {
-        type = 'leaf';
-        color = greenColors[Math.floor(Math.random() * greenColors.length)];
+      } else if (rand < 0.65) {
+        // Elegant Green Eucalyptus Leaf
+        type = 'green-leaf';
+        color = greenLeafColors[Math.floor(Math.random() * greenLeafColors.length)];
+      } else if (rand < 0.85) {
+        // Gold Outline Petal / Leaf
+        type = 'gold-petal';
+        color = goldColors[Math.floor(Math.random() * goldColors.length)];
+      } else {
+        // Soft Dusty Blue petal
+        type = 'dusty-petal';
+        color = dustyPetalColors[Math.floor(Math.random() * dustyPetalColors.length)];
       }
 
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        radiusX: type === 'sparkle' ? Math.random() * 1.6 + 1 : type === 'leaf' ? Math.random() * 3 + 3 : Math.random() * 4.5 + 4,
-        radiusY: type === 'sparkle' ? Math.random() * 1.6 + 1 : type === 'leaf' ? Math.random() * 6 + 5 : Math.random() * 7.5 + 7,
+        radiusX:
+          type === 'gold-stardust'
+            ? Math.random() * 1.6 + 0.8
+            : type === 'green-leaf'
+            ? Math.random() * 3.5 + 2.5
+            : Math.random() * 4.2 + 3.0,
+        radiusY:
+          type === 'gold-stardust'
+            ? Math.random() * 1.6 + 0.8
+            : type === 'green-leaf'
+            ? Math.random() * 7.5 + 5.5
+            : Math.random() * 7.0 + 5.0,
         rotation: Math.random() * Math.PI * 2,
-        rotationSpeed: (Math.random() - 0.5) * 0.016,
-        speedY: type === 'sparkle' ? Math.random() * 0.35 + 0.15 : Math.random() * 0.55 + 0.35,
-        swaySpeed: Math.random() * 0.015 + 0.008,
+        rotationSpeed: (Math.random() - 0.5) * 0.012,
+        speedY: type === 'gold-stardust' ? Math.random() * 0.22 + 0.1 : Math.random() * 0.45 + 0.25,
+        swaySpeed: Math.random() * 0.012 + 0.006,
         swayOffset: Math.random() * Math.PI * 2,
-        opacity: type === 'leaf' ? Math.random() * 0.3 + 0.22 : type === 'sparkle' ? Math.random() * 0.5 + 0.35 : Math.random() * 0.45 + 0.3,
+        opacity:
+          type === 'green-leaf'
+            ? Math.random() * 0.28 + 0.16
+            : type === 'gold-stardust'
+            ? Math.random() * 0.55 + 0.3
+            : Math.random() * 0.32 + 0.18,
         color,
         type,
       });
@@ -95,12 +122,20 @@ export default function BackgroundAnimation() {
       ctx.clearRect(0, 0, width, height);
 
       // Subtle ambient glowing light gradient drifting in background
-      const ambientGlowX = width * 0.5 + Math.sin(frame * 0.005) * (width * 0.2);
-      const ambientGlowY = height * 0.4 + Math.cos(frame * 0.004) * (height * 0.15);
-      const ambientGrad = ctx.createRadialGradient(ambientGlowX, ambientGlowY, 10, ambientGlowX, ambientGlowY, width * 0.6);
-      ambientGrad.addColorStop(0, 'rgba(197, 155, 67, 0.035)'); // warm gold aura
-      ambientGrad.addColorStop(0.5, 'rgba(34, 92, 58, 0.025)'); // gentle emerald aura
-      ambientGrad.addColorStop(1, 'rgba(250, 246, 238, 0)');
+      const ambientGlowX = width * 0.5 + Math.sin(frame * 0.003) * (width * 0.2);
+      const ambientGlowY = height * 0.3 + Math.cos(frame * 0.0025) * (height * 0.15);
+      const ambientGrad = ctx.createRadialGradient(
+        ambientGlowX,
+        ambientGlowY,
+        20,
+        ambientGlowX,
+        ambientGlowY,
+        width * 0.7
+      );
+      // Soft champagne gold & eucalyptus aura
+      ambientGrad.addColorStop(0, 'rgba(218, 175, 75, 0.035)');
+      ambientGrad.addColorStop(0.45, 'rgba(102, 138, 113, 0.02)');
+      ambientGrad.addColorStop(1, 'rgba(251, 249, 245, 0)');
       ctx.fillStyle = ambientGrad;
       ctx.fillRect(0, 0, width, height);
 
@@ -109,7 +144,7 @@ export default function BackgroundAnimation() {
 
         // Motion physics: gentle fall with soft horizontal drift
         p.y += p.speedY;
-        p.x += Math.sin(frame * p.swaySpeed + p.swayOffset) * 0.6;
+        p.x += Math.sin(frame * p.swaySpeed + p.swayOffset) * 0.55;
         p.rotation += p.rotationSpeed;
 
         // Reset particle smoothly when it moves past screen edges
@@ -123,45 +158,64 @@ export default function BackgroundAnimation() {
         ctx.save();
         ctx.translate(p.x, p.y);
 
-        if (p.type === 'sparkle') {
-          // Luminous golden stardust with soft pulse
-          const pulse = Math.sin(frame * 0.06 + p.swayOffset) * 0.3 + 0.8;
+        if (p.type === 'gold-stardust') {
+          // Luminous golden stardust with soft star sparkle
+          const pulse = Math.sin(frame * 0.06 + p.swayOffset) * 0.35 + 0.85;
           ctx.fillStyle = `${p.color}${p.opacity * pulse})`;
           ctx.beginPath();
           ctx.arc(0, 0, p.radiusX, 0, Math.PI * 2);
           ctx.fill();
 
-          // Subtle diamond glow core
-          ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity * pulse * 0.75})`;
-          ctx.beginPath();
-          ctx.arc(0, 0, p.radiusX * 0.5, 0, Math.PI * 2);
-          ctx.fill();
-        } else if (p.type === 'leaf') {
-          // Delicate soft emerald/sage leaf
+          // 4-point subtle star highlight
+          if (p.radiusX > 1.4) {
+            ctx.strokeStyle = `rgba(255, 250, 220, ${p.opacity * pulse * 0.85})`;
+            ctx.lineWidth = 0.5;
+            ctx.beginPath();
+            ctx.moveTo(-p.radiusX * 1.8, 0);
+            ctx.lineTo(p.radiusX * 1.8, 0);
+            ctx.moveTo(0, -p.radiusX * 1.8);
+            ctx.lineTo(0, p.radiusX * 1.8);
+            ctx.stroke();
+          }
+        } else if (p.type === 'green-leaf') {
+          // Minimalist Green Eucalyptus Leaf
           ctx.rotate(p.rotation);
           ctx.fillStyle = `${p.color}${p.opacity})`;
           ctx.beginPath();
           ctx.ellipse(0, 0, p.radiusX, p.radiusY, 0, 0, Math.PI * 2);
           ctx.fill();
 
-          // Subtle center stem line
-          ctx.strokeStyle = `rgba(197, 155, 67, ${p.opacity * 0.4})`;
+          // Delicate fine champagne gold center stem
+          ctx.strokeStyle = `rgba(197, 155, 67, ${p.opacity * 0.55})`;
           ctx.lineWidth = 0.6;
           ctx.beginPath();
-          ctx.moveTo(0, -p.radiusY * 0.8);
-          ctx.lineTo(0, p.radiusY * 0.8);
+          ctx.moveTo(0, -p.radiusY * 0.85);
+          ctx.lineTo(0, p.radiusY * 0.85);
+          ctx.stroke();
+        } else if (p.type === 'gold-petal') {
+          // Delicate Gold Outline Floral Petal (minimalist luxury)
+          ctx.rotate(p.rotation);
+          ctx.strokeStyle = `rgba(197, 155, 67, ${p.opacity * 0.7})`;
+          ctx.lineWidth = 0.8;
+          ctx.fillStyle = `rgba(247, 238, 219, ${p.opacity * 0.3})`;
+          ctx.beginPath();
+          ctx.ellipse(0, 0, p.radiusX, p.radiusY, 0, 0, Math.PI * 2);
+          ctx.fill();
           ctx.stroke();
         } else {
-          // Graceful creamy ivory petal
+          // Dusty blue petal
           ctx.rotate(p.rotation);
           ctx.fillStyle = `${p.color}${p.opacity})`;
           ctx.beginPath();
           ctx.ellipse(0, 0, p.radiusX, p.radiusY, 0, 0, Math.PI * 2);
           ctx.fill();
 
-          // Delicate warm golden petal edge glow
-          ctx.strokeStyle = `rgba(197, 155, 67, ${p.opacity * 0.25})`;
+          // Delicate gold vein
+          ctx.strokeStyle = `rgba(197, 155, 67, ${p.opacity * 0.4})`;
           ctx.lineWidth = 0.5;
+          ctx.beginPath();
+          ctx.moveTo(0, -p.radiusY * 0.6);
+          ctx.lineTo(0, p.radiusY * 0.6);
           ctx.stroke();
         }
 
