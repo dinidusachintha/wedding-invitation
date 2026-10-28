@@ -116,258 +116,171 @@ button {
 }
 
 /* ========================================================
-   1. INVITEMINT LUXURY INTERACTIVE COVER SCREEN
+   0. DECENT LUXURY MATCHING CURSOR EFFECT (Desktop Pointer)
+   ======================================================== */
+.luxury-cursor-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100001;
+  overflow: hidden;
+}
+
+.luxury-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 34px;
+  height: 34px;
+  margin-left: -17px;
+  margin-top: -17px;
+  border-radius: 50%;
+  border: 1.25px solid rgba(197, 155, 67, 0.72);
+  background: radial-gradient(
+    circle,
+    rgba(255, 253, 246, 0.18) 0%,
+    rgba(212, 175, 55, 0.10) 65%,
+    transparent 100%
+  );
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  box-shadow:
+    0 0 14px rgba(197, 155, 67, 0.28),
+    inset 0 0 6px rgba(255, 255, 255, 0.55);
+  transition:
+    width 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    margin 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease,
+    opacity 0.25s ease;
+  pointer-events: none;
+}
+
+.luxury-cursor-ring.is-hovering {
+  width: 50px;
+  height: 50px;
+  margin-left: -25px;
+  margin-top: -25px;
+  border-color: rgba(218, 178, 72, 0.95);
+  background: radial-gradient(
+    circle,
+    rgba(255, 253, 245, 0.32) 0%,
+    rgba(212, 175, 55, 0.18) 60%,
+    rgba(92, 132, 111, 0.08) 100%
+  );
+  box-shadow:
+    0 0 22px rgba(212, 175, 55, 0.45),
+    inset 0 0 10px rgba(255, 255, 255, 0.75);
+}
+
+.luxury-cursor-ring.is-clicking {
+  width: 28px;
+  height: 28px;
+  margin-left: -14px;
+  margin-top: -14px;
+  border-color: rgba(235, 198, 86, 1);
+}
+
+.luxury-cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  margin-left: -6px;
+  margin-top: -6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c59b43;
+  font-size: 10px;
+  line-height: 1;
+  filter: drop-shadow(0 0 6px rgba(197, 155, 67, 0.8));
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.luxury-cursor-dot.is-hovering {
+  color: #e3b94f;
+  filter: drop-shadow(0 0 9px rgba(218, 180, 68, 0.95));
+}
+
+.luxury-cursor-sparkle {
+  position: fixed;
+  top: 0;
+  left: 0;
+  color: #d4af37;
+  line-height: 1;
+  pointer-events: none;
+  filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.65));
+  animation: cursorSparkleFade 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes cursorSparkleFade {
+  0% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(0.6) rotate(0deg);
+  }
+  50% {
+    opacity: 0.75;
+    transform: translate(-50%, -65%) scale(1.05) rotate(45deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -95%) scale(0.2) rotate(90deg);
+  }
+}
+
+@media (pointer: coarse), (max-width: 768px) {
+  .luxury-cursor-layer {
+    display: none !important;
+  }
+}
+
+/* ========================================================
+   1. FULL-SCREEN PRELOADED ENVELOPE ENTRY VIDEO SCREEN
    ======================================================== */
 .invitation-cover-screen {
   position: fixed;
   inset: 0;
+  width: 100vw;
+  height: 100svh;
   z-index: 99999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: 
-    radial-gradient(ellipse at 50% 25%, #fffdf9 0%, #faf5ea 50%, #f3ebe0 100%);
-  padding: 16px;
-  overflow-y: auto;
-  user-select: none;
-}
-
-/* Inner Luxury Stationery Card with Double Gold Foil Frame */
-.cover-stationery-card {
-  position: relative;
-  width: 100%;
-  max-width: 500px;
-  min-height: min(780px, calc(100vh - 32px));
-  background: 
-    radial-gradient(ellipse at 50% 20%, #fffdfa 0%, #faf7ee 60%, #f6efe4 100%);
-  border: 1.5px solid var(--gold-border-solid);
-  border-radius: 28px;
-  box-shadow: 
-    0 24px 60px rgba(26, 40, 54, 0.12),
-    0 4px 18px rgba(197, 155, 67, 0.14),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.95),
-    inset 0 0 0 5px rgba(247, 238, 219, 0.6),
-    inset 0 0 0 6.5px rgba(197, 155, 67, 0.35);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px 28px;
-  overflow: hidden;
-  box-sizing: border-box;
-}
-
-/* Corner Botanical Flourishes on Card */
-.cover-card-corner {
-  position: absolute;
-  width: clamp(70px, 18vw, 110px);
-  height: auto;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0.35;
-}
-
-.cover-corner-tl {
-  top: 4px;
-  left: 4px;
-  transform: rotate(-90deg);
-}
-
-.cover-corner-tr {
-  top: 4px;
-  right: 4px;
-}
-
-/* Seamless Crowning Garland at Top of Invitation Card */
-.cover-floral-arch-wrap {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 520px;
-  pointer-events: none;
-  z-index: 4;
-  line-height: 0;
-  display: flex;
-  justify-content: center;
-}
-
-.cover-floral-arch-img {
-  width: 100%;
-  height: auto;
-  max-height: clamp(110px, 17vh, 160px);
-  object-fit: contain;
-  object-position: top center;
-  filter: drop-shadow(0 8px 22px rgba(70, 107, 86, 0.18));
-  animation: garlandBreeze 6s ease-in-out infinite alternate;
-}
-
-@keyframes garlandBreeze {
-  0% { transform: translateY(0) scale(1); }
-  100% { transform: translateY(-2px) scale(1.01); }
-}
-
-.cover-header {
-  position: relative;
-  z-index: 5;
-  text-align: center;
-  margin-top: clamp(80px, 15vh, 120px);
-}
-
-.cover-eyebrow {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: var(--gold-accent);
-  margin-bottom: 8px;
-}
-
-.cover-title {
-  font-family: 'Great Vibes', cursive;
-  font-size: clamp(40px, 8.5vw, 58px);
-  color: var(--navy-deep);
   margin: 0;
-  font-weight: 400;
-  line-height: 1.1;
-}
-
-.cover-title span {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  color: var(--gold);
-  margin: 0 4px;
-}
-
-.cover-date-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 10px;
-  font-size: 11px;
-  letter-spacing: 0.28em;
-  font-weight: 700;
-  color: var(--navy-slate);
-  text-transform: uppercase;
-}
-
-.cover-date-badge::before,
-.cover-date-badge::after {
-  content: '';
-  display: inline-block;
-  width: 24px;
-  height: 1.5px;
-  background: var(--gold-border-solid);
-  opacity: 0.75;
-}
-
-.cover-couple-center {
-  position: relative;
-  z-index: 5;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: auto 0;
-  width: 100%;
-  max-width: 380px;
-}
-
-.cover-couple-halo {
-  position: absolute;
-  width: clamp(230px, 55vw, 320px);
-  height: clamp(230px, 55vw, 320px);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(240, 246, 252, 0.9) 0%, rgba(250, 240, 225, 0.55) 50%, transparent 75%);
-  filter: blur(14px);
-  z-index: 1;
-  animation: coupleHaloPulse 4s ease-in-out infinite;
-}
-
-@keyframes coupleHaloPulse {
-  0%, 100% { transform: scale(0.96); opacity: 0.65; }
-  50% { transform: scale(1.05); opacity: 1; }
-}
-
-.cover-couple-img {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  max-width: 290px;
-  height: auto;
-  max-height: clamp(200px, 30vh, 280px);
-  object-fit: contain;
-  filter: drop-shadow(0 14px 28px rgba(26, 40, 54, 0.16));
-  animation: coupleFloat 3.6s ease-in-out infinite;
-}
-
-@keyframes coupleFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-
-.cover-action-wrap {
-  position: relative;
-  z-index: 5;
-  width: 100%;
-  max-width: 320px;
-  margin-top: 12px;
-}
-
-.cover-open-btn {
-  width: 100%;
-  background: linear-gradient(135deg, #ffffff 0%, #fbf8f2 100%);
-  border: 1.5px solid var(--gold-border-solid);
-  border-radius: var(--radius-full);
-  padding: 15px 24px 13px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  box-shadow: 
-    0 12px 32px rgba(26, 40, 54, 0.12),
-    0 0 16px rgba(197, 155, 67, 0.25),
-    inset 0 0 0 2px rgba(247, 238, 219, 0.5);
-  cursor: pointer;
-  transition: all 0.35s ease;
-  position: relative;
+  padding: 0;
   overflow: hidden;
+  background: #e6dac2 url('/images/envelope-poster.jpg') center center / cover no-repeat;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.cover-open-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 
-    0 16px 36px rgba(26, 40, 54, 0.18),
-    0 0 24px rgba(197, 155, 67, 0.4);
-  border-color: var(--gold-dark);
+.envelope-fullscreen-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center center;
+  pointer-events: none;
+  transform: translateZ(0);
 }
 
-.cover-open-title {
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: var(--navy-deep);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.cover-open-divider {
-  width: 36px;
-  height: 1.5px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  border-radius: 2px;
-}
-
-.cover-open-subtitle {
-  font-size: 9.5px;
-  font-weight: 600;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--gold-accent);
+/* Mobile Portrait Framing: Full-page video fit showing 100% of "You're cordially invited" */
+@media (max-width: 768px) and (orientation: portrait) {
+  .envelope-fullscreen-video {
+    inset: auto;
+    top: 50%;
+    left: 50%;
+    width: 215vw;
+    max-width: none;
+    height: 100svh;
+    transform: translate(-50%, -50%) translateZ(0);
+    object-fit: fill;
+  }
 }
 
 /* ========================================================
@@ -375,27 +288,27 @@ button {
    ======================================================== */
 .floating-music-btn {
   position: fixed;
-  bottom: 86px;
+  bottom: 122px;
   right: 18px;
   z-index: 998;
   width: 46px;
   height: 46px;
   border-radius: 50%;
-  background: var(--navy-deep);
+  background: linear-gradient(135deg, #fffdf9 0%, #f5ebd6 100%);
   border: 1.5px solid var(--gold-border-solid);
-  box-shadow: 0 8px 24px rgba(26, 40, 54, 0.35), 0 0 12px rgba(197, 155, 67, 0.25);
+  box-shadow: 0 8px 24px rgba(26, 40, 54, 0.16), 0 0 14px rgba(197, 155, 67, 0.32);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ffffff;
+  color: var(--navy-deep);
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .floating-music-btn:hover {
   transform: scale(1.08);
-  box-shadow: 0 12px 28px rgba(26, 40, 54, 0.45), 0 0 18px rgba(197, 155, 67, 0.4);
-  background: #142232;
+  box-shadow: 0 12px 28px rgba(26, 40, 54, 0.22), 0 0 20px rgba(197, 155, 67, 0.45);
+  background: #ffffff;
 }
 
 .floating-music-btn.playing {
@@ -430,13 +343,21 @@ button {
 
 .nav .brand {
   font-family: 'Cinzel', 'Cormorant Garamond', serif;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
   color: var(--navy-deep);
   letter-spacing: 2.5px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
+}
+
+.nav-brand-logo {
+  width: 42px;
+  height: 38px;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 2px 6px rgba(26, 40, 54, 0.14));
 }
 
 .nav .brand span {
@@ -3449,168 +3370,537 @@ button {
 }
 
 /* ========================================================
-   13. FOOTER
+   13. RESTORED PREVIOUS WEDDING FOOTER (Above Bottom Navigation)
    ======================================================== */
 .wedding-footer {
-  padding: 90px 24px 70px;
+  position: relative;
   text-align: center;
-  border-top: 1px solid var(--gold-border);
-  background: linear-gradient(180deg, rgba(250, 248, 243, 0.95) 0%, #f4ebd9 100%);
-  position: relative;
-  z-index: 2;
-  overflow: hidden;
+  padding: 28px 20px 64px;
+  max-width: 900px;
+  margin: 0 auto;
+  z-index: 5;
 }
 
-.footer-floral-garland {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%) rotate(180deg);
-  width: 100%;
-  max-width: 860px;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0.25;
-  line-height: 0;
-}
-
-.footer-garland-img {
-  width: 100%;
-  height: auto;
-  max-height: 150px;
-  object-fit: contain;
-}
-
-.footer-content {
-  position: relative;
-  z-index: 2;
-}
-
-.footer-couple-names {
-  font-family: 'Great Vibes', cursive;
-  font-size: clamp(40px, 6vw, 62px);
-  color: var(--navy-deep);
-  font-weight: 400;
+.footer-garland-wrap {
+  display: flex;
+  justify-content: center;
   margin-bottom: 14px;
 }
 
-.footer-flourish {
+.footer-garland-img {
+  width: min(360px, 82vw);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 16px rgba(26, 40, 54, 0.08));
+}
+
+.footer-script-names {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(40px, 7vw, 58px);
+  color: var(--navy-deep);
+  line-height: 1.15;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 10px rgba(255, 255, 255, 0.85);
+}
+
+.footer-heart-line {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
-  margin-bottom: 16px;
-  color: var(--gold-accent);
+  gap: 12px;
+  margin: 8px auto 12px;
 }
 
-.footer-flourish-line {
-  display: inline-block;
-  width: 40px;
-  height: 1.5px;
-  background: var(--gold-border-solid);
+.heart-line-bar {
+  width: 64px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(200, 157, 62, 0.85), transparent);
 }
 
-.footer-date {
-  font-size: 12px;
+.footer-date-text {
+  font-family: 'Cinzel', serif;
+  font-size: 11.5px;
   font-weight: 700;
-  letter-spacing: 0.3em;
-  color: var(--gold-accent);
+  letter-spacing: 0.28em;
+  color: var(--navy-slate);
   text-transform: uppercase;
 }
 
 /* ========================================================
-   14. BOTTOM FLOATING NAVIGATION BAR
+   14. PREMIUM 3D CRYSTAL-GLASS & SHINING GOLD FOOTER NAVIGATION BAR
+   (3D sculpted glass dock, 3D icon capsules, 3D elevated center medallion)
    ======================================================== */
+.wedding-main-page {
+  padding-bottom: 122px;
+}
+
 .bottom-nav-bar {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 72px;
-  background: rgba(250, 248, 243, 0.95);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-top: 1px solid rgba(197, 155, 67, 0.35);
-  box-shadow: 0 -8px 30px rgba(26, 40, 54, 0.08);
+  height: 108px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.82) 0%,
+      rgba(252, 247, 236, 0.78) 46%,
+      rgba(244, 234, 214, 0.88) 100%
+    );
+  backdrop-filter: blur(28px) saturate(210%) contrast(108%);
+  -webkit-backdrop-filter: blur(28px) saturate(210%) contrast(108%);
+  border-top: 1.5px solid rgba(218, 180, 68, 0.85);
+  box-shadow:
+    0 -18px 46px -6px rgba(18, 34, 26, 0.16),
+    0 -4px 20px rgba(212, 175, 55, 0.24),
+    inset 0 2px 1px rgba(255, 255, 255, 0.98),
+    inset 0 8px 20px rgba(255, 255, 255, 0.55),
+    inset 0 -2px 4px rgba(184, 137, 45, 0.25);
   z-index: 999;
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  padding: 0 10px;
+  justify-content: center;
+  padding: 0 18px;
   max-width: 100vw;
+  overflow: visible;
+  perspective: 900px;
 }
 
+/* 3D Specular Crystal Top Rim Reflection */
+.bottom-nav-3d-specular {
+  position: absolute;
+  top: 0;
+  left: 8%;
+  right: 8%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.95) 25%,
+    rgba(255, 236, 179, 1) 50%,
+    rgba(255, 255, 255, 0.95) 75%,
+    transparent 100%
+  );
+  box-shadow: 0 1px 10px rgba(235, 198, 86, 0.65);
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* Sculpted 3D Crystal-Glass Inner Pill Strip */
+.footer-nav-strip {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 1160px;
+  height: 74px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  border-radius: 24px;
+  border: 1.4px solid rgba(212, 175, 55, 0.72);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.86) 0%,
+      rgba(255, 252, 245, 0.62) 38%,
+      rgba(250, 243, 228, 0.54) 65%,
+      rgba(255, 255, 255, 0.82) 100%
+    );
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
+  box-shadow:
+    0 12px 30px -6px rgba(20, 36, 28, 0.14),
+    0 2px 12px rgba(197, 155, 67, 0.20),
+    0 0 0 1px rgba(255, 255, 255, 0.85),
+    inset 0 2.5px 2px rgba(255, 255, 255, 1),
+    inset 0 -2.5px 3px rgba(184, 137, 45, 0.24),
+    inset 0 0 0 4px rgba(255, 255, 255, 0.35);
+}
+
+/* Subtle diagonal glass sheen across the 3D strip */
+.footer-nav-strip::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 23px;
+  background: linear-gradient(
+    115deg,
+    rgba(255, 255, 255, 0.65) 0%,
+    rgba(255, 255, 255, 0.12) 32%,
+    transparent 35%,
+    transparent 68%,
+    rgba(255, 246, 218, 0.38) 100%
+  );
+  pointer-events: none;
+}
+
+/* Left & Right Sage & Gold Botanical Corner Flourishes */
+.footer-nav-floral {
+  position: absolute;
+  height: 106px;
+  width: auto;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.94;
+  filter: drop-shadow(0 6px 12px rgba(20, 36, 28, 0.14));
+}
+
+.footer-nav-floral-left {
+  left: -4px;
+  bottom: -4px;
+  transform: rotate(180deg);
+}
+
+.footer-nav-floral-right {
+  right: -4px;
+  bottom: -4px;
+  transform: rotate(90deg);
+}
+
+/* Left & Right 3-Item Navigation Groups */
+.footer-nav-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.footer-nav-group-left {
+  padding-left: clamp(24px, 4vw, 56px);
+  padding-right: 4px;
+}
+
+.footer-nav-group-right {
+  padding-left: 4px;
+  padding-right: clamp(24px, 4vw, 56px);
+}
+
+/* Vertical Gold 3D Divider Line with Center 4-Point Diamond Star */
+.footer-nav-divider {
+  position: relative;
+  width: 1.2px;
+  height: 44px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(205, 163, 73, 0.55) 22%,
+    rgba(176, 132, 42, 0.92) 50%,
+    rgba(205, 163, 73, 0.55) 78%,
+    transparent 100%
+  );
+  box-shadow: 1px 0 0 rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.divider-diamond {
+  font-size: 9px;
+  line-height: 1;
+  color: #b8892d;
+  text-shadow:
+    0 1px 1px rgba(255, 255, 255, 0.95),
+    0 0 8px rgba(197, 155, 67, 0.48);
+  transform: translateY(-0.5px);
+}
+
+/* 3D Glass Navigation Button Item */
 .bottom-nav-item {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 4px;
-  color: var(--text-muted);
+  color: #1f3329;
+  font-family: 'Cinzel', 'Cormorant Garamond', serif;
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.17em;
   text-transform: uppercase;
-  transition: all 0.25s ease;
-  padding: 6px 10px;
-  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  padding: 5px 8px;
+  margin: 0 3px;
+  border-radius: 16px;
   text-decoration: none;
   position: relative;
-  min-width: 58px;
+  flex: 1;
+  min-width: 0;
+  border: 1px solid transparent;
+  transform-style: preserve-3d;
+}
+
+/* 3D Beveled Crystal-Gold Icon Capsule inside each Nav Button */
+.nav-item-icon-3d {
+  width: 32px;
+  height: 30px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(250, 242, 225, 0.72) 55%,
+    rgba(241, 227, 198, 0.85) 100%
+  );
+  border: 1px solid rgba(212, 175, 55, 0.58);
+  box-shadow:
+    0 5px 12px -2px rgba(22, 38, 29, 0.12),
+    0 1px 4px rgba(197, 155, 67, 0.20),
+    inset 0 1.5px 1px rgba(255, 255, 255, 1),
+    inset 0 -1.5px 2px rgba(184, 137, 45, 0.22);
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.bottom-nav-item svg {
+  color: #a8791e;
+  filter: drop-shadow(0 1px 1px rgba(255, 255, 255, 0.9));
+  transition: transform 0.3s ease, color 0.3s ease, filter 0.3s ease;
 }
 
 .bottom-nav-item:hover,
 .bottom-nav-item.active {
-  color: var(--navy-deep);
+  color: #102419;
+  transform: translateY(-3px);
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.78) 0%,
+    rgba(252, 244, 225, 0.52) 100%
+  );
+  border-color: rgba(218, 180, 68, 0.65);
+  box-shadow:
+    0 10px 22px -6px rgba(20, 36, 28, 0.15),
+    0 0 14px rgba(212, 175, 55, 0.22),
+    inset 0 1.5px 1px rgba(255, 255, 255, 0.98);
+}
+
+.bottom-nav-item:hover .nav-item-icon-3d,
+.bottom-nav-item.active .nav-item-icon-3d {
+  transform: translateY(-1.5px) scale(1.06);
+  background: linear-gradient(
+    145deg,
+    #fffdf7 0%,
+    #f9eccb 52%,
+    #edd49a 100%
+  );
+  border-color: rgba(212, 168, 52, 0.95);
+  box-shadow:
+    0 7px 16px -2px rgba(184, 137, 45, 0.34),
+    0 0 12px rgba(235, 198, 86, 0.45),
+    inset 0 2px 1.5px rgba(255, 255, 255, 1),
+    inset 0 -1.5px 2px rgba(168, 121, 30, 0.32);
+}
+
+.bottom-nav-item:hover svg,
+.bottom-nav-item.active svg {
+  color: #7d5610;
+  transform: scale(1.06);
+  filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.55));
 }
 
 .bottom-nav-item.active::after {
   content: '';
   position: absolute;
-  bottom: 1px;
-  width: 18px;
-  height: 2px;
-  background: var(--gold);
-  border-radius: 2px;
+  bottom: 2px;
+  width: 24px;
+  height: 2.2px;
+  background: linear-gradient(90deg, transparent, #c59b43, #ffd875, #c59b43, transparent);
+  border-radius: 99px;
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.65);
 }
 
-.bottom-nav-rsvp-wrapper {
+/* Center 3D Medallion GC Monogram Crest & Couple Names */
+.footer-nav-center-crest {
   position: relative;
-  top: -16px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  padding: 0 16px;
   text-decoration: none;
+  margin-top: -16px;
+  z-index: 6;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.bottom-nav-rsvp-btn {
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  background: var(--navy-deep);
-  border: 2.5px solid #fffdf9;
-  box-shadow: 0 8px 22px rgba(26, 40, 54, 0.35), 0 0 14px rgba(197, 155, 67, 0.25);
-  color: #ffffff;
+.footer-nav-center-crest:hover {
+  transform: translateY(-4px) scale(1.04);
+}
+
+.footer-crest-emblem-wrap {
+  position: relative;
+  width: 78px;
+  height: 72px;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
 }
 
-.bottom-nav-rsvp-wrapper:hover .bottom-nav-rsvp-btn {
-  transform: scale(1.08) translateY(-2px);
-  box-shadow: 0 12px 28px rgba(26, 40, 54, 0.45), 0 0 20px rgba(197, 155, 67, 0.45);
-  background: #142130;
+/* 3D Elevated Crystal-Gold Pedestal Disc behind the Botanical Crest */
+.footer-crest-3d-halo {
+  position: absolute;
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 35% 30%,
+    rgba(255, 255, 255, 0.96) 0%,
+    rgba(252, 245, 229, 0.88) 58%,
+    rgba(238, 221, 186, 0.94) 100%
+  );
+  border: 1.5px solid rgba(218, 180, 68, 0.88);
+  box-shadow:
+    0 10px 24px -4px rgba(18, 36, 26, 0.24),
+    0 0 18px rgba(212, 175, 55, 0.36),
+    inset 0 2.5px 2px rgba(255, 255, 255, 1),
+    inset 0 -2.5px 3px rgba(184, 137, 45, 0.35);
+  z-index: 1;
 }
 
-.bottom-nav-rsvp-label {
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.15em;
-  color: var(--navy-deep);
-  margin-top: 4px;
-  text-transform: uppercase;
+.footer-crest-img {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 5px 10px rgba(16, 32, 24, 0.24));
+}
+
+.footer-crest-names {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #13281d;
+  white-space: nowrap;
+  margin-top: -1px;
+  line-height: 1.05;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.95);
+}
+
+.footer-crest-names span {
+  font-family: 'Great Vibes', 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 15px;
+  color: #b8892d;
+  margin: 0 2px;
+}
+
+.footer-crest-bottom-star {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 1px;
+}
+
+.footer-crest-bottom-star .star-line {
+  width: 24px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(197, 155, 67, 0.85), transparent);
+}
+
+.footer-crest-bottom-star .star-gem {
+  font-size: 8px;
+  line-height: 1;
+  color: #b8892d;
+}
+
+/* Tablet Responsive (<= 768px) */
+@media (max-width: 768px) {
+  .wedding-footer {
+    padding: 20px 16px 48px;
+  }
+
+  .wedding-main-page {
+    padding-bottom: 98px;
+  }
+
+  .floating-music-btn {
+    bottom: 100px;
+    right: 14px;
+    width: 42px;
+    height: 42px;
+  }
+
+  .bottom-nav-bar {
+    height: 88px;
+    padding: 0 8px;
+  }
+
+  .footer-nav-floral {
+    height: 84px;
+    opacity: 0.78;
+  }
+
+  .footer-nav-strip {
+    height: 62px;
+    border-radius: 20px;
+  }
+
+  .footer-nav-group-left {
+    padding-left: 12px;
+    padding-right: 2px;
+  }
+
+  .footer-nav-group-right {
+    padding-left: 2px;
+    padding-right: 12px;
+  }
+
+  .footer-nav-divider {
+    height: 36px;
+  }
+
+  .bottom-nav-item {
+    font-size: 8.2px;
+    letter-spacing: 0.10em;
+    gap: 3px;
+    padding: 4px 2px;
+    margin: 0 1px;
+    border-radius: 12px;
+  }
+
+  .nav-item-icon-3d {
+    width: 27px;
+    height: 25px;
+    border-radius: 9px;
+  }
+
+  .bottom-nav-item svg {
+    width: 14.5px;
+    height: 14.5px;
+  }
+
+  .footer-nav-center-crest {
+    padding: 0 8px;
+    margin-top: -10px;
+  }
+
+  .footer-crest-emblem-wrap {
+    width: 60px;
+    height: 54px;
+  }
+
+  .footer-crest-3d-halo {
+    width: 52px;
+    height: 52px;
+  }
+
+  .footer-crest-names {
+    font-size: 11px;
+  }
+
+  .footer-crest-names span {
+    font-size: 12px;
+  }
 }
 
 /* ========================================================
@@ -3728,24 +4018,104 @@ button {
     padding: 24px 14px 22px;
   }
 
+  .wedding-footer {
+    padding: 16px 12px 38px;
+  }
+
+  .wedding-main-page {
+    padding-bottom: 90px;
+  }
+
+  .floating-music-btn {
+    bottom: 92px;
+    right: 12px;
+    width: 40px;
+    height: 40px;
+  }
+
   .bottom-nav-bar {
+    height: 80px;
+    padding: 0 4px calc(env(safe-area-inset-bottom, 0px));
+  }
+
+  .footer-nav-floral {
     height: 66px;
-    padding: 4px 6px calc(6px + env(safe-area-inset-bottom, 0px));
+    opacity: 0.38;
+  }
+
+  .footer-nav-strip {
+    height: 56px;
+    border-radius: 18px;
+  }
+
+  .footer-nav-group-left {
+    padding-left: 4px;
+    padding-right: 0;
+  }
+
+  .footer-nav-group-right {
+    padding-left: 0;
+    padding-right: 4px;
+  }
+
+  .footer-nav-divider {
+    height: 28px;
+  }
+
+  .divider-diamond {
+    font-size: 6.5px;
   }
 
   .bottom-nav-item {
-    font-size: 9px;
-    padding: 4px 6px;
-    min-width: 48px;
+    font-size: 6.8px;
+    letter-spacing: 0.05em;
+    gap: 2px;
+    padding: 3px 1px;
+    margin: 0;
+    border-radius: 10px;
   }
 
-  .bottom-nav-rsvp-btn {
-    width: 48px;
-    height: 48px;
+  .nav-item-icon-3d {
+    width: 24px;
+    height: 22px;
+    border-radius: 7px;
   }
 
-  .bottom-nav-rsvp-label {
+  .bottom-nav-item svg {
+    width: 12.5px;
+    height: 12.5px;
+  }
+
+  .footer-nav-center-crest {
+    padding: 0 4px;
+    margin-top: -8px;
+  }
+
+  .footer-crest-emblem-wrap {
+    width: 50px;
+    height: 44px;
+  }
+
+  .footer-crest-3d-halo {
+    width: 44px;
+    height: 44px;
+  }
+
+  .footer-crest-names {
     font-size: 9px;
+    letter-spacing: 0.02em;
+  }
+
+  .footer-crest-names span {
+    font-size: 10px;
+  }
+
+  .footer-crest-bottom-star .star-line {
+    width: 14px;
+  }
+
+  .footer-crest-bottom-star .star-gem {
+    font-size: 6.5px;
   }
 }
 
@@ -3773,6 +4143,104 @@ button {
     radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 40%),
     radial-gradient(circle at 80% 80%, rgba(92, 132, 111, 0.08) 0%, transparent 40%);
   pointer-events: none;
+}
+
+.preloader-luxury-stage {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 36px 28px;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+}
+
+.preloader-logo-halo {
+  position: relative;
+  width: clamp(148px, 36vw, 188px);
+  height: clamp(148px, 36vw, 188px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.preloader-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid rgba(197, 155, 67, 0.42);
+  box-shadow: 0 0 28px rgba(197, 155, 67, 0.22);
+  animation: sealRingRipple 2.6s ease-out infinite;
+}
+
+.preloader-ring-inner {
+  inset: 12px;
+  border-color: rgba(197, 155, 67, 0.28);
+  animation-delay: 1.3s;
+}
+
+@keyframes sealRingRipple {
+  0% { transform: scale(0.92); opacity: 0.9; }
+  75% { transform: scale(1.18); opacity: 0; }
+  100% { transform: scale(1.18); opacity: 0; }
+}
+
+.preloader-logo-img {
+  position: relative;
+  z-index: 2;
+  width: 84%;
+  height: 84%;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 24px rgba(26, 40, 54, 0.16));
+  animation: preloaderFloat 3s ease-in-out infinite;
+}
+
+@keyframes preloaderFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-4px) scale(1.02); }
+}
+
+.preloader-couple-names {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(36px, 8vw, 48px);
+  color: var(--navy-deep);
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+
+.preloader-couple-names span {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--gold);
+  margin: 0 4px;
+}
+
+.preloader-date-sub {
+  font-family: 'Cinzel', serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  color: var(--navy-slate);
+  margin-bottom: 18px;
+}
+
+.preloader-progress-track {
+  width: 180px;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(197, 155, 67, 0.18);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.preloader-progress-bar {
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
 }
 
 .skeleton-stationery-card {
@@ -4019,7 +4487,105 @@ button {
 }
 
 @media (max-width: 480px) {
-  .skeleton-stationery-card {
+  .preloader-luxury-stage {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 36px 28px;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+}
+
+.preloader-logo-halo {
+  position: relative;
+  width: clamp(148px, 36vw, 188px);
+  height: clamp(148px, 36vw, 188px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.preloader-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid rgba(197, 155, 67, 0.42);
+  box-shadow: 0 0 28px rgba(197, 155, 67, 0.22);
+  animation: sealRingRipple 2.6s ease-out infinite;
+}
+
+.preloader-ring-inner {
+  inset: 12px;
+  border-color: rgba(197, 155, 67, 0.28);
+  animation-delay: 1.3s;
+}
+
+@keyframes sealRingRipple {
+  0% { transform: scale(0.92); opacity: 0.9; }
+  75% { transform: scale(1.18); opacity: 0; }
+  100% { transform: scale(1.18); opacity: 0; }
+}
+
+.preloader-logo-img {
+  position: relative;
+  z-index: 2;
+  width: 84%;
+  height: 84%;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 24px rgba(26, 40, 54, 0.16));
+  animation: preloaderFloat 3s ease-in-out infinite;
+}
+
+@keyframes preloaderFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-4px) scale(1.02); }
+}
+
+.preloader-couple-names {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(36px, 8vw, 48px);
+  color: var(--navy-deep);
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+
+.preloader-couple-names span {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--gold);
+  margin: 0 4px;
+}
+
+.preloader-date-sub {
+  font-family: 'Cinzel', serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  color: var(--navy-slate);
+  margin-bottom: 18px;
+}
+
+.preloader-progress-track {
+  width: 180px;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(197, 155, 67, 0.18);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.preloader-progress-bar {
+  width: 100%;
+  height: 100%;
+  border-radius: 999px;
+}
+
+.skeleton-stationery-card {
     min-height: min(640px, calc(100vh - 24px));
     padding: 18px 14px 16px;
   }

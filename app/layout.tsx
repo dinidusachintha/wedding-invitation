@@ -1,3 +1,3 @@
 import type {Metadata} from 'next';import './globals.css';
-export const metadata:Metadata={title:'Chathura & Gimasha | Wedding Invitation',description:'Together forever — 03 December 2026'};
-export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="en"><body>{children}</body></html>}
+export const metadata:Metadata={title:'Gimasha & Chathura | Wedding Invitation',description:'Together forever — 03 December 2026'};
+export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="en"><head><link rel="preload" as="image" href="/images/logo-crest-sm.png" /><link rel="preload" as="video" href="/envelope-intro.mp4" type="video/mp4" /><link rel="preload" as="image" href="/images/envelope-poster.jpg" /><link rel="preload" as="image" href="/images/envelope-mobile-backdrop.jpg" /></head><body>{children}</body></html>}

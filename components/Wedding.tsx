@@ -22,12 +22,109 @@ import {
   Building2,
   Trees,
   ArrowRight,
+  Image as ImageIcon,
 } from 'lucide-react';
 import BackgroundAnimation from './BackgroundAnimation';
-import WeddingSkeleton from './WeddingSkeleton';
 
 type Guest = { name: string; token: string; seats: number; status: string; attending_count: number };
 const mapUrl = 'https://maps.app.goo.gl/gwr9NAbTvqUno7ePA?g_st=iw';
+
+// Luxury Matching Cursor Effect (Champagne-Gold Gem Dot, 3D Crystal Ring & Subtle Gold Stardust Trail)
+function LuxuryCursor() {
+  const dotRef = useRef<HTMLDivElement | null>(null);
+  const ringRef = useRef<HTMLDivElement | null>(null);
+  const trailContainerRef = useRef<HTMLDivElement | null>(null);
+  const [enabled, setEnabled] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const mq = window.matchMedia('(pointer: fine)');
+    if (!mq.matches) return;
+    setEnabled(true);
+
+    let mouseX = -100;
+    let mouseY = -100;
+    let ringX = -100;
+    let ringY = -100;
+    let isHovering = false;
+    let isPressed = false;
+    let lastTrailTime = 0;
+    let rafId = 0;
+
+    const spawnSparkle = (x: number, y: number) => {
+      const container = trailContainerRef.current;
+      if (!container) return;
+      const mote = document.createElement('span');
+      mote.className = 'luxury-cursor-sparkle';
+      const offsetX = (Math.random() - 0.5) * 14;
+      const offsetY = (Math.random() - 0.5) * 14;
+      mote.style.left = `${x + offsetX}px`;
+      mote.style.top = `${y + offsetY}px`;
+      container.appendChild(mote);
+      window.setTimeout(() => {
+        mote.remove();
+      }, 650);
+    };
+
+    const onMouseMove = (e: MouseEvent) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      if (dotRef.current) {
+        dotRef.current.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%) scale(${isPressed ? 0.75 : isHovering ? 1.35 : 1})`;
+      }
+      const target = e.target as HTMLElement | null;
+      isHovering = Boolean(
+        target?.closest('a, button, [role="button"], select, textarea, input')
+      );
+      const now = performance.now();
+      if (now - lastTrailTime > 48) {
+        lastTrailTime = now;
+        spawnSparkle(mouseX, mouseY);
+      }
+    };
+
+    const onMouseDown = () => {
+      isPressed = true;
+    };
+
+    const onMouseUp = () => {
+      isPressed = false;
+    };
+
+    const animateRing = () => {
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
+      if (ringRef.current) {
+        const scale = isPressed ? 0.86 : isHovering ? 1.42 : 1;
+        ringRef.current.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%) scale(${scale})`;
+        ringRef.current.classList.toggle('is-hovering', isHovering);
+      }
+      rafId = requestAnimationFrame(animateRing);
+    };
+
+    window.addEventListener('mousemove', onMouseMove, { passive: true });
+    window.addEventListener('mousedown', onMouseDown, { passive: true });
+    window.addEventListener('mouseup', onMouseUp, { passive: true });
+    rafId = requestAnimationFrame(animateRing);
+
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mousedown', onMouseDown);
+      window.removeEventListener('mouseup', onMouseUp);
+      cancelAnimationFrame(rafId);
+    };
+  }, []);
+
+  if (!enabled) return null;
+
+  return (
+    <div className="luxury-cursor-layer" aria-hidden="true">
+      <div ref={trailContainerRef} className="luxury-cursor-trail" />
+      <div ref={ringRef} className="luxury-cursor-ring" />
+      <div ref={dotRef} className="luxury-cursor-dot" />
+    </div>
+  );
+}
 
 // Minimalist Botanical Flower Icon (Champagne Gold & Deep Slate)
 function MinimalistBotanicalFlower({ size = 26, color = '#1a2836' }: { size?: number; color?: string }) {
@@ -654,7 +751,6 @@ function Reveal({
 }
 
 export default function Wedding({ guest }: { guest?: Guest }) {
-  const [isLoading, setIsLoading] = useState(true);
   const [opened, setOpened] = useState(() => {
     if (typeof window !== 'undefined') {
       return new URLSearchParams(window.location.search).get('opened') === 'true';
@@ -662,16 +758,55 @@ export default function Wedding({ guest }: { guest?: Guest }) {
     return false;
   });
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isEnvelopePlaying, setIsEnvelopePlaying] = useState(false);
   const [activeTab, setActiveTab] = useState('home');
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const envelopeVideoRef = useRef<HTMLVideoElement | null>(null);
 
-  // Initial skeleton display to allow assets & hydration to settle smoothly
+  // Preload envelope intro video immediately on mount for instant onClick playback
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 850);
-    return () => clearTimeout(timer);
+    const vid = envelopeVideoRef.current;
+    if (vid) {
+      vid.load();
+    }
   }, []);
+
+  // Automatically pause background music whenever the user leaves the page, switches tabs, or minimizes the browser
+  useEffect(() => {
+    const pauseMusicOnLeave = () => {
+      if (audioRef.current && !audioRef.current.paused) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.hidden || document.visibilityState === 'hidden') {
+        pauseMusicOnLeave();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('pagehide', pauseMusicOnLeave);
+    window.addEventListener('blur', pauseMusicOnLeave);
+    window.addEventListener('beforeunload', pauseMusicOnLeave);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('pagehide', pauseMusicOnLeave);
+      window.removeEventListener('blur', pauseMusicOnLeave);
+      window.removeEventListener('beforeunload', pauseMusicOnLeave);
+    };
+  }, []);
+
+  // Safety fallback timer to transition into invitation after envelope video completes (~8.2s)
+  useEffect(() => {
+    if (!isEnvelopePlaying || opened) return;
+    const fallbackTimer = setTimeout(() => {
+      setOpened(true);
+    }, 8300);
+    return () => clearTimeout(fallbackTimer);
+  }, [isEnvelopePlaying, opened]);
 
   const [time, setTime] = useState([0, 0, 0, 0]);
   const [status, setStatus] = useState(guest?.status || 'pending');
@@ -681,13 +816,29 @@ export default function Wedding({ guest }: { guest?: Guest }) {
   const [busy, setBusy] = useState(false);
 
   const handleOpenInvitation = () => {
-    setOpened(true);
+    if (isEnvelopePlaying || opened) return;
+    setIsEnvelopePlaying(true);
+
     if (audioRef.current) {
       audioRef.current.play().then(() => {
         setIsPlaying(true);
       }).catch((err) => {
         console.log('Autoplay prevented:', err);
       });
+    }
+
+    const vid = envelopeVideoRef.current;
+    if (vid) {
+      vid.currentTime = 0;
+      const playPromise = vid.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((err) => {
+          console.log('Envelope video playback fallback:', err);
+          setOpened(true);
+        });
+      }
+    } else {
+      setOpened(true);
     }
   };
 
@@ -730,7 +881,7 @@ export default function Wedding({ guest }: { guest?: Guest }) {
   // Update active section on scroll
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['home', 'countdown', 'couple', 'details', 'rsvp', 'location'];
+      const sections = ['home', 'countdown', 'couple', 'details', 'rsvp', 'location', 'contact'];
       const scrollY = window.scrollY + 200;
 
       for (const section of sections) {
@@ -847,97 +998,45 @@ export default function Wedding({ guest }: { guest?: Guest }) {
         </motion.button>
       )}
 
-      {/* Skeleton Loading Screen (Stationery layout with shimmering gold glow) */}
-      <AnimatePresence mode="wait">
-        {isLoading && <WeddingSkeleton key="wedding-skeleton" />}
-      </AnimatePresence>
+      {/* Decent Luxury Matching Cursor Effect (Desktop Pointer Devices) */}
+      <LuxuryCursor />
 
-      {/* Luxury Interactive Nature Cover Screen */}
+      {/* Full-Screen Preloaded Envelope Entry Video (Plays onClick) */}
       <AnimatePresence mode="wait">
-        {!opened && !isLoading && (
+        {!opened && (
           <motion.div
             key="invitation-cover"
-            className="invitation-cover-screen"
+            className={`invitation-cover-screen ${isEnvelopePlaying ? 'is-playing' : ''}`}
+            onClick={handleOpenInvitation}
+            role="button"
+            tabIndex={0}
+            aria-label="Tap to play and open wedding invitation"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                handleOpenInvitation();
+              }
+            }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5 }}
             exit={{
               opacity: 0,
-              y: -80,
-              scale: 1.04,
-              filter: 'blur(10px)',
-              transition: { duration: 0.85, ease: [0.77, 0, 0.175, 1] },
+              scale: 1.03,
+              filter: 'blur(8px)',
+              transition: { duration: 0.8, ease: [0.77, 0, 0.175, 1] },
             }}
           >
-            {/* Ambient Falling Petals & Gold Sparkles */}
-            <BackgroundAnimation />
-
-            {/* Inner Luxury Stationery Invitation Card */}
-            <div className="cover-stationery-card">
-              {/* Botanical Corner Flourishes */}
-              <img
-                src="/images/green_gold_corner.png"
-                alt=""
-                className="cover-card-corner cover-corner-tl"
-                aria-hidden="true"
-              />
-              <img
-                src="/images/green_gold_corner.png"
-                alt=""
-                className="cover-card-corner cover-corner-tr"
-                aria-hidden="true"
-              />
-
-              {/* Seamless Crowning Garland (Isolated Transparent Arch with Zero Box Border) */}
-              <div className="cover-floral-arch-wrap" aria-hidden="true">
-                <img
-                  src="/images/floral_garland_transparent.png"
-                  alt="Dusty blue roses & eucalyptus floral garland"
-                  className="cover-floral-arch-img"
-                />
-              </div>
-
-              {/* Cover Header */}
-              <div className="cover-header">
-                <div className="cover-eyebrow">A CELEBRATION OF LOVE</div>
-                <h1 className="cover-title">
-                  Chathura <span>&amp;</span> Gimasha
-                </h1>
-                <div className="cover-date-badge">
-                  DECEMBER 03, 2026
-                </div>
-              </div>
-
-              {/* Center Traditional Couple Illustration */}
-              <div className="cover-couple-center">
-                <div className="cover-couple-halo" aria-hidden="true" />
-                <img
-                  src="/images/kandyan-couple.png"
-                  alt="Chathura and Gimasha"
-                  className="cover-couple-img"
-                />
-              </div>
-
-              {/* Bottom "OPEN INVITATION" Button with Gold Foil Trim */}
-              <div className="cover-action-wrap">
-                <motion.button
-                  className="cover-open-btn"
-                  onClick={handleOpenInvitation}
-                  whileHover={{ scale: 1.03, y: -2 }}
-                  whileTap={{ scale: 0.97 }}
-                >
-                  <span className="cover-open-title">
-                    <Heart size={14} fill="#c59b43" stroke="#c59b43" />
-                    OPEN INVITATION
-                    <Heart size={14} fill="#c59b43" stroke="#c59b43" />
-                  </span>
-                  <span className="cover-open-divider" />
-                  <span className="cover-open-subtitle">
-                    TAP TO REVEAL
-                  </span>
-                </motion.button>
-              </div>
-            </div>
+            <video
+              ref={envelopeVideoRef}
+              className="envelope-fullscreen-video"
+              src="/envelope-intro.mp4"
+              poster="/images/envelope-poster.jpg"
+              preload="auto"
+              playsInline
+              muted
+              onEnded={() => setOpened(true)}
+            />
           </motion.div>
         )}
       </AnimatePresence>
@@ -961,7 +1060,13 @@ export default function Wedding({ guest }: { guest?: Guest }) {
             className="brand"
             onClick={(e) => handleSmoothScroll(e, 'home')}
           >
-            C <span>♥</span> G
+            <img
+              src="/images/logo-crest-sm.png"
+              alt="Logo"
+              className="nav-brand-logo"
+              decoding="async"
+            />
+            <span>G <span>♥</span> C</span>
           </a>
           <nav>
             <a href="#home" onClick={(e) => handleSmoothScroll(e, 'home')}>
@@ -1013,8 +1118,8 @@ export default function Wedding({ guest }: { guest?: Guest }) {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 1.1, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
-              Chathura <em>&amp;</em>
-              <br /> Gimasha
+              Gimasha <em>&amp;</em>
+              <br /> Chathura
             </motion.h1>
 
             <motion.div
@@ -1136,11 +1241,11 @@ export default function Wedding({ guest }: { guest?: Guest }) {
                 </div>
               </motion.div>
 
-              {/* Arched Cards Stage with Sharp Glass Effect & Interlocking Rings */}
+              {/* Arched Cards Stage with Sharp Glass Effect & Interlocking Rings (Bride 1st, Groom 2nd) */}
               <div className="couple-cards-stage">
-                {/* Groom Arched Dome Card — Sweeps in from Left with 3D Arc */}
+                {/* Bride Arched Dome Card — Placed 1st */}
                 <motion.div
-                  className="couple-glass-arch-card groom-arch-card"
+                  className="couple-glass-arch-card bride-arch-card"
                   initial={{ opacity: 0, x: -64, y: 36, rotateZ: -5, rotateY: 14, scale: 0.9 }}
                   whileInView={{ opacity: 1, x: 0, y: 0, rotateZ: 0, rotateY: 0, scale: 1 }}
                   viewport={{ once: false, amount: 0.15 }}
@@ -1159,16 +1264,16 @@ export default function Wedding({ guest }: { guest?: Guest }) {
                   {/* Role Badge */}
                   <div className="couple-role-pill">
                     <span>✦</span>
-                    <span>THE GROOM</span>
+                    <span>THE BRIDE</span>
                     <span>✦</span>
                   </div>
 
                   {/* Name */}
-                  <h3 className="couple-name">CHATHURA</h3>
+                  <h3 className="couple-name">GIMASHA</h3>
 
                   {/* Parent Lineage */}
-                  <div className="couple-parents-sub">Son of</div>
-                  <div className="couple-parents-names">Mr &amp; Mrs W.K.D. Rathnayake</div>
+                  <div className="couple-parents-sub">Daughter of</div>
+                  <div className="couple-parents-names">Mr &amp; Mrs W.M.E. Warnasooriya</div>
                 </motion.div>
 
                 {/* Center Interlocking Wedding Rings — Spin & Golden Bloom */}
@@ -1181,9 +1286,9 @@ export default function Wedding({ guest }: { guest?: Guest }) {
                   <InterlockingWeddingRings />
                 </motion.div>
 
-                {/* Bride Arched Dome Card — Sweeps in from Right with Mirrored 3D Arc */}
+                {/* Groom Arched Dome Card — Placed 2nd */}
                 <motion.div
-                  className="couple-glass-arch-card bride-arch-card"
+                  className="couple-glass-arch-card groom-arch-card"
                   initial={{ opacity: 0, x: 64, y: 36, rotateZ: 5, rotateY: -14, scale: 0.9 }}
                   whileInView={{ opacity: 1, x: 0, y: 0, rotateZ: 0, rotateY: 0, scale: 1 }}
                   viewport={{ once: false, amount: 0.15 }}
@@ -1202,16 +1307,16 @@ export default function Wedding({ guest }: { guest?: Guest }) {
                   {/* Role Badge */}
                   <div className="couple-role-pill">
                     <span>✦</span>
-                    <span>THE BRIDE</span>
+                    <span>THE GROOM</span>
                     <span>✦</span>
                   </div>
 
                   {/* Name */}
-                  <h3 className="couple-name">GIMASHA</h3>
+                  <h3 className="couple-name">CHATHURA</h3>
 
                   {/* Parent Lineage */}
-                  <div className="couple-parents-sub">Daughter of</div>
-                  <div className="couple-parents-names">Mr &amp; Mrs W.M.E. Warnasooriya</div>
+                  <div className="couple-parents-sub">Son of</div>
+                  <div className="couple-parents-names">Mr &amp; Mrs W.K.D. Rathnayake</div>
                 </motion.div>
               </div>
             </div>
@@ -1247,7 +1352,7 @@ export default function Wedding({ guest }: { guest?: Guest }) {
                 transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
               >
                 <div className="details-card-grid">
-                  {/* Left Column: THE DATE */}
+                  {/* Left Column: THE DATE & TIME */}
                   <motion.div
                     className="details-card-col"
                     initial={{ opacity: 0, x: -42, y: 16 }}
@@ -1260,6 +1365,7 @@ export default function Wedding({ guest }: { guest?: Guest }) {
                     />
                     <h3 className="details-card-col-title">THE DATE</h3>
                     <div className="details-card-highlight">Thursday, December 03, 2026</div>
+                    <div className="details-card-location">Time - From 10 AM to 4 PM</div>
                     <GoldScrollDivider />
                     <p className="details-card-subtext">
                       Save the date to share this milestone with us
@@ -1276,7 +1382,7 @@ export default function Wedding({ guest }: { guest?: Guest }) {
                     <VerticalCloverDivider />
                   </motion.div>
 
-                  {/* Right Column: THE VENUE */}
+                  {/* Right Column: PORUWA CEREMONY */}
                   <motion.div
                     className="details-card-col"
                     initial={{ opacity: 0, x: 42, y: 16 }}
@@ -1285,21 +1391,15 @@ export default function Wedding({ guest }: { guest?: Guest }) {
                     transition={{ duration: 0.8, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
                   >
                     <BotanicalBadge
-                      icon={<MapPin size={22} color="#ffffff" strokeWidth={1.8} />}
+                      icon={<Clock3 size={22} color="#ffffff" strokeWidth={1.8} />}
                     />
-                    <h3 className="details-card-col-title">THE VENUE</h3>
-                    <div className="details-card-highlight">The Deer Park Hotel</div>
-                    <div className="details-card-location">Girithale, Polonnaruwa, Sri Lanka</div>
+                    <h3 className="details-card-col-title">PORUWA CEREMONY</h3>
+                    <div className="details-card-highlight">Poruwa Ceremony - 7.30 AM</div>
+                    <div className="details-card-location">At the Auspicious Time</div>
                     <GoldScrollDivider />
-                    <a
-                      href={mapUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="details-map-pill-btn"
-                    >
-                      <Navigation size={13} className="details-map-pill-icon" />
-                      <span>VIEW ON MAP</span>
-                    </a>
+                    <p className="details-card-subtext">
+                      Followed by wedding celebrations from 10 AM to 4 PM
+                    </p>
                   </motion.div>
                 </div>
               </motion.div>
@@ -1497,7 +1597,7 @@ export default function Wedding({ guest }: { guest?: Guest }) {
               <div className="floral-emblem-divider" aria-hidden="true" />
 
               <textarea
-                placeholder="Write your heartwarming wishes and blessings for Chathura & Gimasha..."
+                placeholder="Write your heartwarming wishes and blessings for Gimasha & Chathura..."
                 disabled={busy}
                 maxLength={1000}
                 value={message}
@@ -1762,82 +1862,176 @@ export default function Wedding({ guest }: { guest?: Guest }) {
           </Reveal>
         </section>
 
-        {/* 9. FOOTER WITH NATURE BOTANICAL ACCENT */}
+        {/* 9. PREVIOUS WEDDING FOOTER (Restored above Bottom Navigation Bar) */}
         <footer className="wedding-footer">
-          <div className="footer-floral-garland" aria-hidden="true">
-            <img
-              src="/images/floral_garland_transparent.png"
-              alt=""
-              className="footer-garland-img"
-            />
-          </div>
-          <motion.div
-            className="footer-content"
-            initial={{ opacity: 0, y: 32, scale: 0.95 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: false, amount: 0.25 }}
-            transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <h2 className="footer-couple-names">Chathura &amp; Gimasha</h2>
-            <div className="footer-flourish">
-              <span className="footer-flourish-line" />
-              <Heart size={14} fill="#c59b43" stroke="#c59b43" />
-              <span className="footer-flourish-line" />
+          <Reveal variant="curtain">
+            <div className="footer-garland-wrap">
+              <img
+                src="/images/floral_garland_transparent.png"
+                alt=""
+                className="footer-garland-img"
+                aria-hidden="true"
+                loading="lazy"
+                decoding="async"
+              />
             </div>
-            <div className="footer-date">DECEMBER 03, 2026 • GIRITHALE</div>
-          </motion.div>
+
+            <div className="footer-script-names">Gimasha &amp; Chathura</div>
+
+            <div className="footer-heart-line" aria-hidden="true">
+              <span className="heart-line-bar" />
+              <Heart size={13} fill="#c89d3e" color="#c89d3e" />
+              <span className="heart-line-bar" />
+            </div>
+
+            <div className="footer-date-text">DECEMBER 03, 2026 &bull; GIRITHALE</div>
+          </Reveal>
         </footer>
 
-        {/* 10. LUXURY FLOATING BOTTOM NAVIGATION BAR */}
-        <nav className="bottom-nav-bar" aria-label="Quick Navigation">
-          <a
-            href="#home"
-            className={`bottom-nav-item ${activeTab === 'home' ? 'active' : ''}`}
-            onClick={(e) => handleSmoothScroll(e, 'home')}
-          >
-            <Home size={19} />
-            <span>HOME</span>
-          </a>
+        {/* 10. 3D CRYSTAL-GLASS & SHINING GOLD FOOTER NAVIGATION BAR */}
+        <nav className="bottom-nav-bar" aria-label="Footer Navigation">
+          {/* Top 3D Specular Glass Edge Highlight */}
+          <div className="bottom-nav-3d-specular" aria-hidden="true" />
 
-          <a
-            href="#countdown"
-            className={`bottom-nav-item ${activeTab === 'countdown' ? 'active' : ''}`}
-            onClick={(e) => handleSmoothScroll(e, 'countdown')}
-          >
-            <Clock3 size={19} />
-            <span>TIMER</span>
-          </a>
+          {/* Left Botanical Sage & Gold Corner Flourish (Matches Website Banners) */}
+          <img
+            src="/images/green_gold_corner.png"
+            alt=""
+            className="footer-nav-floral footer-nav-floral-left"
+            aria-hidden="true"
+          />
 
-          {/* Elevated Circular RSVP Button in Center */}
-          <a
-            href="#rsvp"
-            className="bottom-nav-rsvp-wrapper"
-            onClick={(e) => handleSmoothScroll(e, 'rsvp')}
-            aria-label="Navigate to RSVP"
-          >
-            <div className="bottom-nav-rsvp-btn">
-              <Mail size={22} />
+          <div className="footer-nav-strip">
+            {/* Left Navigation Group: HOME | EVENT | VENUE */}
+            <div className="footer-nav-group footer-nav-group-left">
+              <a
+                href="#home"
+                className={`bottom-nav-item ${activeTab === 'home' ? 'active' : ''}`}
+                onClick={(e) => handleSmoothScroll(e, 'home')}
+              >
+                <span className="nav-item-icon-3d">
+                  <Home size={18} strokeWidth={1.65} />
+                </span>
+                <span>HOME</span>
+              </a>
+
+              <div className="footer-nav-divider" aria-hidden="true">
+                <span className="divider-diamond">✦</span>
+              </div>
+
+              <a
+                href="#details"
+                className={`bottom-nav-item ${activeTab === 'details' || activeTab === 'countdown' ? 'active' : ''}`}
+                onClick={(e) => handleSmoothScroll(e, 'details')}
+              >
+                <span className="nav-item-icon-3d">
+                  <CalendarDays size={18} strokeWidth={1.65} />
+                </span>
+                <span>EVENT</span>
+              </a>
+
+              <div className="footer-nav-divider" aria-hidden="true">
+                <span className="divider-diamond">✦</span>
+              </div>
+
+              <a
+                href="#location"
+                className={`bottom-nav-item ${activeTab === 'location' ? 'active' : ''}`}
+                onClick={(e) => handleSmoothScroll(e, 'location')}
+              >
+                <span className="nav-item-icon-3d">
+                  <MapPin size={18} strokeWidth={1.65} />
+                </span>
+                <span>VENUE</span>
+              </a>
+
+              <div className="footer-nav-divider footer-nav-divider-edge" aria-hidden="true">
+                <span className="divider-diamond">✦</span>
+              </div>
             </div>
-            <span className="bottom-nav-rsvp-label">RSVP</span>
-          </a>
 
-          <a
-            href="#couple"
-            className={`bottom-nav-item ${activeTab === 'couple' ? 'active' : ''}`}
-            onClick={(e) => handleSmoothScroll(e, 'couple')}
-          >
-            <Heart size={19} />
-            <span>COUPLE</span>
-          </a>
+            {/* Center 3D Medallion Logo Crest & Names (Bride Gimasha 1st, Groom Chathura 2nd) */}
+            <a
+              href="#home"
+              className="footer-nav-center-crest"
+              onClick={(e) => handleSmoothScroll(e, 'home')}
+              aria-label="Gimasha and Chathura Home"
+            >
+              <div className="footer-crest-emblem-wrap" aria-hidden="true">
+                <span className="footer-crest-3d-halo" />
+                <img
+                  src="/images/logo-crest-sm.png"
+                  alt="Gimasha & Chathura Crest"
+                  className="footer-crest-img"
+                  decoding="async"
+                />
+              </div>
+              <div className="footer-crest-names">
+                Gimasha <span>&amp;</span> Chathura
+              </div>
+              <div className="footer-crest-bottom-star" aria-hidden="true">
+                <span className="star-line" />
+                <span className="star-gem">✦</span>
+                <span className="star-line" />
+              </div>
+            </a>
 
-          <a
-            href="#details"
-            className={`bottom-nav-item ${activeTab === 'details' ? 'active' : ''}`}
-            onClick={(e) => handleSmoothScroll(e, 'details')}
-          >
-            <CalendarDays size={19} />
-            <span>DETAILS</span>
-          </a>
+            {/* Right Navigation Group: RSVP | GALLERY | CONTACT */}
+            <div className="footer-nav-group footer-nav-group-right">
+              <div className="footer-nav-divider footer-nav-divider-edge" aria-hidden="true">
+                <span className="divider-diamond">✦</span>
+              </div>
+
+              <a
+                href="#rsvp"
+                className={`bottom-nav-item ${activeTab === 'rsvp' ? 'active' : ''}`}
+                onClick={(e) => handleSmoothScroll(e, 'rsvp')}
+              >
+                <span className="nav-item-icon-3d">
+                  <Mail size={18} strokeWidth={1.65} />
+                </span>
+                <span>RSVP</span>
+              </a>
+
+              <div className="footer-nav-divider" aria-hidden="true">
+                <span className="divider-diamond">✦</span>
+              </div>
+
+              <a
+                href="#couple"
+                className={`bottom-nav-item ${activeTab === 'couple' ? 'active' : ''}`}
+                onClick={(e) => handleSmoothScroll(e, 'couple')}
+              >
+                <span className="nav-item-icon-3d">
+                  <ImageIcon size={18} strokeWidth={1.65} />
+                </span>
+                <span>GALLERY</span>
+              </a>
+
+              <div className="footer-nav-divider" aria-hidden="true">
+                <span className="divider-diamond">✦</span>
+              </div>
+
+              <a
+                href="#contact"
+                className={`bottom-nav-item ${activeTab === 'contact' ? 'active' : ''}`}
+                onClick={(e) => handleSmoothScroll(e, 'contact')}
+              >
+                <span className="nav-item-icon-3d">
+                  <Phone size={18} strokeWidth={1.65} />
+                </span>
+                <span>CONTACT</span>
+              </a>
+            </div>
+          </div>
+
+          {/* Right Botanical Sage & Gold Corner Flourish (Matches Website Banners) */}
+          <img
+            src="/images/green_gold_corner.png"
+            alt=""
+            className="footer-nav-floral footer-nav-floral-right"
+            aria-hidden="true"
+          />
         </nav>
       </main>
     </>
